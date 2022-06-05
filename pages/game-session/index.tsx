@@ -1,13 +1,11 @@
 import { Box, Grid, Paper, Typography, makeStyles } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
-import { Scoreboard } from '../../components/modal/Scoreboard';
 import useConntdownTimer from '../../hooks/useCountdownTimer';
-import { MockParticipants, MockParticipantsGameInfo } from '../../mockData'
-import Modal from '@mui/material/Modal';
-import { BasicModal } from '../../components/modal/BasicModal';
+import { MockParticipants } from '../../mockData'
 import { Participant } from '../../utils/gameSession/model';
 import { DisplayParticipantInGameCard } from '../../components/InGameInteraction/DisplayParticipantInGameCard'
 import { withStyles } from '@material-ui/styles';
+import { KillConfirmation } from '../../components/modal/KillConfirmation';
 
 type Props = {}
 
@@ -35,12 +33,15 @@ const index = (props: Props) => {
 
     const classes = useStyles()
     const [isRoundEnd, setIsRoundEnd] = useState<boolean>(false)
-    const onGoNextRound = () => {
-        setIsRoundEnd(false)
-        // go to next round
-    }
+    const [showKillModal, setShowKillModal] = useState<boolean>(false)
+    const [killingParticipantIdModalDisplay, setKillingParticipantIdModalDisplay] = useState<string>('')
     // get participant data
     let participantsData: any = MockParticipants;
+
+    const onEliminatePeople = (participantId: string) => {
+        setShowKillModal(true);
+        setKillingParticipantIdModalDisplay(participantId);
+    }
 
     useEffect(() => {
         if (displayTimeLeftMin === 0 && displayTimeLeftSecond === 0) {
@@ -68,18 +69,17 @@ const index = (props: Props) => {
                             <Grid container className={classes.ParticipantsPlayableAreaContainer}>
                                 {participantsData.map((participant: Participant, idx: number) => (
                                     <Grid key={idx} item md={4}>
-                                        <DisplayParticipantInGameCard participant={participant} key={idx} />
+                                        <DisplayParticipantInGameCard participant={participant} key={idx} onEliminatePeople={onEliminatePeople} />
                                     </Grid>
 
                                 ))}
                             </Grid>
                         </Paper>
-
                     </Grid>
                     <Grid item md={3}>
                     </Grid>
-
                 </Grid>
+                <KillConfirmation open={showKillModal} participantId={killingParticipantIdModalDisplay} handleClose={() => setShowKillModal(false)}/>
             </div>
         </>
 

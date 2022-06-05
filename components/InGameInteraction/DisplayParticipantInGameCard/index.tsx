@@ -6,6 +6,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 
 type Props = {
     participant: Participant
+    onEliminatePeople: (participantId: string) => void
 
 }
 
@@ -46,7 +47,7 @@ const useStyles = makeStyles({
     }
 
 })
-export const DisplayParticipantInGameCard = ({ participant }: Props) => {
+export const DisplayParticipantInGameCard = ({ participant, onEliminatePeople}: Props) => {
     const avatarUrl = participant.avatarUrl || ''
     const name = participant.name
     const classes = useStyles()
@@ -60,7 +61,7 @@ export const DisplayParticipantInGameCard = ({ participant }: Props) => {
             />
             </div>
             
-            <Button className={classes.eliminateBtn}>
+            <Button onClick={() => onEliminatePeople(participant.participantId)} className={classes.eliminateBtn}>
                 <img height='20px'src='./error-failure-10382.svg'/>
             </Button>
             <Paper className={classes.nameContainer}>
