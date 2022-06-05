@@ -1,5 +1,5 @@
 
-import { Avatar, Button, FilledInput, Grid, makeStyles, Paper, TextField } from '@material-ui/core'
+import { Avatar, Button, FilledInput, Grid, makeStyles, Paper, TextField, Typography } from '@material-ui/core'
 import { borderRadius } from '@mui/system'
 import type { NextPage } from 'next'
 import Link from 'next/link'
@@ -44,6 +44,11 @@ const useStyles = makeStyles({
     width: '167px',
     height: '167px',
     marginTop: '10px',
+  },
+  joinGame: {
+    fontSize: '32px',
+    fontWeight: 'bold',
+    color: 'white',
   }
 })
 
@@ -66,7 +71,10 @@ const Home: NextPage = () => {
         </Paper>
         <Link href='/game-lobby'>
           <Button className={classes.playBtn}>
+            <Typography className={classes.joinGame}>
             เข้าร่วมเกมส์
+            </Typography>
+
             </Button>
         </Link>
 
