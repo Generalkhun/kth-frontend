@@ -20,8 +20,8 @@ const useStyles = makeStyles({
     },
     eliminateBtn: {
         position: 'absolute',
-        bottom: '40px', /*your button position*/
-        right: '20px', /*your button position*/
+        bottom: '10px', /*your button position*/
+        right: '5px', /*your button position*/
         borderRadius: '50%',
         textAlign: 'center',
     },
@@ -29,11 +29,14 @@ const useStyles = makeStyles({
         color: 'white',
         backgroundColor: 'black',
         marginTop: '10px',
+        position: 'absolute',
+        bottom: '-30px', /*your button position*/
+        right: '80px', /*your button position*/
     },
     avatarImgPlayCardContainer:{
         width: '150',
         minHeight: '180px',
-        maxHeight: '200px',
+        maxHeight: '250px',
         margin: '3px',
         padding: '3px',
     },
