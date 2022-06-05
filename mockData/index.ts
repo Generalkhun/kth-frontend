@@ -4,7 +4,7 @@ export const MockParticipants: Participant[] = [
     {
         participantId: '1',
         name: 'Naruto',
-        avatarUrl: 'https://static.wikia.nocookie.net/naruto/images/d/d6/Naruto_Part_I.png/revision/latest?cb=20210223094656'
+        avatarUrl: 'https://play-lh.googleusercontent.com/bkHvRVEP4AEGO1-8kjOoh_tKKtjjhaDl7_vhFC7oyCz9mJzi2KTwGv_eJMDNb4R6iA'
     },
     {
         participantId: '2',
@@ -14,18 +14,24 @@ export const MockParticipants: Participant[] = [
     {
         participantId: '3',
         name: 'Bubble',
-        avatarUrl: 'https://static.wikia.nocookie.net/powerpuff/images/3/31/185px-Bubbles_%28Original%29_Pic.jpg/revision/latest/scale-to-width-down/260?cb=20120814183515'
+        avatarUrl: 'https://p.kindpng.com/picc/s/101-1010375_bubbles-ppg-bubbles-in-power-puff-girls-hd.png'
     },
     {
         participantId: '4',
-        name: 'Bubble',
-        avatarUrl: 'https://static.wikia.nocookie.net/powerpuff/images/3/31/185px-Bubbles_%28Original%29_Pic.jpg/revision/latest/scale-to-width-down/260?cb=20120814183515'
+        name: 'Rock',
+        avatarUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Logan_Rock_Treen_closeup.jpg/1200px-Logan_Rock_Treen_closeup.jpg'
     },
     {
         participantId: '5',
         name: 'Kira',
         avatarUrl: 'https://upload.wikimedia.org/wikipedia/en/0/0c/Light_from_Death_Note.jpg' 
+    },
+    {
+        participantId: '6',
+        name: 'ME',
+        avatarUrl: 'https://res.amazingtalker.com/users/images/no-avatar.png' 
     }
+
 ]
 
 export const MockParticipantsGameInfo: ParticipantGameSummaryInfo[] = [

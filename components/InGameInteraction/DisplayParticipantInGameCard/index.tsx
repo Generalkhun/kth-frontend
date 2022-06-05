@@ -1,35 +1,70 @@
-import { Card, CardActionArea, CardMedia, CardContent,Typography } from '@material-ui/core'
+import { Card, CardActionArea, CardMedia, CardContent, Typography, Paper, Button, makeStyles, IconButton } from '@material-ui/core'
+import { fontSize, height, textAlign } from '@mui/system'
 import React from 'react'
 import { Participant } from '../../../utils/gameSession/model'
+import CancelIcon from '@mui/icons-material/Cancel';
 
 type Props = {
     participant: Participant
-    
+
 }
 
-export const DisplayParticipantInGameCard = ({participant}: Props) => {
+const useStyles = makeStyles({
+    ParticipantCardContainer: {
+        position: 'relative',
+        height: '30vh',
+        width: '200px',
+        backgroundColor: 'black',
+        paddingTop: '20px',
+        marginBottom: '30px',
+    },
+    eliminateBtn: {
+        position: 'absolute',
+        bottom: '40px', /*your button position*/
+        right: '20px', /*your button position*/
+        borderRadius: '50%',
+        textAlign: 'center',
+    },
+    nameContainer: {
+        color: 'white',
+        backgroundColor: 'black',
+        marginTop: '10px',
+    },
+    avatarImgPlayCardContainer:{
+        width: '150',
+        minHeight: '180px',
+        maxHeight: '200px',
+        margin: '3px',
+        padding: '3px',
+    },
+    avatarImgPlayCard: {
+        maxWidth: '100%', 
+        height: 'auto',
+    }
+
+})
+export const DisplayParticipantInGameCard = ({ participant }: Props) => {
     const avatarUrl = participant.avatarUrl || ''
     const name = participant.name
+    const classes = useStyles()
 
-  return (
-      <Card style={{ maxWidth: 200 }}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          height="90%"
-          image={participant.avatarUrl}
-          alt=""
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-          name
-          </Typography>
-          {/* <Typography variant="body2" color="textSecondary">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
-          </Typography> */}
-        </CardContent>
-      </CardActionArea>
-      </Card>
-  )
+    return (
+        <div className={classes.ParticipantCardContainer}>
+            <div className={classes.avatarImgPlayCardContainer}>
+            <img
+            className={classes.avatarImgPlayCard}
+                src={avatarUrl}
+            />
+            </div>
+            
+            <Button className={classes.eliminateBtn}>
+                <img height='20px'src='./error-failure-10382.svg'/>
+            </Button>
+            <Paper className={classes.nameContainer}>
+                <Typography>
+                    {name}
+                </Typography>
+            </Paper>
+        </div>
+    )
 }

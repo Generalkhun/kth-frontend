@@ -1,4 +1,4 @@
-import { Box, Grid, Paper, Typography } from '@material-ui/core';
+import { Box, Grid, Paper, Typography, makeStyles } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
 import { Scoreboard } from '../../components/modal/Scoreboard';
 import useConntdownTimer from '../../hooks/useCountdownTimer';
@@ -6,23 +6,21 @@ import { MockParticipants, MockParticipantsGameInfo } from '../../mockData'
 import Modal from '@mui/material/Modal';
 import { BasicModal } from '../../components/modal/BasicModal';
 import { Participant } from '../../utils/gameSession/model';
-import {DisplayParticipantInGameCard} from '../../components/InGameInteraction/DisplayParticipantInGameCard'
+import { DisplayParticipantInGameCard } from '../../components/InGameInteraction/DisplayParticipantInGameCard'
+import { withStyles } from '@material-ui/styles';
 
 type Props = {}
 
-const style = {
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-};
-
-
+const useStyles = makeStyles({
+    ParticipantsPlayableAreaContainer: {
+        margin: '10px',
+    },
+    OuterContainer: {
+        height: '70vh',
+        borderRadius: '4px',
+        backgroundColor: 'black'
+    }
+})
 const index = (props: Props) => {
     const {
         displayTimeLeftMin,
@@ -35,8 +33,8 @@ const index = (props: Props) => {
         startTimeSecond: 5
     })
 
+    const classes = useStyles()
     const [isRoundEnd, setIsRoundEnd] = useState<boolean>(false)
-    const [showScoreBoard, setShowScoreBoard] = useState<boolean>(false)
     const onGoNextRound = () => {
         setIsRoundEnd(false)
         // go to next round
@@ -52,13 +50,6 @@ const index = (props: Props) => {
         }
     }, [displayTimeLeftMin, displayTimeLeftSecond, setIsRoundEnd])
 
-    useEffect(() => {
-        if (isRoundEnd) {
-            setShowScoreBoard(true)
-            /** @todo set condition to end the game if current ended round is equal to total round */
-        }
-    }, [isRoundEnd])
-
 
     return (
         <>
@@ -70,17 +61,22 @@ const index = (props: Props) => {
                 </div>
                 {!isCountingdown && <button onClick={startCountdown}>Start</button>}
                 <Grid container>
-                    <Grid item md={2}>
+                    <Grid item md={3}>
                     </Grid>
-                    <Grid item md={8}>
-                        <Paper style={{ backgroundColor: 'lightgrey', height: '70vh' }}>
+                    <Grid item md={6}>
+                        <Paper className={classes.OuterContainer}>
+                            <Grid container className={classes.ParticipantsPlayableAreaContainer}>
+                                {participantsData.map((participant: Participant, idx: number) => (
+                                    <Grid key={idx} item md={4}>
+                                        <DisplayParticipantInGameCard participant={participant} key={idx} />
+                                    </Grid>
 
-                            {participantsData.map((participant: Participant, idx: number) => (
-                                <DisplayParticipantInGameCard participant={participant} key={idx} />
-                            ))}
+                                ))}
+                            </Grid>
                         </Paper>
+
                     </Grid>
-                    <Grid item md={2}>
+                    <Grid item md={3}>
                     </Grid>
 
                 </Grid>
