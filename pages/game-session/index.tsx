@@ -2,9 +2,11 @@ import { Box, Grid, Paper, Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
 import { Scoreboard } from '../../components/modal/Scoreboard';
 import useConntdownTimer from '../../hooks/useCountdownTimer';
-import { MockParticipantsGameInfo } from '../../mockData'
+import { MockParticipants, MockParticipantsGameInfo } from '../../mockData'
 import Modal from '@mui/material/Modal';
 import { BasicModal } from '../../components/modal/BasicModal';
+import { Participant } from '../../utils/gameSession/model';
+import {DisplayParticipantInGameCard} from '../../components/InGameInteraction/DisplayParticipantInGameCard'
 
 type Props = {}
 
@@ -39,6 +41,9 @@ const index = (props: Props) => {
         setIsRoundEnd(false)
         // go to next round
     }
+    // get participant data
+    let participantsData: any = MockParticipants;
+
     useEffect(() => {
         if (displayTimeLeftMin === 0 && displayTimeLeftSecond === 0) {
             console.log('end');
@@ -48,12 +53,12 @@ const index = (props: Props) => {
     }, [displayTimeLeftMin, displayTimeLeftSecond, setIsRoundEnd])
 
     useEffect(() => {
-      if(isRoundEnd) {
-        setShowScoreBoard(true)
-        /** @todo set condition to end the game if current ended round is equal to total round */
-      }
+        if (isRoundEnd) {
+            setShowScoreBoard(true)
+            /** @todo set condition to end the game if current ended round is equal to total round */
+        }
     }, [isRoundEnd])
-    
+
 
     return (
         <>
@@ -70,16 +75,15 @@ const index = (props: Props) => {
                     <Grid item md={8}>
                         <Paper style={{ backgroundColor: 'lightgrey', height: '70vh' }}>
 
+                            {participantsData.map((participant: Participant, idx: number) => (
+                                <DisplayParticipantInGameCard participant={participant} key={idx} />
+                            ))}
                         </Paper>
                     </Grid>
                     <Grid item md={2}>
                     </Grid>
 
                 </Grid>
-                <BasicModal
-                    onClose={() => setShowScoreBoard(false)}
-                    show={showScoreBoard}
-                />
             </div>
         </>
 
