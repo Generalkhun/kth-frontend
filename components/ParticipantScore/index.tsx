@@ -8,6 +8,7 @@ type Props = {
 const ParticipantScore = ({participantGameSummaryInfo}: Props) => {
     const participantId = participantGameSummaryInfo.participantId
   return (
+    <></>
     // <Grid container>
     //     <Grid item>
     //         <img src={}/>
