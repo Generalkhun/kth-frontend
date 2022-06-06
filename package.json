@@ -17,7 +17,8 @@
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-modal": "^3.15.1",
-    "react-timer-hook": "^3.0.5"
+    "react-timer-hook": "^3.0.5",
+    "websocket": "^1.0.34"
   },
   "devDependencies": {
     "@mui/types": "^7.1.3",

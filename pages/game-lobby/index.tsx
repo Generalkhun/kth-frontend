@@ -1,4 +1,4 @@
-import { Button, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
+import { Button, Grid, Input, makeStyles, Paper, TextField, Typography } from '@material-ui/core';
 import Link from 'next/link'
 import React from 'react'
 import { useGameSetting } from '../../hooks/useGameSetting';
@@ -12,73 +12,61 @@ const useStyles = makeStyles({
     },
     setupGameContainer: {
         marginTop: '80px',
-        width: '90%',
-        paddingLeft: '10px',
-        paddingRight: '10px',
+        marginLeft: '20px',
+        width: '100%',
         backgroundColor: '#EFEEEE',
-        borderRadius: '24px',
-        height: '90vh'
+        height: '85vh',
     },
     setupGameHeader: {
         backgroundColor: '#262626',
         textAlign: 'center',
         height: '106px',
-        borderRadius: '24px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: '24px 24px 0px 0px',
     },
     setupAGame: {
-        fontSize: '48px',
+        fontSize: '30px',
         fontWeight: 'bold',
         color: 'white',
     },
     decreaseBtn: {
-        // width: '65px',
-        // height: '65px',
-        // backgroundColor: '#262626',
-        // borderRadius: '4px',
-        // transform: 'rotate(-90deg)',
-        width: 0, 
+        width: 0,
         height: 0,
-        borderTop: '65px solid transparent',
-        borderBottom: '65px solid transparent',
-        borderRight: '65px solid #262626',
-        //         width: 65px;
-        // height: 65px;
-
-        // background: #262626;
-        // border-radius: 4px;
-        // transform: rotate(-90deg);
-
-        // /* Inside auto layout */
-
-        // flex: none;
-        // order: 0;
-        // flex-grow: 0;
-        // z-index: 0;
+        borderTop: '30px solid transparent',
+        borderBottom: '30px solid transparent',
+        borderRight: '30px solid #262626',
+        padding: 0,
     },
     increaseBtn: {
-        // width: '65px',
-        // height: '65px',
-        // backgroundColor: '#262626',
-        // borderRadius: '4px',
-        // transform: 'rotate(90deg)',
-        width: 0, 
+        width: 0,
         height: 0,
-        borderTop: '65px solid transparent',
-        borderBottom: '65px solid transparent',
-        borderLeft: '65px solid #262626',
-        //         width: 65px;
-        // height: 65px;
-
-        // background: #262626;
-        // border-radius: 4px;
-        // transform: rotate(-90deg);
-
-        // /* Inside auto layout */
-
-        // flex: none;
-        // order: 0;
-        // flex-grow: 0;
-        // z-index: 0;
+        borderTop: '30px solid transparent',
+        borderBottom: '30px solid transparent',
+        borderLeft: '30px solid #262626',
+        padding: 0,
+    },
+    optionText: {
+        paddingTop: '50px',
+        fontSize: '30px',
+        fontWeight: 'bold',
+        color: 'black',
+        textAlign: 'center',
+    },
+    optionValueSettingContainer: {
+        paddingTop: '30px',
+        
+    },
+    /** @todo style not correct */
+    optionValue: {
+        borderWidth: '2px',
+        color: 'black',
+        fontWeight: 'bold',
+        fontSize: '20px',
+        paddingRight: '15px',
+        marginTop: '3px',
+        borderRadius: '24px',
     }
 })
 
@@ -104,14 +92,15 @@ const index = (props: Props) => {
                     </Paper>
                     <Grid container>
                         <Grid item md={6}>
-                            <div>จำนวนรอบ:</div>
-                            <Grid container>
+                            <Typography className={classes.optionText}>
+                                จำนวนรอบ:
+                            </Typography>
+                            <Grid container className={classes.optionValueSettingContainer}>
                                 <Grid item md={2}>
                                     <Button className={classes.decreaseBtn} onClick={decreaseRound}></Button>
                                 </Grid>
                                 <Grid item md={8}>
-                                    <div>{round}</div>
-
+                                    <TextField className={classes.optionValue} fullWidth variant="outlined" type='text' disabled value={round}></TextField>
                                 </Grid>
                                 <Grid item md={2}>
                                     <Button className={classes.increaseBtn} onClick={increaseRound}></Button>
@@ -121,13 +110,15 @@ const index = (props: Props) => {
 
                         </Grid>
                         <Grid item md={6}>
-                            <Grid container>
+                            <Typography className={classes.optionText}>
+                                เวลาต่อรอบ:
+                            </Typography>
+                            <Grid container className={classes.optionValueSettingContainer}>
                                 <Grid item md={2}>
                                     <Button className={classes.decreaseBtn} onClick={decreaseTimePerRound}></Button>
                                 </Grid>
                                 <Grid item md={8}>
-                                    <div>{displayTimePerRound}</div>
-
+                                    <TextField className={classes.optionValue} fullWidth variant="outlined" type='text' disabled value={displayTimePerRound}></TextField>
                                 </Grid>
                                 <Grid item md={2}>
                                     <Button className={classes.increaseBtn} onClick={increaseTimePerRound}></Button>
