@@ -4,9 +4,10 @@ import { borderRadius } from '@mui/system'
 import type { NextPage } from 'next'
 import Link from 'next/link'
 import { styled } from '@mui/material/styles';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { WEB_SOCKET_ENDPOINT } from '../config/url';
-import { initWs, ws } from '../config/constants';
+import { WebSocketContext } from '../contextProviders/WebSocketProviders';
+//import { initWs, ws } from '../config/constants';
 
 const useStyles = makeStyles({
   topContainer: {
@@ -61,28 +62,14 @@ const Home: NextPage = () => {
   const onChangeNameInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputName(e.target.value)
   }
+  const { joinRoom } = useContext(WebSocketContext); 
 
   const onJoinAGame = () => {
-   // { "method": "JOIN_ROOM", "data": { "playerName": "Johnny", "roomId": "123" } }
-    ws.send(
-      `{ "method": "JOIN_ROOM", "data": { "playerName": "Johnny", "roomId": "123" } }`
-    )
+   joinRoom({
+    playerName: inputName,
+    roomId: '123' /** @todo use real roomId */
+   })
   }
-
-  //connect to ws on render the first page
-  useEffect(() => {
-
-    // ws = new WebSocket(WEB_SOCKET_ENDPOINT);
-    // ws.onopen = () => console.log("ws opened");
-    // ws.onclose = () => console.log("ws closed");
-
-    // const wsCurrent = ws;
-    initWs();
-
-    // return () => {
-    //   wsCurrent.close();
-    // };
-  }, []);
 
   return (
     <Grid container className={classes.topContainer}>

@@ -1,7 +1,7 @@
 import { Card, CardActionArea, CardMedia, CardContent, Typography, Paper, Button, makeStyles, IconButton } from '@material-ui/core'
 import { fontSize, height, textAlign } from '@mui/system'
 import React from 'react'
-import { Participant } from '../../../utils/gameSession/model'
+import { Participant } from '../../../models/ui-layer/model'
 import CancelIcon from '@mui/icons-material/Cancel';
 
 type Props = {

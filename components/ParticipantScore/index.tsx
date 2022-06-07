@@ -1,5 +1,5 @@
 import React from 'react'
-import { ParticipantGameSummaryInfo } from '../../utils/gameSession/model'
+import { ParticipantGameSummaryInfo } from '../../models/ui-layer/model'
 
 type Props = {
     participantGameSummaryInfo: ParticipantGameSummaryInfo

@@ -1,4 +1,4 @@
-import { Participant, ParticipantGameSummaryInfo } from "../utils/gameSession/model";
+import { Participant, ParticipantGameSummaryInfo } from "../models/ui-layer/model";
 
 export const MockParticipants: Participant[] = [
     {

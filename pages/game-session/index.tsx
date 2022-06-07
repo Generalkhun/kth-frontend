@@ -2,7 +2,7 @@ import { Box, Grid, Paper, Typography, makeStyles } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
 import useConntdownTimer from '../../hooks/useCountdownTimer';
 import { MockParticipants } from '../../mockData'
-import { Participant } from '../../utils/gameSession/model';
+import { Participant } from '../../models/ui-layer/model';
 import { DisplayParticipantInGameCard } from '../../components/InGameInteraction/DisplayParticipantInGameCard'
 import { withStyles } from '@material-ui/styles';
 import { KillConfirmation } from '../../components/modal/KillConfirmation';
