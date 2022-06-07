@@ -42,11 +42,11 @@ export const WebSocketProviders = ({ children }: any) => {
 
     // process a message recieved from a socket
     useEffect(() => {
-        const { data, method } = JSON.parse(wsMessage)
-        switch (method) {
-            case Method.UPDATE_ROOM :
+        // const { data, method } = JSON.parse(wsMessage)
+        // switch (method) {
+        //     case Method.UPDATE_ROOM :
 
-        }
+        // }
         console.log("🚀 ~ file: webSocketProviders.tsx ~ line 51 ~ WebSocketProviders ~ wsMessage", wsMessage)
 
 
