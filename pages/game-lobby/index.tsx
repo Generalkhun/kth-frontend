@@ -1,6 +1,7 @@
 import { Button, Grid, Input, makeStyles, Paper, TextField, Typography } from '@material-ui/core';
 import Link from 'next/link'
 import React from 'react'
+import { ParticipantsLobby } from '../../components/gameLobby/ParticipantsLobby';
 import { useGameSetting } from '../../hooks/useGameSetting';
 import { MockParticipants } from '../../mockData';
 
@@ -11,11 +12,13 @@ const useStyles = makeStyles({
         backgroundColor: '#E5E5E5',
     },
     setupGameContainer: {
-        marginTop: '80px',
-        marginLeft: '20px',
+        marginTop: '50px',
+        marginBottom: '30px',
+        marginLeft: '40px',
         width: '100%',
         backgroundColor: '#EFEEEE',
-        height: '85vh',
+        height: '90vh',
+        borderRadius: '24px 24px 24px 24px',
     },
     setupGameHeader: {
         backgroundColor: '#262626',
@@ -56,7 +59,7 @@ const useStyles = makeStyles({
     },
     optionValueSettingContainer: {
         paddingTop: '30px',
-        
+
     },
     /** @todo style not correct */
     optionValue: {
@@ -67,6 +70,32 @@ const useStyles = makeStyles({
         paddingRight: '15px',
         marginTop: '3px',
         borderRadius: '24px',
+    },
+    participantsListContainer: {
+        borderRadius: '24px',
+        backgroundColor: '#262626',
+        marginTop: '50px',
+        marginBottom: '30px',
+        marginLeft: '60px',
+        height: '80vh',
+    },
+    startGameBtn: {
+        backgroundColor: '#E2515A',
+        borderRadius: '40px',
+        width: '420px',
+        height: '50px',
+        marginLeft: '60px',
+        marginTop: '-5px'
+    },
+    startGameTxt: {
+        fontSize: '32px',
+        fontWeight: 'bold',
+        color: 'white',
+    },
+    playersTxt: {
+        color: 'white',
+        paddingTop: '24px',
+        marginLeft: '24px'
     }
 })
 
@@ -83,9 +112,12 @@ const index = (props: Props) => {
         decreaseTimePerRound,
     } = useGameSetting()
 
+    const startGame = () => {
+
+    }
     return (
         <Grid container className={classes.topContainer}>
-            <Grid item md={8}>
+            <Grid item md={7}>
                 <Paper className={classes.setupGameContainer}>
                     <Paper className={classes.setupGameHeader} >
                         <Typography className={classes.setupAGame}>SET UP A GAME</Typography>
@@ -132,6 +164,15 @@ const index = (props: Props) => {
 
             </Grid>
             <Grid item md={4}>
+                <Paper className={classes.participantsListContainer}>
+                    <Typography className={classes.playersTxt}>Players: 6</Typography>
+                    <ParticipantsLobby participants={MockParticipants} />
+                </Paper>
+                <Link href='/game-session'>
+                    <Button className={classes.startGameBtn}>
+                        <Typography className={classes.startGameTxt}>เล่นเลย!</Typography>
+                    </Button>
+                </Link>
 
             </Grid>
 
