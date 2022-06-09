@@ -1,7 +1,7 @@
 import { Button, Grid, Input, makeStyles, Paper, TextField, Typography } from '@material-ui/core';
 import Link from 'next/link'
 import React from 'react'
-import { ParticipantsLobby } from '../../components/gameLobby/ParticipantsLobby';
+import { ParticipantsDisplayListOnLobby } from '../../components/gameLobby/ParticipantsDisplayListOnLobby';
 import { useGameSetting } from '../../hooks/useGameSetting';
 import { MockParticipants } from '../../mockData';
 
@@ -166,7 +166,7 @@ const index = (props: Props) => {
             <Grid item md={4}>
                 <Paper className={classes.participantsListContainer}>
                     <Typography className={classes.playersTxt}>Players: 6</Typography>
-                    <ParticipantsLobby participants={MockParticipants} />
+                    <ParticipantsDisplayListOnLobby participants={MockParticipants} />
                 </Paper>
                 <Link href='/game-session'>
                     <Button className={classes.startGameBtn}>
