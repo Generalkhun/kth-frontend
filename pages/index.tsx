@@ -11,7 +11,7 @@ import { WebSocketContext } from '../contextProviders/WebSocketProviders';
 
 const useStyles = makeStyles({
   topContainer: {
-    backgroundColor: '#E5E5E5',
+    backgroundColor: '#FFFFF3',
     height: '100vh',
   },
   playBtn: {
