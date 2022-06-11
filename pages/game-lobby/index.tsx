@@ -9,7 +9,7 @@ type Props = {}
 
 const useStyles = makeStyles({
     topContainer: {
-        backgroundColor: '#E5E5E5',
+        backgroundColor: '#FFFFF3',
     },
     setupGameContainer: {
         marginTop: '50px',
