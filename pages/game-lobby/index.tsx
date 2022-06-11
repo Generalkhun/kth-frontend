@@ -9,7 +9,7 @@ type Props = {}
 
 const useStyles = makeStyles({
     topContainer: {
-        backgroundColor: '#E5E5E5',
+        backgroundColor: '#FFFFF3',
     },
     setupGameContainer: {
         marginTop: '50px',
@@ -78,6 +78,7 @@ const useStyles = makeStyles({
         marginBottom: '30px',
         marginLeft: '60px',
         height: '80vh',
+        overflow: 'scroll'
     },
     startGameBtn: {
         backgroundColor: '#E2515A',
