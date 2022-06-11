@@ -6,6 +6,7 @@ import { Participant } from '../../models/ui-layer/model';
 import { DisplayParticipantInGameCard } from '../../components/InGameInteraction/DisplayParticipantInGameCard'
 import { withStyles } from '@material-ui/styles';
 import { KillConfirmation } from '../../components/modal/KillConfirmation';
+import GameSessionHeader from '../../components/GameSessionHeader';
 
 type Props = {}
 
@@ -14,7 +15,7 @@ const useStyles = makeStyles({
         margin: '10px',
     },
     OuterContainer: {
-        height: '70vh',
+        height: '75vh',
         borderRadius: '4px',
         backgroundColor: 'black'
     }
@@ -55,16 +56,21 @@ const index = (props: Props) => {
     return (
         <>
             <div style={{ textAlign: 'center' }}>
-                <h1>Game 1</h1>
+                <GameSessionHeader
+                    round={1}
+                    displayTimeLeftMin={displayTimeLeftMin}
+                    displayTimeLeftSecond={displayTimeLeftSecond}
+                />
+                {/* <h1>Game 1</h1>
                 <div style={{ fontSize: '50px' }}>
                     <span>เวลาที่เหลือ</span><span>{displayTimeLeftMin} นาที</span><span>{displayTimeLeftSecond} วินาที</span>
 
-                </div>
+                </div> */}
                 {!isCountingdown && <button onClick={startCountdown}>Start</button>}
                 <Grid container>
-                    <Grid item md={3}>
+                    <Grid item md={1}>
                     </Grid>
-                    <Grid item md={6}>
+                    <Grid item md={7}>
                         <Paper className={classes.OuterContainer}>
                             <Grid container className={classes.ParticipantsPlayableAreaContainer}>
                                 {participantsData.map((participant: Participant, idx: number) => (
@@ -76,7 +82,7 @@ const index = (props: Props) => {
                             </Grid>
                         </Paper>
                     </Grid>
-                    <Grid item md={3}>
+                    <Grid item md={4}>
                     </Grid>
                 </Grid>
                 <KillConfirmation open={showKillModal} participantId={killingParticipantIdModalDisplay} handleClose={() => setShowKillModal(false)}/>

@@ -2,7 +2,6 @@ import { Card, CardActionArea, CardMedia, CardContent, Typography, Paper, Button
 import { fontSize, height, textAlign } from '@mui/system'
 import React from 'react'
 import { Participant } from '../../../models/ui-layer/model'
-import CancelIcon from '@mui/icons-material/Cancel';
 
 type Props = {
     participant: Participant
@@ -21,8 +20,8 @@ const useStyles = makeStyles({
     },
     eliminateBtn: {
         position: 'absolute',
-        bottom: '10px', /*your button position*/
-        right: '5px', /*your button position*/
+        bottom: '-50px', /*your button position*/
+        right: '-50px', /*your button position*/
         borderRadius: '50%',
         textAlign: 'center',
     },
@@ -32,14 +31,14 @@ const useStyles = makeStyles({
         marginTop: '10px',
         position: 'absolute',
         bottom: '-30px', /*your button position*/
-        right: '80px', /*your button position*/
+        right: '125px', /*your button position*/
     },
     avatarImgPlayCardContainer:{
-        width: '150',
-        minHeight: '180px',
-        maxHeight: '250px',
+        width: '250px',
+        height: '250px',
         margin: '3px',
         padding: '3px',
+        backgroundColor: '#262626'
     },
     avatarImgPlayCard: {
         maxWidth: '100%', 
