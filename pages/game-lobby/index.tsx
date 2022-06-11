@@ -78,6 +78,7 @@ const useStyles = makeStyles({
         marginBottom: '30px',
         marginLeft: '60px',
         height: '80vh',
+        overflow: 'scroll'
     },
     startGameBtn: {
         backgroundColor: '#E2515A',
