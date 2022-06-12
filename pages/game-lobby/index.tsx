@@ -1,9 +1,12 @@
-import { Button, Grid, Input, makeStyles, Paper, TextField, Typography } from '@material-ui/core';
+import { Button, Grid, makeStyles, Paper, TextField, Typography } from '@material-ui/core';
 import Link from 'next/link'
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { ParticipantsDisplayListOnLobby } from '../../components/gameLobby/ParticipantsDisplayListOnLobby';
+import { GameStateContext } from '../../contextProviders/GameStateProvider';
+import { WebSocketContext } from '../../contextProviders/WebSocketProviders';
 import { useGameSetting } from '../../hooks/useGameSetting';
-import { MockParticipants } from '../../mockData';
+import { playersToParticipantsMapper } from '../../utils/mapper';
+//import { MockParticipants } from '../../mockData';
 
 type Props = {}
 
@@ -102,8 +105,11 @@ const useStyles = makeStyles({
 
 const index = (props: Props) => {
     const classes = useStyles();
-    /**@todo remove mock participants after connect with the server */
-    const mockParticipants = MockParticipants;
+    const { gameState } = useContext(GameStateContext);
+    /** handle data from game state */
+    const players = gameState.players;
+    const participants = playersToParticipantsMapper(players)
+
     const {
         round,
         increaseRound,
@@ -167,7 +173,7 @@ const index = (props: Props) => {
             <Grid item md={4}>
                 <Paper className={classes.participantsListContainer}>
                     <Typography className={classes.playersTxt}>Players: 6</Typography>
-                    <ParticipantsDisplayListOnLobby participants={MockParticipants} />
+                    <ParticipantsDisplayListOnLobby participants={participants} />
                 </Paper>
                 <Link href='/game-session'>
                     <Button className={classes.startGameBtn}>

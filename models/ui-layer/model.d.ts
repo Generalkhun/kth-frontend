@@ -2,6 +2,7 @@ export interface Participant {
     participantId: string
     name: string
     avatarUrl: string
+    isDead: boolean
 }
 export interface ParticipantGameSummaryInfo {
     gameSessionId: number
