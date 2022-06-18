@@ -15,6 +15,7 @@ export const useGameSetting = () => {
 
     // update to ws server
     useEffect(() => {
+        if(!!round && !!timePerRoundSecond)
         updateRoomSetting({
             roomId: gameState.roomId,
             totalRound: round,
