@@ -26,27 +26,39 @@ const useStyles = makeStyles({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: '-40px',
-        marginLeft: '30px'
+        marginLeft: '30px',
+        position: 'relative',
     },
     clockRedPart: {
         backgroundColor: '#E2515A',
         width: '112px',
         height: '112px',
         borderRadius: '50%',
+        position: 'absolute',
+        display: `inline-block`,
+        linearGradient: '(90deg, #FFFFFF 50%, transparent 50%)',
+    },
+    clockWhitePart: {
+        backgroundColor: '#FFFFFF',
+        width: '112px',
+        height: '112px',
+        borderRadius: '50%',
+        position: 'absolute',
+        linearGradient: '(90deg, #d1d1d1 50%, transparent 50%)',
     },
     gameSessionHeaderTxtRound: {
         color: 'white',
         fontSize: 35,
         fontWeight: 700,
         marginTop: '10px',
-        marginLeft: '60px'
+        marginLeft: '60px',
     },
     gameSessionHeaderTxtTime: {
         color: 'white',
         fontSize: 35,
         fontWeight: 700,
         marginTop: '10px',
-        marginRight: '60px'
+        marginRight: '60px',
     }
 })
 const GameSessionHeader = ({
@@ -54,6 +66,7 @@ const GameSessionHeader = ({
     displayTimeLeftMin,
     displayTimeLeftSecond,
 }: Props) => {
+    console.log("🚀 ~ file: index.tsx ~ line 57 ~ round", round)
     const classes = useStyles()
     return (
         <Paper className={classes.gameSessionHeaderContainer}>
@@ -64,6 +77,7 @@ const GameSessionHeader = ({
                 <Grid item md={4}>
                     <Paper className={classes.clockContainer}>
                         <Paper className={classes.clockRedPart}></Paper>
+                        {/* <Paper className={classes.clockWhitePart}></Paper> */}
                     </Paper>
                 </Grid>
                 <Grid item md={4}>

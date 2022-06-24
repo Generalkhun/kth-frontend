@@ -1,11 +1,11 @@
 import { Button, Grid, makeStyles, Paper, TextField, Typography } from '@material-ui/core';
-import Link from 'next/link'
 import React, { useContext, useEffect } from 'react'
 import { ParticipantsDisplayListOnLobby } from '../../components/gameLobby/ParticipantsDisplayListOnLobby';
 import { GameStateContext } from '../../contextProviders/GameStateProvider';
 import { WebSocketContext } from '../../contextProviders/WebSocketProviders';
 import { useGameSetting } from '../../hooks/useGameSetting';
-import { playersToParticipantsMapper } from '../../utils/mapper';
+import { mapPlayersToParticipants } from '../../utils/mapper';
+import { useRouter } from 'next/router'
 //import { MockParticipants } from '../../mockData';
 
 type Props = {}
@@ -106,9 +106,10 @@ const useStyles = makeStyles({
 const index = (props: Props) => {
     const classes = useStyles();
     const { gameState } = useContext(GameStateContext);
+    const { startRound } = useContext(WebSocketContext);
     /** handle data from game state */
     const players = gameState.players;
-    const participants = playersToParticipantsMapper(players)
+    const participants = mapPlayersToParticipants(players)
 
     const {
         round,
@@ -119,9 +120,20 @@ const index = (props: Props) => {
         decreaseTimePerRound,
     } = useGameSetting()
 
-    const startGame = () => {
-
+    const onStartGame = () => {
+        startRound({
+            roomId: '123'
+        })
     }
+
+    // game session starting based on the gameState 
+    const router = useRouter()
+    useEffect(() => {
+        if (gameState.currentRound === 1) {
+            router.push('/game-session')
+        }
+    }, [gameState.currentRound])
+
     return (
         <Grid container className={classes.topContainer}>
             <Grid item md={7}>
@@ -175,11 +187,9 @@ const index = (props: Props) => {
                     <Typography className={classes.playersTxt}>Players: 6</Typography>
                     <ParticipantsDisplayListOnLobby participants={participants} />
                 </Paper>
-                <Link href='/game-session'>
-                    <Button className={classes.startGameBtn}>
-                        <Typography className={classes.startGameTxt}>เล่นเลย!</Typography>
-                    </Button>
-                </Link>
+                <Button onClick={onStartGame} className={classes.startGameBtn}>
+                    <Typography className={classes.startGameTxt}>เล่นเลย!</Typography>
+                </Button>
 
             </Grid>
 

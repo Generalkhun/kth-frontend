@@ -1,5 +1,5 @@
 import { Box, Grid, Paper, Typography, makeStyles } from '@material-ui/core';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import useConntdownTimer from '../../hooks/useCountdownTimer';
 import { MockParticipants } from '../../mockData'
 import { Participant } from '../../models/ui-layer/model';
@@ -7,6 +7,9 @@ import { DisplayParticipantInGameCard } from '../../components/InGameInteraction
 import { withStyles } from '@material-ui/styles';
 import { KillConfirmation } from '../../components/modal/KillConfirmation';
 import GameSessionHeader from '../../components/GameSessionHeader';
+import { GameStateContext } from '../../contextProviders/GameStateProvider';
+import { WebSocketContext } from '../../contextProviders/WebSocketProviders';
+import { mapPlayersToParticipants } from '../../utils/mapper';
 
 type Props = {}
 
@@ -21,6 +24,8 @@ const useStyles = makeStyles({
     }
 })
 const index = (props: Props) => {
+    const { gameState } = useContext(GameStateContext);
+    const { startRound } = useContext(WebSocketContext);
     const {
         displayTimeLeftMin,
         displayTimeLeftSecond,
@@ -29,7 +34,7 @@ const index = (props: Props) => {
         pauseCountdown,
         isCountingdown,
     } = useConntdownTimer({
-        startTimeSecond: 5
+        startTimeSecond: gameState.timeLimit
     })
 
     const classes = useStyles()
@@ -37,7 +42,8 @@ const index = (props: Props) => {
     const [showKillModal, setShowKillModal] = useState<boolean>(false)
     const [killingParticipantIdModalDisplay, setKillingParticipantIdModalDisplay] = useState<string>('')
     // get participant data
-    let participantsData: any = MockParticipants;
+    let participantsData: any = mapPlayersToParticipants(gameState.players);
+    //let participantsData = MockParticipants;
 
     const onEliminatePeople = (participantId: string) => {
         setShowKillModal(true);
@@ -57,15 +63,10 @@ const index = (props: Props) => {
         <>
             <div style={{ textAlign: 'center' }}>
                 <GameSessionHeader
-                    round={1}
+                    round={gameState.currentRound}
                     displayTimeLeftMin={displayTimeLeftMin}
                     displayTimeLeftSecond={displayTimeLeftSecond}
                 />
-                {/* <h1>Game 1</h1>
-                <div style={{ fontSize: '50px' }}>
-                    <span>เวลาที่เหลือ</span><span>{displayTimeLeftMin} นาที</span><span>{displayTimeLeftSecond} วินาที</span>
-
-                </div> */}
                 {!isCountingdown && <button onClick={startCountdown}>Start</button>}
                 <Grid container>
                     <Grid item md={1}>

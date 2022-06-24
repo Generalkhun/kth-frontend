@@ -7,7 +7,7 @@ import { Participant } from "../models/ui-layer/model"
 //     name: string
 //     avatarUrl: string
 // }
-export const playersToParticipantsMapper = (players: Player[]): Participant[] => {
+export const mapPlayersToParticipants = (players: Player[]): Participant[] => {
     return players.map((player: Player) => {
         return {
             participantId: player.playerId,

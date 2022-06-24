@@ -36,6 +36,8 @@ const reducer = (state: GameState, action: any) => {
             return { ...state, isPlaying: true, currentRound: action.payload.currentRound }
         case MethodRecieve.UPDATE_DEAD:
             return { ...state, isFinish: action.payload }
+        // case MethodRecieve.END_ROUND:
+        //     return { ...state, isPlaying: false, currentRound: action.payload.currentRound, isFinish: action.payload }
         default:
             return state
     }

@@ -1,1 +1,1 @@
-export const WEB_SOCKET_ENDPOINT = 'ws://localhost:8081';
+export const WEB_SOCKET_ENDPOINT = 'ws://localhost:8080';
