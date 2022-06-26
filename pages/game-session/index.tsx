@@ -24,7 +24,7 @@ const useStyles = makeStyles({
     }
 })
 const index = (props: Props) => {
-    const { roomDataState } = useContext(GameStateContext);
+    const { roomDataState, myPlayerInfoState } = useContext(GameStateContext);
     const { eliminatePlayer } = useContext(WebSocketContext);
     const {
         displayTimeLeftMin,
@@ -74,7 +74,7 @@ const index = (props: Props) => {
                             <Grid container className={classes.ParticipantsPlayableAreaContainer}>
                                 {participantsData.map((participant: Participant, idx: number) => (
                                     <Grid key={idx} item md={4}>
-                                        <DisplayParticipantInGameCard participant={participant} key={idx} onEliminatePeople={onEliminatePeople} />
+                                        <DisplayParticipantInGameCard myPlayerId={myPlayerInfoState?.playerId} participant={participant} key={idx} onEliminatePeople={onEliminatePeople} />
                                     </Grid>
                                 ))}
                             </Grid>

@@ -19,8 +19,7 @@ export const WebSocketProviders = ({ children }: any) => {
         ws.current.onclose = () => console.log("ws closed");
         ws.current.onmessage = (msg: { data: string }) => {
             const msgData = JSON.parse(msg.data);
-            console.log("🚀 ~ file: webSocketProviders.tsx ~ line 36 ~ useEffect ~ msgData", msgData)
-            if (msgData.data === MethodRecieve.SYNC_PLAYER_DATA) {
+            if (msgData.method === MethodRecieve.SYNC_PLAYER_DATA) {
                 onSyncPlayerData(msgData.data)
                 return
             }

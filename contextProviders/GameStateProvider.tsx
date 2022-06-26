@@ -1,5 +1,5 @@
 import { createContext, useReducer, useState } from "react";
-import { MethodRecieve, MyPlayerInfo, RoomDataState } from "../models/api-layer/model";
+import { MethodRecieve, MyPlayerInfo, RoomDataState, WebsocketSyncPlayerData } from "../models/api-layer/model";
 
 const initialRoomDataState: RoomDataState = {
     id: '',
@@ -41,7 +41,7 @@ const roomDataStateReducer = (state: RoomDataState, action: any) => {
         case MethodRecieve.START_ROUND:
             return { ...state, isPlaying: true, currentRound: action.payload.currentRound }
         case MethodRecieve.UPDATE_PLAYER_STATUS:
-            return { ...state, currentPlayerStatus: Object.assign(state.currentPlayerStatus, action.payload.playerStatusMapping)}
+            return { ...state, currentPlayerStatus: Object.assign(state.currentPlayerStatus, action.payload.playerStatusMapping) }
         // case MethodRecieve.UPDATE_DEAD:
         //     return { ...state, isFinish: action.payload }
         // case MethodRecieve.END_ROUND:
@@ -56,13 +56,12 @@ export const GameStateContext = createContext({} as any);
 export const GameStateProviders = ({ children }: any) => {
     /** Data store of game state*/
     const [roomDataState, roomDataDispatch] = useReducer(roomDataStateReducer, initialRoomDataState)
-    console.log("🚀 ~ file: GameStateProvider.tsx ~ line 59 ~ GameStateProviders ~ roomDataState", roomDataState)
     const [myPlayerInfoState, setMyPlayerInfoState] = useState<MyPlayerInfo>({
-        id: ''
+        playerId: ''
     })
 
-    const onSyncPlayerData = (id: string) => {
-        setMyPlayerInfoState({id})
+    const onSyncPlayerData = ({ playerId }: WebsocketSyncPlayerData) => {
+        setMyPlayerInfoState({playerId})
     }
 
 
@@ -75,7 +74,6 @@ export const GameStateProviders = ({ children }: any) => {
                     myPlayerInfoState,
                     onSyncPlayerData,
                 }
-                
             }
         >
             {children}

@@ -6,7 +6,7 @@ import { Participant } from '../../../models/ui-layer/model'
 type Props = {
     participant: Participant
     onEliminatePeople: (participantId: string) => void
-
+    myPlayerId: string
 }
 
 const useStyles = makeStyles({
@@ -47,14 +47,15 @@ const useStyles = makeStyles({
     avatarImgPlayCardEliminated: {
         maxWidth: '100%',
         height: 'auto',
-        brightness: 50,
+        filter: 'brightness(50%)',
     }
 
 })
-export const DisplayParticipantInGameCard = ({ participant, onEliminatePeople }: Props) => {
+export const DisplayParticipantInGameCard = ({ participant, onEliminatePeople, myPlayerId }: Props) => {
     const avatarUrl = participant.avatarUrl || ''
-    console.log("🚀 ~ file: index.tsx ~ line 56 ~ DisplayParticipantInGameCard ~ participant", participant)
     const name = participant.name
+    const participantId = participant.participantId
+    const isMeThisParticipant = myPlayerId === participantId
     const classes = useStyles()
 
     return (
@@ -66,9 +67,9 @@ export const DisplayParticipantInGameCard = ({ participant, onEliminatePeople }:
                 />
             </div>
 
-            <Button onClick={() => onEliminatePeople(participant.participantId)} className={classes.eliminateBtn}>
+            {!isMeThisParticipant && <Button onClick={() => { onEliminatePeople(participantId) }} className={classes.eliminateBtn}>
                 <img height='20px' src='./error-failure-10382.svg' />
-            </Button>
+            </Button>}
             <Paper className={classes.nameContainer}>
                 <Typography>
                     {name}
