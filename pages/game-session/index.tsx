@@ -1,6 +1,6 @@
 import { Box, Grid, Paper, Typography, makeStyles } from '@material-ui/core';
 import React, { useContext, useEffect, useState } from 'react'
-import useConntdownTimer from '../../hooks/useCountdownTimer';
+import useCountdownTimer from '../../hooks/useCountdownTimer';
 import { MockParticipants } from '../../mockData'
 import { Participant } from '../../models/ui-layer/model';
 import { DisplayParticipantInGameCard } from '../../components/InGameInteraction/DisplayParticipantInGameCard'
@@ -24,8 +24,8 @@ const useStyles = makeStyles({
     }
 })
 const index = (props: Props) => {
-    const { gameState } = useContext(GameStateContext);
-    const { startRound } = useContext(WebSocketContext);
+    const { roomDataState } = useContext(GameStateContext);
+    const { eliminatePlayer } = useContext(WebSocketContext);
     const {
         displayTimeLeftMin,
         displayTimeLeftSecond,
@@ -33,21 +33,19 @@ const index = (props: Props) => {
         resetCountdown,
         pauseCountdown,
         isCountingdown,
-    } = useConntdownTimer({
-        startTimeSecond: gameState.timeLimit
+    } = useCountdownTimer({
+        startTimeSecond: roomDataState.limitTime,
     })
 
     const classes = useStyles()
     const [isRoundEnd, setIsRoundEnd] = useState<boolean>(false)
-    const [showKillModal, setShowKillModal] = useState<boolean>(false)
-    const [killingParticipantIdModalDisplay, setKillingParticipantIdModalDisplay] = useState<string>('')
     // get participant data
-    let participantsData: any = mapPlayersToParticipants(gameState.players);
-    //let participantsData = MockParticipants;
+    let participantsData: any = mapPlayersToParticipants(roomDataState.players, roomDataState.currentPlayerStatus);
 
     const onEliminatePeople = (participantId: string) => {
-        setShowKillModal(true);
-        setKillingParticipantIdModalDisplay(participantId);
+        eliminatePlayer({
+            playerId: participantId,
+        })
     }
 
     useEffect(() => {
@@ -63,7 +61,7 @@ const index = (props: Props) => {
         <>
             <div style={{ textAlign: 'center' }}>
                 <GameSessionHeader
-                    round={gameState.currentRound}
+                    round={roomDataState.currentRound}
                     displayTimeLeftMin={displayTimeLeftMin}
                     displayTimeLeftSecond={displayTimeLeftSecond}
                 />
@@ -78,7 +76,6 @@ const index = (props: Props) => {
                                     <Grid key={idx} item md={4}>
                                         <DisplayParticipantInGameCard participant={participant} key={idx} onEliminatePeople={onEliminatePeople} />
                                     </Grid>
-
                                 ))}
                             </Grid>
                         </Paper>
@@ -86,7 +83,6 @@ const index = (props: Props) => {
                     <Grid item md={4}>
                     </Grid>
                 </Grid>
-                <KillConfirmation open={showKillModal} participantId={killingParticipantIdModalDisplay} handleClose={() => setShowKillModal(false)}/>
             </div>
         </>
 

@@ -6,7 +6,7 @@ type Props = {
     startTimeSecond?: number
 }
 
-const useConntdownTimer = ({ startTimeMin, startTimeSecond }: Props) => {
+const useCountdownTimer = ({ startTimeMin, startTimeSecond }: Props) => {
     /**
      * please look at https://www.npmjs.com/package/react-timer-hook
      */
@@ -37,4 +37,4 @@ const useConntdownTimer = ({ startTimeMin, startTimeSecond }: Props) => {
     }
 }
 
-export default useConntdownTimer
+export default useCountdownTimer

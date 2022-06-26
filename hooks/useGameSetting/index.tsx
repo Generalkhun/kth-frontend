@@ -7,9 +7,9 @@ type Props = {}
 
 export const useGameSetting = () => {
     const { updateRoomSetting } = useContext(WebSocketContext)
-    const { gameState } = useContext(GameStateContext)
-    const totalRoundFromGameState = gameState.totalRound
-    const timeLimitFromGameState = gameState.timeLimit
+    const { roomDataState } = useContext(GameStateContext)
+    const totalRound = roomDataState.totalRound
+    const limitTime = roomDataState.limitTime
     const [round, setRound] = useState<number>(5)
     const [timePerRoundSecond, setTimePerRoundSecond] = useState<number>(120)
 
@@ -17,17 +17,16 @@ export const useGameSetting = () => {
     useEffect(() => {
         if(!!round && !!timePerRoundSecond)
         updateRoomSetting({
-            roomId: gameState.roomId,
             totalRound: round,
-            timeLimit: timePerRoundSecond,
+            limitTime: timePerRoundSecond,
         })
     }, [round, timePerRoundSecond])
 
     // update from ws server
     useEffect(() => {
-        setRound(totalRoundFromGameState);
-        setTimePerRoundSecond(timeLimitFromGameState);
-    }, [totalRoundFromGameState, timeLimitFromGameState])
+        setRound(totalRound);
+        setTimePerRoundSecond(limitTime);
+    }, [totalRound, limitTime])
 
     const displayTimePerRound = `${Math.floor(timePerRoundSecond / 60)} : ${timePerRoundSecond % 60}`
 

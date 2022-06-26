@@ -2,7 +2,7 @@ export interface Participant {
     participantId: string
     name: string
     avatarUrl: string
-    isDead: boolean
+    isEliminated: boolean
 }
 export interface ParticipantGameSummaryInfo {
     gameSessionId: number
@@ -12,13 +12,13 @@ export interface ParticipantGameSummaryInfo {
     countKills: number
 }
 
-type participantDeadState = {
-    participantId: string
-    isDead: number
-}
-export interface GameState {
-    gameSessionId: number
-    currentRound: number
-    isRoundEnd: boolean
-    participantsDeadState: participantDeadState[]
-}
+// type participantDeadState = {
+//     participantId: string
+//     isEliminated: number
+// }
+// export interface GameState {
+//     gameSessionId: number
+//     currentRound: number
+//     isRoundEnd: boolean
+//     participantsDeadState: participantDeadState[]
+// }

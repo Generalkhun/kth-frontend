@@ -11,8 +11,7 @@ type Props = {}
 
 export const WebSocketProviders = ({ children }: any) => {
     const ws = useRef(null) as any;
-    const { gameState, gameStateDispatch } = useContext(GameStateContext)
-    const gameStateContext = useContext(GameStateContext)
+    const { roomDataDispatch, onSyncPlayerData } = useContext(GameStateContext)
     /** Effects */
     useEffect(() => {
         ws.current = new WebSocket(WEB_SOCKET_ENDPOINT);
@@ -21,12 +20,14 @@ export const WebSocketProviders = ({ children }: any) => {
         ws.current.onmessage = (msg: { data: string }) => {
             const msgData = JSON.parse(msg.data);
             console.log("🚀 ~ file: webSocketProviders.tsx ~ line 36 ~ useEffect ~ msgData", msgData)
-            gameStateDispatch({
+            if (msgData.data === MethodRecieve.SYNC_PLAYER_DATA) {
+                onSyncPlayerData(msgData.data)
+                return
+            }
+            roomDataDispatch({
                 type: msgData.method,
                 payload: msgData.data
             })
-
-            //setWsMessage(msg.data)
         }
 
         // return () => {
@@ -37,7 +38,7 @@ export const WebSocketProviders = ({ children }: any) => {
 
 
     /**
-     * Web socket handlers
+     * Web socket send data to BE handlers 
      */
     /**
      * @todo refactor these handlers to use the same function

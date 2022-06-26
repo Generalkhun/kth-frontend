@@ -105,11 +105,12 @@ const useStyles = makeStyles({
 
 const index = (props: Props) => {
     const classes = useStyles();
-    const { gameState } = useContext(GameStateContext);
+    const { roomDataState } = useContext(GameStateContext);
     const { startRound } = useContext(WebSocketContext);
     /** handle data from game state */
-    const players = gameState.players;
-    const participants = mapPlayersToParticipants(players)
+    const players = roomDataState.players;
+    const participants = mapPlayersToParticipants(players, roomDataState.currentPlayerStatus)
+    const numberOfParticipants = participants.length
 
     const {
         round,
@@ -129,10 +130,10 @@ const index = (props: Props) => {
     // game session starting based on the gameState 
     const router = useRouter()
     useEffect(() => {
-        if (gameState.currentRound === 1) {
+        if (roomDataState.currentRound === 1) {
             router.push('/game-session')
         }
-    }, [gameState.currentRound])
+    }, [roomDataState.currentRound])
 
     return (
         <Grid container className={classes.topContainer}>
@@ -184,7 +185,7 @@ const index = (props: Props) => {
             </Grid>
             <Grid item md={4}>
                 <Paper className={classes.participantsListContainer}>
-                    <Typography className={classes.playersTxt}>Players: 6</Typography>
+                    <Typography className={classes.playersTxt}>Players: {numberOfParticipants}</Typography>
                     <ParticipantsDisplayListOnLobby participants={participants} />
                 </Paper>
                 <Button onClick={onStartGame} className={classes.startGameBtn}>

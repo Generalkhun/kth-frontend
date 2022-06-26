@@ -1,25 +1,26 @@
-export interface WebsocketJoinRoomData {
-    playerName: string
-    roomId: string
-}
+/**@note please update latest version of kth-type to make things working! */
+import {
+    JoinRoomData,
+    UpdateRoomSettingData,
+    Player as PlayerFromBE,
+    RoomData as RoomDataFromBE,
+    BasePlayerData,
+} from 'kth-type'
+
+export type WebsocketJoinRoomData = JoinRoomData;
 
 export interface WebsocketExitRoomData {
     roomId: string
 }
 
-export interface WebsocketUpdateRoomData {
-    roomId: string;
-    totalRound: number;
-    timeLimit: number;
-}
+export type WebsocketUpdateRoomData = UpdateRoomSettingData;
 
 export interface WebsocketStartRoundData {
     roomId: string;
 }
 
 export interface WebsocketEliminatePlayerData {
-    playerName: string,
-    roomId: string
+    playerId: string
 }
 
 /**
@@ -51,7 +52,7 @@ export enum MethodSend {
  * 5. SYNC_PLAYER_DATA: get player id for this game session
  * 
  * 6. START_ROUND:
- * 7. UPDATE_DEAD:
+ * 7. UPDATE_PLAYER_STATUS: used to update player status from BE including 'PLAYING' | 'ELIMINATED' | 'CORRECT' | 'WRONG';
  * 8. END_GAME:
  */
 export enum MethodRecieve {
@@ -64,27 +65,17 @@ export enum MethodRecieve {
 
     /** update game room in game-session  */
     START_ROUND = 'START_ROUND',
-    UPDATE_DEAD = 'UPDATE_DEAD',
+    UPDATE_PLAYER_STATUS = 'UPDATE_PLAYER_STATUS',
     END_GAME = 'END_GAME',
 }
 
-export type Player = {
-    playerId: string;
-    roomId: string;
-    playerName: string;
-    playerStatus: string;
-    playerAvatarUrl: string;
+/**@todo add playerAvatarUrl to BE */
+export type Player = PlayerFromBE;
+
+export interface RoomDataState extends RoomDataFromBE {
+    players: BasePlayerData[]
 }
-/** GameState store */
-export interface GameState {
-    roomId: string;
-    currentPlayerId: string;
-    hostId: string;
-    players: Player[];
-    totalRound: number;
-    currentRound: number;
-    timeLimit: number;
-    isPlaying: boolean;
-    isFinish: boolean;
-    //scores: Record<string, number[]>
-}
+
+export type MyPlayerInfo = {
+    id: string
+};

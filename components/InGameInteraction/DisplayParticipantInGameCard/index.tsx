@@ -33,35 +33,41 @@ const useStyles = makeStyles({
         bottom: '-30px', /*your button position*/
         right: '125px', /*your button position*/
     },
-    avatarImgPlayCardContainer:{
+    avatarImgPlayCardContainer: {
         width: '250px',
         height: '250px',
         margin: '3px',
         padding: '3px',
         backgroundColor: '#262626'
     },
-    avatarImgPlayCard: {
-        maxWidth: '100%', 
+    avatarImgPlayCardAlive: {
+        maxWidth: '100%',
         height: 'auto',
+    },
+    avatarImgPlayCardEliminated: {
+        maxWidth: '100%',
+        height: 'auto',
+        brightness: 50,
     }
 
 })
-export const DisplayParticipantInGameCard = ({ participant, onEliminatePeople}: Props) => {
+export const DisplayParticipantInGameCard = ({ participant, onEliminatePeople }: Props) => {
     const avatarUrl = participant.avatarUrl || ''
+    console.log("🚀 ~ file: index.tsx ~ line 56 ~ DisplayParticipantInGameCard ~ participant", participant)
     const name = participant.name
     const classes = useStyles()
 
     return (
         <div className={classes.ParticipantCardContainer}>
             <div className={classes.avatarImgPlayCardContainer}>
-            <img
-            className={classes.avatarImgPlayCard}
-                src={avatarUrl}
-            />
+                <img
+                    className={participant.isEliminated ? classes.avatarImgPlayCardEliminated : classes.avatarImgPlayCardAlive}
+                    src={avatarUrl}
+                />
             </div>
-            
+
             <Button onClick={() => onEliminatePeople(participant.participantId)} className={classes.eliminateBtn}>
-                <img height='20px'src='./error-failure-10382.svg'/>
+                <img height='20px' src='./error-failure-10382.svg' />
             </Button>
             <Paper className={classes.nameContainer}>
                 <Typography>
