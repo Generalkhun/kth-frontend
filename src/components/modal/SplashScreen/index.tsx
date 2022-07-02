@@ -1,7 +1,3 @@
-import { makeStyles, Paper } from '@material-ui/core';
-import Typography from '@mui/material/Typography';
-import { borderRadius } from '@mui/system';
-import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 
 

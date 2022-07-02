@@ -1,5 +1,4 @@
-import { Grid, Paper, Typography } from '@material-ui/core'
-import { makeStyles } from '@mui/styles'
+import { Grid, Paper, Typography, makeStyles } from '@material-ui/core'
 import React from 'react'
 
 type Props = {
