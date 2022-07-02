@@ -7,8 +7,6 @@ import { GameStateContext } from "./GameStateProvider";
 
 export const WebSocketContext = createContext({} as any);
 
-type Props = {}
-
 export const WebSocketProviders = ({ children }: any) => {
     const ws = useRef(null) as any;
     const { roomDataDispatch, onSyncPlayerData } = useContext(GameStateContext)

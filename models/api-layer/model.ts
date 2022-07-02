@@ -16,7 +16,7 @@ import {
  * 5. ELIMITNATE_PLAYER: used when player eliminated
  */
 export enum MethodSend {
-    JOIN_ROOM = 'JOIN_ROOM',    
+    JOIN_ROOM = 'JOIN_ROOM',
     EXIT_ROOM = 'EXIT_ROOM',
     UPDATE_ROOM_SETTING = 'UPDATE_ROOM_SETTING',
     START_ROUND = 'START_ROUND',
@@ -65,8 +65,9 @@ export enum MethodRecieve {
     END_GAME = 'END_GAME',
 }
 
-export interface WebsocketSyncPlayerData { 
+export interface WebsocketSyncPlayerData {
     playerId: string
+    playerAvatarUrl: string
 }
 /**Other data */
 
@@ -76,7 +77,3 @@ export type Player = PlayerFromBE;
 export interface RoomDataState extends RoomDataFromBE {
     players: BasePlayerData[]
 }
-
-export type MyPlayerInfo = {
-    playerId: string
-};

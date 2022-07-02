@@ -1,5 +1,5 @@
 import { createContext, useReducer, useState } from "react";
-import { MethodRecieve, MyPlayerInfo, RoomDataState, WebsocketSyncPlayerData } from "../models/api-layer/model";
+import { MethodRecieve, RoomDataState, WebsocketSyncPlayerData } from "../models/api-layer/model";
 
 const initialRoomDataState: RoomDataState = {
     id: '',
@@ -39,11 +39,9 @@ const roomDataStateReducer = (state: RoomDataState, action: any) => {
         case MethodRecieve.UPDATE_ROOM_SETTING:
             return { ...state, totalRound: action.payload.totalRound, limitTime: action.payload.limitTime }
         case MethodRecieve.START_ROUND:
-            return { ...state, isPlaying: true, currentRound: action.payload.currentRound }
+            return { ...state, isPlaying: true, currentRound: action.payload.currentRound, currentWords: action.payload.currentWords }
         case MethodRecieve.UPDATE_PLAYER_STATUS:
-            return { ...state, currentPlayerStatus: Object.assign(state.currentPlayerStatus, action.payload.playerStatusMapping) }
-        // case MethodRecieve.UPDATE_DEAD:
-        //     return { ...state, isFinish: action.payload }
+            return { ...state, currentPlayerStatus: action.payload.currentPlayerStatus }
         // case MethodRecieve.END_ROUND:
         //     return { ...state, isPlaying: false, currentRound: action.payload.currentRound, isFinish: action.payload }
         default:
@@ -56,12 +54,14 @@ export const GameStateContext = createContext({} as any);
 export const GameStateProviders = ({ children }: any) => {
     /** Data store of game state*/
     const [roomDataState, roomDataDispatch] = useReducer(roomDataStateReducer, initialRoomDataState)
-    const [myPlayerInfoState, setMyPlayerInfoState] = useState<MyPlayerInfo>({
-        playerId: ''
+    console.log("🚀 ~ file: GameStateProvider.tsx ~ line 57 ~ GameStateProviders ~ roomDataState", roomDataState)
+    const [myPlayerInfoState, setMyPlayerInfoState] = useState<WebsocketSyncPlayerData>({
+        playerId: '',
+        playerAvatarUrl: 'https://res.amazingtalker.com/users/images/no-avatar.png',
     })
 
-    const onSyncPlayerData = ({ playerId }: WebsocketSyncPlayerData) => {
-        setMyPlayerInfoState({playerId})
+    const onSyncPlayerData = (data: WebsocketSyncPlayerData) => {
+        setMyPlayerInfoState(data)
     }
 
 
