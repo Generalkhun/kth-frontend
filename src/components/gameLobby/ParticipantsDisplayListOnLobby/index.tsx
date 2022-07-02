@@ -1,5 +1,4 @@
-import { Typography } from '@material-ui/core'
-import { makeStyles } from '@mui/styles'
+import { makeStyles } from '@material-ui/core'
 import React from 'react'
 import { Participant } from '../../../models/ui-layer/model'
 import { ParticipantDisplayOnLobby } from './ParticipantDisplayOnLobby'

@@ -1,6 +1,5 @@
 import React from 'react'
-import { makeStyles } from '@mui/styles';
-import { Grid, Paper } from '@material-ui/core';
+import { Grid, Paper, makeStyles } from '@material-ui/core';
 import {MockParticipantsGameInfo} from '../../src/mockData'
 import ParticipantScore from '../../src/components/ParticipantScore';
 
