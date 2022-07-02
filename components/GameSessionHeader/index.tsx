@@ -6,6 +6,7 @@ type Props = {
     round: number
     displayTimeLeftMin: number
     displayTimeLeftSecond: number
+    displayRatioTimeLeft: number
 }
 
 const useStyles = makeStyles({
@@ -29,22 +30,13 @@ const useStyles = makeStyles({
         marginLeft: '30px',
         position: 'relative',
     },
-    clockRedPart: {
-        backgroundColor: '#E2515A',
-        width: '112px',
-        height: '112px',
-        borderRadius: '50%',
-        position: 'absolute',
-        display: `inline-block`,
-        linearGradient: '(90deg, #FFFFFF 50%, transparent 50%)',
-    },
-    clockWhitePart: {
+    clockBody: {
         backgroundColor: '#FFFFFF',
         width: '112px',
         height: '112px',
         borderRadius: '50%',
         position: 'absolute',
-        linearGradient: '(90deg, #d1d1d1 50%, transparent 50%)',
+        display: `inline-block`,
     },
     gameSessionHeaderTxtRound: {
         color: 'white',
@@ -65,8 +57,8 @@ const GameSessionHeader = ({
     round,
     displayTimeLeftMin,
     displayTimeLeftSecond,
+    displayRatioTimeLeft,
 }: Props) => {
-    console.log("🚀 ~ file: index.tsx ~ line 57 ~ round", round)
     const classes = useStyles()
     return (
         <Paper className={classes.gameSessionHeaderContainer}>
@@ -76,8 +68,9 @@ const GameSessionHeader = ({
                 </Grid>
                 <Grid item md={4}>
                     <Paper className={classes.clockContainer}>
-                        <Paper className={classes.clockRedPart}></Paper>
-                        {/* <Paper className={classes.clockWhitePart}></Paper> */}
+                        <div
+                            style={{ backgroundImage: `linear-gradient(${displayRatioTimeLeft < 0.5 ? -90 : 90}deg, ${displayRatioTimeLeft < 0.5 ? '#FFFFFF' : '#E2515A'} 50%, transparent 50%),linear-gradient(${-90 + 360 * (1 - displayRatioTimeLeft)}deg, #E2515A 50%, transparent 50%)` }}
+                            className={classes.clockBody}></div>
                     </Paper>
                 </Grid>
                 <Grid item md={4}>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useStopwatch } from 'react-timer-hook'
 
 type Props = {
@@ -18,19 +18,35 @@ const useCountdownTimer = ({ startTimeMin, startTimeSecond }: Props) => {
         reset,
         pause,
     } = useStopwatch({ autoStart: false });
-    const timePerRoundMin = startTimeMin || 0
-    const timePerRoundSecond = startTimeSecond || 0
-    const timeLeftSecond = (timePerRoundMin * 60 + timePerRoundSecond) - (seconds + (minutes * 60))
-    const displayTimeLeftMin = Math.floor(timeLeftSecond / 60)
-    const displayTimeLeftSecond = timeLeftSecond % 60
+
+    const [totalTimePerRondSecond, setTotalTimePerRondSecond] = useState<number>(0);
+    const [displayTimeLeftMin, setDisplayTimeLeftMin] = useState<number>(0);
+    const [displayTimeLeftSecond, setDisplayTimeLeftSecond] = useState<number>(0);
+    const [displayRatioTimeLeft, setDisplayRatioTimeLeft] = useState<number>(1);
+
+    useEffect(() => {
+        const timePerRoundMin = startTimeMin || 0
+        const timePerRoundSecond = startTimeSecond || 0
+        setTotalTimePerRondSecond(timePerRoundMin * 60 + timePerRoundSecond)
+    }, [startTimeMin, startTimeSecond])
+
+
+    useEffect(() => {
+        const timeLeftSecond = totalTimePerRondSecond - (seconds + (minutes * 60))
+        setDisplayTimeLeftMin(Math.floor(timeLeftSecond / 60))
+        setDisplayTimeLeftSecond(timeLeftSecond % 60)
+        setDisplayRatioTimeLeft(timeLeftSecond/totalTimePerRondSecond)
+    }, [seconds, minutes])
 
     const startCountdown = () => start()
-    const resetCountdown =() => reset()
+    const resetCountdown = () => reset()
     const pauseCountdown = () => pause()
+
     return {
         displayTimeLeftMin,
         displayTimeLeftSecond,
         isCountingdown: isRunning,
+        displayRatioTimeLeft,
         startCountdown,
         resetCountdown,
         pauseCountdown,
