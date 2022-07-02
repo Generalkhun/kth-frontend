@@ -3,6 +3,7 @@ export interface Participant {
     name: string
     avatarUrl: string
     isEliminated: boolean
+    guessingWord: string
 }
 export interface ParticipantGameSummaryInfo {
     gameSessionId: number
@@ -11,14 +12,3 @@ export interface ParticipantGameSummaryInfo {
     countDeads: number
     countKills: number
 }
-
-// type participantDeadState = {
-//     participantId: string
-//     isEliminated: number
-// }
-// export interface GameState {
-//     gameSessionId: number
-//     currentRound: number
-//     isRoundEnd: boolean
-//     participantsDeadState: participantDeadState[]
-// }

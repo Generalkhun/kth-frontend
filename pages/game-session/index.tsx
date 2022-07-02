@@ -44,7 +44,7 @@ const index = (props: Props) => {
     const classes = useStyles()
     const [isRoundEnd, setIsRoundEnd] = useState<boolean>(false)
     // get participant data
-    let participantsData: any = mapPlayersToParticipants(roomDataState.players, roomDataState.currentPlayerStatus);
+    let participantsData: any = mapPlayersToParticipants(roomDataState.players, roomDataState.currentPlayerStatus, roomDataState.currentWords);
 
     const onEliminatePeople = (participantId: string) => {
         eliminatePlayer({

@@ -7,6 +7,7 @@ import { styled } from '@mui/material/styles';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { WEB_SOCKET_ENDPOINT } from '../config/url';
 import { WebSocketContext } from '../contextProviders/WebSocketProviders';
+import { GameStateContext } from '../contextProviders/GameStateProvider';
 //import { initWs, ws } from '../config/constants';
 
 const useStyles = makeStyles({
@@ -59,16 +60,17 @@ const useStyles = makeStyles({
 const Home: NextPage = () => {
   const classes = useStyles()
   const [inputName, setInputName] = useState<string>('')
+  const { myPlayerInfoState } = useContext(GameStateContext);
   const onChangeNameInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputName(e.target.value)
   }
-  const { joinRoom } = useContext(WebSocketContext); 
+  const { joinRoom } = useContext(WebSocketContext);
 
   const onJoinAGame = () => {
-   joinRoom({
-    playerName: inputName,
-    roomId: '123' /** @todo use real roomId */
-   })
+    joinRoom({
+      playerName: inputName,
+      roomId: '123' /** @todo use real roomId */
+    })
   }
 
   return (
@@ -80,7 +82,7 @@ const Home: NextPage = () => {
       <Grid item md={4}>
         <Paper className={classes.loginContainer}>
           <Paper elevation={0} className={classes.inputContainer}>
-            <Avatar className={classes.imgAvatar} alt="ME" src="https://res.amazingtalker.com/users/images/no-avatar.png" />
+            <Avatar className={classes.imgAvatar} alt="ME" src={myPlayerInfoState?.playerAvatarUrl} />
 
           </Paper>
           <TextField onChange={onChangeNameInput} className={classes.inputName} variant="filled" type='text' autoFocus placeholder='ENTER NAME'></TextField>

@@ -48,6 +48,18 @@ const useStyles = makeStyles({
         maxWidth: '100%',
         height: 'auto',
         filter: 'brightness(50%)',
+    },
+    guessingWordContainer: {
+        position: 'absolute',
+        width: '180px',
+        height: '80px',
+        backgroundColor: '#FFFFFF',
+        bottom: '100px', /*your button position*/
+        right: '-20px', /*your button position*/
+    },
+    guessingWord: {
+        fontWeight: 'bold',
+        fontSize: '30px'
     }
 
 })
@@ -55,17 +67,28 @@ export const DisplayParticipantInGameCard = ({ participant, onEliminatePeople, m
     const avatarUrl = participant.avatarUrl || ''
     const name = participant.name
     const participantId = participant.participantId
+    console.log("🚀 ~ file: index.tsx ~ line 70 ~ DisplayParticipantInGameCard ~ participantId", participantId)
     const isMeThisParticipant = myPlayerId === participantId
+    const isEliminated = participant.isEliminated
+    console.log("🚀 ~ file: index.tsx ~ line 73 ~ DisplayParticipantInGameCard ~ isEliminated", isEliminated)
     const classes = useStyles()
+    const isShowGuessingWord = !isMeThisParticipant ? true : (isEliminated)
+    const displayGuessingWord = isShowGuessingWord ? participant.guessingWord : ''
 
     return (
         <div className={classes.ParticipantCardContainer}>
             <div className={classes.avatarImgPlayCardContainer}>
                 <img
-                    className={participant.isEliminated ? classes.avatarImgPlayCardEliminated : classes.avatarImgPlayCardAlive}
+                    className={isEliminated ? classes.avatarImgPlayCardEliminated : classes.avatarImgPlayCardAlive}
                     src={avatarUrl}
                 />
             </div>
+
+            <Paper className={classes.guessingWordContainer}>
+                <Typography className={classes.guessingWord}>
+                    {displayGuessingWord}
+                </Typography>
+            </Paper>
 
             {!isMeThisParticipant && <Button onClick={() => { onEliminatePeople(participantId) }} className={classes.eliminateBtn}>
                 <img height='20px' src='./error-failure-10382.svg' />
