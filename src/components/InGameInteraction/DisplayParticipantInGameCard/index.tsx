@@ -67,10 +67,8 @@ export const DisplayParticipantInGameCard = ({ participant, onEliminatePeople, m
     const avatarUrl = participant.avatarUrl || ''
     const name = participant.name
     const participantId = participant.participantId
-    console.log("🚀 ~ file: index.tsx ~ line 70 ~ DisplayParticipantInGameCard ~ participantId", participantId)
     const isMeThisParticipant = myPlayerId === participantId
     const isEliminated = participant.isEliminated
-    console.log("🚀 ~ file: index.tsx ~ line 73 ~ DisplayParticipantInGameCard ~ isEliminated", isEliminated)
     const classes = useStyles()
     const isShowGuessingWord = !isMeThisParticipant ? true : (isEliminated)
     const displayGuessingWord = isShowGuessingWord ? participant.guessingWord : ''

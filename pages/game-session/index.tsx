@@ -1,15 +1,15 @@
 import { Box, Grid, Paper, Typography, makeStyles } from '@material-ui/core';
 import React, { useContext, useEffect, useState } from 'react'
-import useCountdownTimer from '../../hooks/useCountdownTimer';
-import { MockParticipants } from '../../mockData'
-import { Participant } from '../../models/ui-layer/model';
-import { DisplayParticipantInGameCard } from '../../components/InGameInteraction/DisplayParticipantInGameCard'
+import useCountdownTimer from '../../src/hooks/useCountdownTimer';
+import { MockParticipants } from '../../src/mockData'
+import { Participant } from '../../src/models/ui-layer/model';
+import { DisplayParticipantInGameCard } from '../../src/components/InGameInteraction/DisplayParticipantInGameCard'
 import { withStyles } from '@material-ui/styles';
-import { KillConfirmation } from '../../components/modal/KillConfirmation';
-import GameSessionHeader from '../../components/GameSessionHeader';
-import { GameStateContext } from '../../contextProviders/GameStateProvider';
-import { WebSocketContext } from '../../contextProviders/WebSocketProviders';
-import { mapPlayersToParticipants } from '../../utils/mapper';
+import { KillConfirmation } from '../../src/components/modal/KillConfirmation';
+import GameSessionHeader from '../../src/components/GameSessionHeader';
+import { GameStateContext } from '../../src/contextProviders/GameStateProvider';
+import { WebSocketContext } from '../../src/contextProviders/WebSocketProviders';
+import { mapPlayersToParticipants } from '../../src/utils/mapper';
 
 type Props = {}
 
@@ -88,11 +88,6 @@ const index = (props: Props) => {
                 <Grid item md={4}>
                 </Grid>
             </Grid>
-            <Paper style={{ backgroundColor: 'red' }}>
-                <div>round={roomDataState.currentRound}</div>
-                <div>displayTimeLeftMin={displayTimeLeftMin}</div>
-                <div>displayTimeLeftSecond={displayTimeLeftSecond}</div>
-            </Paper>
         </div>
 
     )

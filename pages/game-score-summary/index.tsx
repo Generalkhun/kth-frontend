@@ -1,8 +1,8 @@
 import React from 'react'
 import { makeStyles } from '@mui/styles';
 import { Grid, Paper } from '@material-ui/core';
-import {MockParticipantsGameInfo} from '../../mockData'
-import ParticipantScore from '../../components/ParticipantScore';
+import {MockParticipantsGameInfo} from '../../src/mockData'
+import ParticipantScore from '../../src/components/ParticipantScore';
 
 const useStyles = makeStyles({
     scoreBoardContainer: {

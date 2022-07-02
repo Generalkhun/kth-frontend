@@ -5,9 +5,9 @@ import type { NextPage } from 'next'
 import Link from 'next/link'
 import { styled } from '@mui/material/styles';
 import { useContext, useEffect, useRef, useState } from 'react';
-import { WEB_SOCKET_ENDPOINT } from '../config/url';
-import { WebSocketContext } from '../contextProviders/WebSocketProviders';
-import { GameStateContext } from '../contextProviders/GameStateProvider';
+import { WEB_SOCKET_ENDPOINT } from '../src/config/url';
+import { WebSocketContext } from '../src/contextProviders/WebSocketProviders';
+import { GameStateContext } from '../src/contextProviders/GameStateProvider';
 //import { initWs, ws } from '../config/constants';
 
 const useStyles = makeStyles({
