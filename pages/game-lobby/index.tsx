@@ -1,10 +1,10 @@
 import { Button, Grid, makeStyles, Paper, TextField, Typography } from '@material-ui/core';
 import React, { useContext, useEffect } from 'react'
-import { ParticipantsDisplayListOnLobby } from '../../components/gameLobby/ParticipantsDisplayListOnLobby';
-import { GameStateContext } from '../../contextProviders/GameStateProvider';
-import { WebSocketContext } from '../../contextProviders/WebSocketProviders';
-import { useGameSetting } from '../../hooks/useGameSetting';
-import { mapPlayersToParticipants } from '../../utils/mapper';
+import { ParticipantsDisplayListOnLobby } from '../../src/components/gameLobby/ParticipantsDisplayListOnLobby';
+import { GameStateContext } from '../../src/contextProviders/GameStateProvider';
+import { WebSocketContext } from '../../src/contextProviders/WebSocketProviders';
+import { useGameSetting } from '../../src/hooks/useGameSetting';
+import { mapPlayersToParticipants } from '../../src/utils/mapper';
 import { useRouter } from 'next/router'
 //import { MockParticipants } from '../../mockData';
 
