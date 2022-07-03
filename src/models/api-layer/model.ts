@@ -61,6 +61,7 @@ export enum MethodRecieve {
 
     /** update game room in game-session  */
     START_ROUND = 'START_ROUND',
+    ROUND_TIME_UP = 'ROUND_TIME_UP',
     UPDATE_PLAYER_STATUS = 'UPDATE_PLAYER_STATUS',
     END_GAME = 'END_GAME',
 }

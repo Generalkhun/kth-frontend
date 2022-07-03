@@ -1,5 +1,5 @@
 import { Box, Grid, Paper, Typography, makeStyles } from '@material-ui/core';
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import useCountdownTimer from '../../src/hooks/useCountdownTimer';
 import { MockParticipants } from '../../src/mockData'
 import { Participant } from '../../src/models/ui-layer/model';
@@ -27,7 +27,7 @@ const useStyles = makeStyles({
     }
 })
 const index = (props: Props) => {
-    const { roomDataState, myPlayerInfoState } = useContext(GameStateContext);
+    const { roomDataState, myPlayerInfoState, guessingTimeState, onStartGuessingTime, getPlayerNameFromId } = useContext(GameStateContext);
     const { eliminatePlayer } = useContext(WebSocketContext);
     const {
         displayTimeLeftMin,
@@ -42,8 +42,11 @@ const index = (props: Props) => {
     })
 
     const classes = useStyles()
-    const [isRoundEnd, setIsRoundEnd] = useState<boolean>(false)
-    // get participant data
+    const myPlayerId = myPlayerInfoState?.playerId
+    const currentRound = roomDataState.currentRound;
+    const isPlaying = roomDataState.isPlaying;
+    const isGuessingTime = guessingTimeState?.isGuessingTime;
+    const playerIdGuessing = guessingTimeState?.playerIdGuessing;
     let participantsData: any = mapPlayersToParticipants(roomDataState.players, roomDataState.currentPlayerStatus, roomDataState.currentWords);
 
     const onEliminatePeople = (participantId: string) => {
@@ -54,23 +57,36 @@ const index = (props: Props) => {
 
     useEffect(() => {
         if (displayTimeLeftMin === 0 && displayTimeLeftSecond === 0) {
-            console.log('end');
             pauseCountdown()
-            setIsRoundEnd(true)
         }
-    }, [displayTimeLeftMin, displayTimeLeftSecond, setIsRoundEnd])
+    }, [displayTimeLeftMin, displayTimeLeftSecond])
+
+    // End round effect
+    useEffect(() => {
+        if (isPlaying) {
+            return;
+        }
+        /**
+         * After recieve timeup event from ws,
+         * need to wait for FE count down before proceeding to
+         * the guessing stage
+         */
+        setTimeout(() => {
+            onStartGuessingTime();
+        }, (displayTimeLeftSecond || 0) * 1000);
+    }, [isPlaying])
+
 
 
     return (
         <div className={classes.topContainer} style={{ textAlign: 'center' }}>
             <GameSessionHeader
-                round={roomDataState.currentRound}
+                round={currentRound}
                 displayTimeLeftMin={displayTimeLeftMin}
                 displayTimeLeftSecond={displayTimeLeftSecond}
                 displayRatioTimeLeft={displayRatioTimeLeft}
             />
 
-            {!isCountingdown && <button onClick={startCountdown}>Start</button>}
             <Grid container>
                 <Grid item md={1}>
                 </Grid>
@@ -79,13 +95,20 @@ const index = (props: Props) => {
                         <Grid container className={classes.ParticipantsPlayableAreaContainer}>
                             {participantsData.map((participant: Participant, idx: number) => (
                                 <Grid key={idx} item md={4}>
-                                    <DisplayParticipantInGameCard myPlayerId={myPlayerInfoState?.playerId} participant={participant} key={idx} onEliminatePeople={onEliminatePeople} />
+                                    <DisplayParticipantInGameCard
+                                        isGuessingTime={isGuessingTime}
+                                        playerIdGuessing={playerIdGuessing}
+                                        myPlayerId={myPlayerId}
+                                        participant={participant}
+                                        key={idx}
+                                        onEliminatePeople={onEliminatePeople} />
                                 </Grid>
                             ))}
                         </Grid>
                     </Paper>
                 </Grid>
                 <Grid item md={4}>
+                    {isGuessingTime && <div>รอ {`<${getPlayerNameFromId(playerIdGuessing)}> ทายคำตอบ`}</div>}
                 </Grid>
             </Grid>
         </div>

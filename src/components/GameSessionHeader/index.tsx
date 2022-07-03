@@ -3,8 +3,8 @@ import React from 'react'
 
 type Props = {
     round: number
-    displayTimeLeftMin: number
-    displayTimeLeftSecond: number
+    displayTimeLeftMin: number | null
+    displayTimeLeftSecond: number | null
     displayRatioTimeLeft: number
 }
 
@@ -59,6 +59,7 @@ const GameSessionHeader = ({
     displayRatioTimeLeft,
 }: Props) => {
     const classes = useStyles()
+    const displayTxtTime = (displayTimeLeftMin === null || displayTimeLeftSecond === null) ? '' : `${displayTimeLeftMin}.${displayTimeLeftSecond}`
     return (
         <Paper className={classes.gameSessionHeaderContainer}>
             <Grid container>
@@ -73,7 +74,7 @@ const GameSessionHeader = ({
                     </Paper>
                 </Grid>
                 <Grid item md={4}>
-                    <Typography className={classes.gameSessionHeaderTxtTime} >{`${displayTimeLeftMin}.${displayTimeLeftSecond}`}</Typography>
+                    <Typography className={classes.gameSessionHeaderTxtTime} >{displayTxtTime}</Typography>
                 </Grid>
             </Grid>
         </Paper>
