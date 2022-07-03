@@ -10,6 +10,7 @@ import GameSessionHeader from '../../src/components/GameSessionHeader';
 import { GameStateContext } from '../../src/contextProviders/GameStateProvider';
 import { WebSocketContext } from '../../src/contextProviders/WebSocketProviders';
 import { mapPlayersToParticipants } from '../../src/utils/mapper';
+import { GuessWord } from '../../src/components/modal/GuessWord';
 
 type Props = {}
 
@@ -28,7 +29,7 @@ const useStyles = makeStyles({
 })
 const index = (props: Props) => {
     const { roomDataState, myPlayerInfoState, guessingTimeState, onStartGuessingTime, getPlayerNameFromId } = useContext(GameStateContext);
-    const { eliminatePlayer } = useContext(WebSocketContext);
+    const { eliminatePlayer, guessWord } = useContext(WebSocketContext);
     const {
         displayTimeLeftMin,
         displayTimeLeftSecond,
@@ -43,16 +44,22 @@ const index = (props: Props) => {
 
     const classes = useStyles()
     const myPlayerId = myPlayerInfoState?.playerId
+    const myAvatarUrl = myPlayerInfoState?.playerAvatarUrl
     const currentRound = roomDataState.currentRound;
-    const isPlaying = roomDataState.isPlaying;
-    //const currentPlayerStatus = roomDataState.currentPlayerStatus;
     const isGuessingTime = guessingTimeState?.isGuessingTime;
     const playerIdGuessing = guessingTimeState?.playerIdGuessing;
+    const isMyTurnToGuess = playerIdGuessing === myPlayerId
     let participantsData: any = mapPlayersToParticipants(roomDataState.players, roomDataState.currentPlayerStatus, roomDataState.currentWords);
 
     const onEliminatePeople = (participantId: string) => {
         eliminatePlayer({
             playerId: participantId,
+        })
+    }
+
+    const onSubmitGuessingAnswer = (word: string) => {
+        guessWord({
+            word
         })
     }
 
@@ -62,6 +69,13 @@ const index = (props: Props) => {
             onStartGuessingTime();
         }
     }, [displayTimeLeftMin, displayTimeLeftSecond])
+
+    useEffect(() => {
+        if(isGuessingTime) {
+            onStartGuessingTime();
+        }
+    }, [roomDataState.currentPlayerStatus])
+    
 
     return (
         <div className={classes.topContainer} style={{ textAlign: 'center' }}>
@@ -96,6 +110,12 @@ const index = (props: Props) => {
                     {isGuessingTime && <div>รอ {`<${getPlayerNameFromId(playerIdGuessing)}> ทายคำตอบ`}</div>}
                 </Grid>
             </Grid>
+            {/* Modals */}
+            {isMyTurnToGuess && <GuessWord
+                open={isMyTurnToGuess}
+                onSubmitGuessingAnswer={onSubmitGuessingAnswer}
+                playerAvatarUrl={myAvatarUrl}
+            />}
         </div>
 
     )

@@ -5,6 +5,7 @@ import {
     Player as PlayerFromBE,
     RoomData as RoomDataFromBE,
     BasePlayerData,
+    GuessWordData,
 } from 'kth-type'
 
 /**
@@ -21,6 +22,7 @@ export enum MethodSend {
     UPDATE_ROOM_SETTING = 'UPDATE_ROOM_SETTING',
     START_ROUND = 'START_ROUND',
     ELIMITNATE_PLAYER = 'ELIMITNATE_PLAYER',
+    GUESS_WORD = 'GUESS_WORD'
 }
 
 export type WebsocketJoinRoomData = JoinRoomData;
@@ -70,6 +72,8 @@ export interface WebsocketSyncPlayerData {
     playerId: string
     playerAvatarUrl: string
 }
+
+export type WebsocketGuessWordData = GuessWordData;
 /**Other data */
 
 /**@todo add playerAvatarUrl to BE */

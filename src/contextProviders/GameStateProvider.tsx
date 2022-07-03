@@ -73,8 +73,8 @@ export const GameStateProviders = ({ children }: any) => {
     }
 
     const onStartGuessingTime = () => {
-        //currentPlayerStatus: Record<string, string>
 
+        console.log("🚀 ~ file: GameStateProvider.tsx ~ line 79 ~ onStartGuessingTime ~ roomDataState", roomDataState)
         // find a player that is their current turn
         const playerGuessing = Object.keys(roomDataState.currentPlayerStatus)
             .map(playerId => (
@@ -85,7 +85,7 @@ export const GameStateProviders = ({ children }: any) => {
             ))
             .filter(player => player.status === 'GUESSING')
         [0]
-
+        console.log("🚀 ~ file: GameStateProvider.tsx ~ line 80 ~ onStartGuessingTime ~ playerGuessing", playerGuessing)
         setGuessingTimeState({
             isGuessingTime: true,
             playerIdGuessing: playerGuessing?.playerId,

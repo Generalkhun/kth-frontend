@@ -1,6 +1,6 @@
 import { useState, useEffect, createContext, useRef, useContext } from "react";
 import { WEB_SOCKET_ENDPOINT } from "../config/url";
-import { MethodRecieve, MethodSend, WebsocketEliminatePlayerData, WebsocketExitRoomData, WebsocketJoinRoomData, WebsocketStartRoundData, WebsocketUpdateRoomData } from "../models/api-layer/model";
+import { MethodRecieve, MethodSend, WebsocketEliminatePlayerData, WebsocketExitRoomData, WebsocketGuessWordData, WebsocketJoinRoomData, WebsocketStartRoundData, WebsocketUpdateRoomData } from "../models/api-layer/model";
 import { GameStateContext } from "./GameStateProvider";
 
 
@@ -82,6 +82,16 @@ export const WebSocketProviders = ({ children }: any) => {
         )
     }
 
+    const guessWord = (data: WebsocketGuessWordData) => {
+        if (!ws.current) return;
+        ws.current.send(
+            JSON.stringify({
+                method: MethodSend.GUESS_WORD,
+                data
+            })
+        )
+    }
+
     return (
         <WebSocketContext.Provider
             value={
@@ -92,6 +102,7 @@ export const WebSocketProviders = ({ children }: any) => {
                     updateRoomSetting,
                     startRound,
                     eliminatePlayer,
+                    guessWord,
                 }
             }
         >
