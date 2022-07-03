@@ -73,9 +73,8 @@ export const GameStateProviders = ({ children }: any) => {
     }
 
     const onStartGuessingTime = () => {
-        if (guessingTimeState.isGuessingTime) {
-            return;
-        }
+        //currentPlayerStatus: Record<string, string>
+
         // find a player that is their current turn
         const playerGuessing = Object.keys(roomDataState.currentPlayerStatus)
             .map(playerId => (
@@ -87,11 +86,10 @@ export const GameStateProviders = ({ children }: any) => {
             .filter(player => player.status === 'GUESSING')
         [0]
 
-        roomDataState.currentPlayerStatus
-        setGuessingTimeState(prev => ({
-            ...prev,
+        setGuessingTimeState({
+            isGuessingTime: true,
             playerIdGuessing: playerGuessing?.playerId,
-        }))
+        })
     }
 
     const getPlayerNameFromId = (id: string) => {
