@@ -39,7 +39,8 @@ const useStyles = makeStyles({
         height: '250px',
         margin: '3px',
         padding: '3px',
-        backgroundColor: '#262626'
+        backgroundColor: '#262626',
+        position: 'relative'
     },
     avatarImgPlayCardAlive: {
         maxWidth: '100%',
@@ -50,11 +51,12 @@ const useStyles = makeStyles({
         height: 'auto',
         filter: 'brightness(50%)',
     },
-    avatarImgPlayCardGuessing: {
-        maxWidth: '100%',
-        height: 'auto',
-        // see https://codepen.io/sosuke/pen/Pjoqqp
-        filter: 'invert(82%) sepia(66%) saturate(542%) hue-rotate(38deg) brightness(91%) contrast(92%)',
+    guessingPlayerGreenFilter: {
+        width: '100%',
+        height: '100%',
+        opacity: 0.5,
+        backgroundColor: '#78E038',
+        position: 'absolute',
     },
     guessingWordContainer: {
         position: 'absolute',
@@ -88,18 +90,15 @@ export const DisplayParticipantInGameCard = ({
     const displayGuessingWord = isShowGuessingWord ? participant.guessingWord : ''
     const isGuessingPlayer = playerIdGuessing === participantId
 
-    const playerDisplayingImageStyle = isGuessingPlayer ? classes.avatarImgPlayCardGuessing : (
-        isEliminated ? classes.avatarImgPlayCardEliminated : classes.avatarImgPlayCardAlive
-    )
-
-
     return (
         <div className={classes.ParticipantCardContainer}>
             <div className={classes.avatarImgPlayCardContainer}>
+                {isGuessingPlayer && <div className={classes.guessingPlayerGreenFilter}></div>}
                 <img
                     className={isEliminated ? classes.avatarImgPlayCardEliminated : classes.avatarImgPlayCardAlive}
                     src={avatarUrl}
                 />
+
             </div>
 
             <Paper className={classes.guessingWordContainer}>

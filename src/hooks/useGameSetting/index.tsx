@@ -40,7 +40,7 @@ export const useGameSetting = () => {
         setTimePerRoundSecond(prev => prev === MAX_TIME_PER_ROUND_SEC ? prev : prev + 30)
     }
     const decreaseTimePerRound = () => {
-        setTimePerRoundSecond(prev => prev === 0 ? prev : prev - 30)
+        setTimePerRoundSecond(prev => prev === 0 ? prev : prev - 5) /** @todo change to 30 */
     }
 
     return ({

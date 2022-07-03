@@ -45,6 +45,7 @@ const index = (props: Props) => {
     const myPlayerId = myPlayerInfoState?.playerId
     const currentRound = roomDataState.currentRound;
     const isPlaying = roomDataState.isPlaying;
+    //const currentPlayerStatus = roomDataState.currentPlayerStatus;
     const isGuessingTime = guessingTimeState?.isGuessingTime;
     const playerIdGuessing = guessingTimeState?.playerIdGuessing;
     let participantsData: any = mapPlayersToParticipants(roomDataState.players, roomDataState.currentPlayerStatus, roomDataState.currentWords);
@@ -58,25 +59,9 @@ const index = (props: Props) => {
     useEffect(() => {
         if (displayTimeLeftMin === 0 && displayTimeLeftSecond === 0) {
             pauseCountdown()
+            onStartGuessingTime();
         }
     }, [displayTimeLeftMin, displayTimeLeftSecond])
-
-    // End round effect
-    useEffect(() => {
-        if (isPlaying) {
-            return;
-        }
-        /**
-         * After recieve timeup event from ws,
-         * need to wait for FE count down before proceeding to
-         * the guessing stage
-         */
-        setTimeout(() => {
-            onStartGuessingTime();
-        }, (displayTimeLeftSecond || 0) * 1000);
-    }, [isPlaying])
-
-
 
     return (
         <div className={classes.topContainer} style={{ textAlign: 'center' }}>
