@@ -6,6 +6,8 @@ type Props = {
     participant: Participant
     onEliminatePeople: (participantId: string) => void
     myPlayerId: string
+    isGuessingTime: boolean
+    playerIdGuessing: string
 }
 
 const useStyles = makeStyles({
@@ -48,6 +50,12 @@ const useStyles = makeStyles({
         height: 'auto',
         filter: 'brightness(50%)',
     },
+    avatarImgPlayCardGuessing: {
+        maxWidth: '100%',
+        height: 'auto',
+        // see https://codepen.io/sosuke/pen/Pjoqqp
+        filter: 'invert(82%) sepia(66%) saturate(542%) hue-rotate(38deg) brightness(91%) contrast(92%)',
+    },
     guessingWordContainer: {
         position: 'absolute',
         width: '180px',
@@ -62,7 +70,13 @@ const useStyles = makeStyles({
     }
 
 })
-export const DisplayParticipantInGameCard = ({ participant, onEliminatePeople, myPlayerId }: Props) => {
+export const DisplayParticipantInGameCard = ({
+    participant,
+    onEliminatePeople,
+    myPlayerId,
+    isGuessingTime,
+    playerIdGuessing
+}: Props) => {
     const avatarUrl = participant.avatarUrl || ''
     const name = participant.name
     const participantId = participant.participantId
@@ -70,7 +84,14 @@ export const DisplayParticipantInGameCard = ({ participant, onEliminatePeople, m
     const isEliminated = participant.isEliminated
     const classes = useStyles()
     const isShowGuessingWord = !isMeThisParticipant ? true : (isEliminated)
+    const isHideEliminateButton = isGuessingTime || isMeThisParticipant
     const displayGuessingWord = isShowGuessingWord ? participant.guessingWord : ''
+    const isGuessingPlayer = playerIdGuessing === participantId
+
+    const playerDisplayingImageStyle = isGuessingPlayer ? classes.avatarImgPlayCardGuessing : (
+        isEliminated ? classes.avatarImgPlayCardEliminated : classes.avatarImgPlayCardAlive
+    )
+
 
     return (
         <div className={classes.ParticipantCardContainer}>
@@ -87,7 +108,7 @@ export const DisplayParticipantInGameCard = ({ participant, onEliminatePeople, m
                 </Typography>
             </Paper>
 
-            {!isMeThisParticipant && <Button onClick={() => { onEliminatePeople(participantId) }} className={classes.eliminateBtn}>
+            {!isHideEliminateButton && <Button onClick={() => { onEliminatePeople(participantId) }} className={classes.eliminateBtn}>
                 <img height='20px' src='./error-failure-10382.svg' />
             </Button>}
             <Paper className={classes.nameContainer}>

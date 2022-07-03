@@ -3,7 +3,7 @@ import { useStopwatch } from 'react-timer-hook'
 
 type Props = {
     startTimeMin?: number
-    startTimeSecond?: number
+    startTimeSecond: number
 }
 
 const useCountdownTimer = ({ startTimeMin, startTimeSecond }: Props) => {
@@ -19,9 +19,9 @@ const useCountdownTimer = ({ startTimeMin, startTimeSecond }: Props) => {
         pause,
     } = useStopwatch({ autoStart: false });
 
-    const [totalTimePerRondSecond, setTotalTimePerRondSecond] = useState<number>(0);
-    const [displayTimeLeftMin, setDisplayTimeLeftMin] = useState<number>(0);
-    const [displayTimeLeftSecond, setDisplayTimeLeftSecond] = useState<number>(0);
+    const [totalTimePerRondSecond, setTotalTimePerRondSecond] = useState<number>(startTimeSecond);
+    const [displayTimeLeftMin, setDisplayTimeLeftMin] = useState<number | null>(null);
+    const [displayTimeLeftSecond, setDisplayTimeLeftSecond] = useState<number | null>(null);
     const [displayRatioTimeLeft, setDisplayRatioTimeLeft] = useState<number>(1);
 
     useEffect(() => {
@@ -29,6 +29,13 @@ const useCountdownTimer = ({ startTimeMin, startTimeSecond }: Props) => {
         const timePerRoundSecond = startTimeSecond || 0
         setTotalTimePerRondSecond(timePerRoundMin * 60 + timePerRoundSecond)
     }, [startTimeMin, startTimeSecond])
+
+    useEffect(() => {
+        if(totalTimePerRondSecond > 0) {
+            start();
+        }
+    }, [totalTimePerRondSecond])
+    
 
 
     useEffect(() => {

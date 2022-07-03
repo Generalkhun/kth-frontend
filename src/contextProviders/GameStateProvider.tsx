@@ -1,5 +1,12 @@
+import { BasePlayerData } from "kth-type";
+import { isEmpty } from "lodash";
 import { createContext, useReducer, useState } from "react";
 import { MethodRecieve, RoomDataState, WebsocketSyncPlayerData } from "../models/api-layer/model";
+
+interface GuessingTimeState {
+    isGuessingTime: boolean,
+    playerIdGuessing: string,
+}
 
 const initialRoomDataState: RoomDataState = {
     id: '',
@@ -10,13 +17,11 @@ const initialRoomDataState: RoomDataState = {
     limitTime: 120,
     isPlaying: false,
     isFinish: false,
-    scores: [], 
+    scores: [],
     currentWords: {},
     currentPlayerStatus: {},
     players: [],
 }
-
-
 
 const roomDataStateReducer = (state: RoomDataState, action: any) => {
     switch (action.type) {
@@ -42,8 +47,8 @@ const roomDataStateReducer = (state: RoomDataState, action: any) => {
             return { ...state, isPlaying: true, currentRound: action.payload.currentRound, currentWords: action.payload.currentWords }
         case MethodRecieve.UPDATE_PLAYER_STATUS:
             return { ...state, currentPlayerStatus: action.payload.currentPlayerStatus }
-        // case MethodRecieve.END_ROUND:
-        //     return { ...state, isPlaying: false, currentRound: action.payload.currentRound, isFinish: action.payload }
+        case MethodRecieve.ROUND_TIME_UP:
+            return { ...state, isPlaying: false }
         default:
             return state
     }
@@ -58,9 +63,43 @@ export const GameStateProviders = ({ children }: any) => {
         playerId: '',
         playerAvatarUrl: 'https://res.amazingtalker.com/users/images/no-avatar.png',
     })
+    const [guessingTimeState, setGuessingTimeState] = useState<GuessingTimeState>({
+        isGuessingTime: false,
+        playerIdGuessing: ''
+    })
 
     const onSyncPlayerData = (data: WebsocketSyncPlayerData) => {
         setMyPlayerInfoState(data)
+    }
+
+    const onStartGuessingTime = () => {
+        if (guessingTimeState.isGuessingTime) {
+            return;
+        }
+        // find a player that is their current turn
+        const playerGuessing = Object.keys(roomDataState.currentPlayerStatus)
+            .map(playerId => (
+                {
+                    playerId,
+                    status: roomDataState.currentPlayerStatus[playerId]
+                }
+            ))
+            .filter(player => player.status === 'GUESSING')
+        [0]
+
+        roomDataState.currentPlayerStatus
+        setGuessingTimeState(prev => ({
+            ...prev,
+            playerIdGuessing: playerGuessing?.playerId,
+        }))
+    }
+
+    const getPlayerNameFromId = (id: string) => {
+        const foundPlayer = roomDataState.players.filter((player: BasePlayerData) => player.playerId === id);
+        if (isEmpty(foundPlayer)) {
+            return 'undefined player'
+        }
+        return foundPlayer[0].playerName
     }
 
 
@@ -72,6 +111,9 @@ export const GameStateProviders = ({ children }: any) => {
                     roomDataDispatch,
                     myPlayerInfoState,
                     onSyncPlayerData,
+                    guessingTimeState,
+                    onStartGuessingTime,
+                    getPlayerNameFromId
                 }
             }
         >

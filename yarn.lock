@@ -1367,10 +1367,10 @@ jss@10.9.0, jss@^10.5.1:
     array-includes "^3.1.4"
     object.assign "^4.1.2"
 
-kth-type@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/kth-type/-/kth-type-1.0.1.tgz#5496c79ffaae00bca18e8347a50fc5645cbbf1af"
-  integrity sha512-pR0ZVBO775+ogOd98KNRt5ZDg/GavcWDmFYac0XgCnNeY752+bsoWY8f73veDggoFYqqRalfxx56y69yaXZe9w==
+kth-type@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/kth-type/-/kth-type-1.0.4.tgz#4783c94ddfb4ad1c9bb0e6f676d2f7d56f6037a3"
+  integrity sha512-uVHiuJwuWedT9r380tqrhZigYWFfRtco2uQSIDCmxjGXQL2niOBBBPkgRA57gx4LCTmAHGBR+EeJee3ZBh5oAg==
 
 language-subtag-registry@~0.3.2:
   version "0.3.21"
