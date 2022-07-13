@@ -180,8 +180,6 @@ const index = (props: Props) => {
                         </Grid>
                     </Grid>
                 </Paper>
-
-
             </Grid>
             <Grid item md={4}>
                 <Paper className={classes.participantsListContainer}>
