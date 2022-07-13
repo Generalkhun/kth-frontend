@@ -11,7 +11,7 @@ const useSyles = makeStyles({
         animationName: '$roundtime',
     },
     '@keyframes roundtime': {
-        'to' : {
+        'to': {
             transform: 'scaleX(0)'
         }
     },
@@ -31,8 +31,8 @@ export const TimeoutBar = ({
 
         }}>
             <div className={classes.child} style={{
-                height: '5px',
-                background: `linear-gradient(to bottom, ${progressBarColor}, #900)`,
+                height: '16px',
+                backgroundColor: progressBarColor,
                 animationDuration: `${duration}s`,
                 animationFillMode: 'forwards',
                 animationTimingFunction: 'linear',
