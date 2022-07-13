@@ -81,10 +81,7 @@ export const DisplayParticipantInGameCard = ({
     playerIdGuessing,
     displayImgOnly,
 }: Props) => {
-    console.log("🚀 ~ file: index.tsx ~ line 84 ~ displayImgOnly", displayImgOnly)
     const avatarUrl = participant.avatarUrl || '??'
-    console.log("🚀 ~ file: index.tsx ~ line 86 ~ participant", participant)
-    console.log("🚀 ~ file: index.tsx ~ line 85 ~ avatarUrl", avatarUrl)
     const name = participant.name
     const participantId = participant.participantId
     const isMeThisParticipant = myPlayerId === participantId

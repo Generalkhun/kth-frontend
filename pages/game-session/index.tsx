@@ -63,8 +63,8 @@ const index = (props: Props) => {
 
     // Guessing time
     const showingResultPlayerStatus = roomDataState.currentPlayerStatus[guessingTimeState.playerIdShowingResult]
-    const guessingPlayerStatusColor = showingResultPlayerStatus === 'WRONG' ? '#E2515A' : (showingResultPlayerStatus === 'CORRECT' ? '#009245' : 'grey')
-    const guessingPlayerStatusTextInfo = showingResultPlayerStatus === 'WRONG' ? 'ผิด +0' : (showingResultPlayerStatus === 'CORRECT' ? 'ถูก +1' : '...')
+    const guessedResultColor = showingResultPlayerStatus === 'WRONG' ? '#E2515A' : (showingResultPlayerStatus === 'CORRECT' ? '#009245' : 'grey')
+    const guessedResultTextInfo = showingResultPlayerStatus === 'WRONG' ? 'ผิด +0' : (showingResultPlayerStatus === 'CORRECT' ? 'ถูก +1' : '...')
 
     const onEliminatePeople = (participantId: string) => {
         eliminatePlayer({
@@ -128,9 +128,9 @@ const index = (props: Props) => {
                         />
                         <TimeoutBar
                             timeout={SHOWING_GUESSED_RESULT_MILLISECCOND}
-                            progressBarColor={guessingPlayerStatusColor}
+                            progressBarColor={guessedResultColor}
                         />
-                        <Typography>{`<${getPlayerNameFromId(guessingTimeState.playerIdShowingResult)}> ตอบ${guessingPlayerStatusTextInfo}`}</Typography>
+                        <Typography style={{ color: guessedResultColor }}>{`<${getPlayerNameFromId(guessingTimeState.playerIdShowingResult)}> ตอบ${guessedResultTextInfo}`}</Typography>
                     </>}
                     {(isGuessingTime && !guessingTimeState.isShowingGuessedResult) && <Typography>รอ {`<${getPlayerNameFromId(playerIdGuessing)}> ทายคำตอบ`}</Typography>}
                 </Grid>

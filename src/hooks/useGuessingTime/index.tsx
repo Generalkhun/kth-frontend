@@ -67,7 +67,7 @@ const useGuessingTime = () => {
     }
 
     useEffect(() => {
-        if (!!guessingTimeState.playerIdGuessing) {
+        if (!!guessingTimeState.playerIdShowingResult) {
             // Start count down to end the showing result phase
             setTimeout(() => {
                 setGuessingTimeState(prev => ({
