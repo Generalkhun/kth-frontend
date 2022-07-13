@@ -8,6 +8,7 @@ type Props = {
     myPlayerId: string
     isGuessingTime: boolean
     playerIdGuessing: string
+    displayImgOnly?: boolean
 }
 
 const useStyles = makeStyles({
@@ -77,7 +78,8 @@ export const DisplayParticipantInGameCard = ({
     onEliminatePeople,
     myPlayerId,
     isGuessingTime,
-    playerIdGuessing
+    playerIdGuessing,
+    displayImgOnly,
 }: Props) => {
     const avatarUrl = participant.avatarUrl || ''
     const name = participant.name
@@ -92,29 +94,43 @@ export const DisplayParticipantInGameCard = ({
 
     return (
         <div className={classes.ParticipantCardContainer}>
-            <div className={classes.avatarImgPlayCardContainer}>
-                {isGuessingPlayer && <div className={classes.guessingPlayerGreenFilter}></div>}
-                <img
-                    className={isEliminated ? classes.avatarImgPlayCardEliminated : classes.avatarImgPlayCardAlive}
-                    src={avatarUrl}
-                />
 
-            </div>
+            {!displayImgOnly ? <>
+                <div className={classes.avatarImgPlayCardContainer}>
+                    {isGuessingPlayer && <div className={classes.guessingPlayerGreenFilter}></div>}
+                    <img
+                        className={isEliminated ? classes.avatarImgPlayCardEliminated : classes.avatarImgPlayCardAlive}
+                        src={avatarUrl}
+                    />
 
-            <Paper className={classes.guessingWordContainer}>
-                <Typography className={classes.guessingWord}>
-                    {displayGuessingWord}
-                </Typography>
-            </Paper>
+                </div>
+                <Paper className={classes.guessingWordContainer}>
+                    <Typography className={classes.guessingWord}>
+                        {displayGuessingWord}
+                    </Typography>
+                </Paper>
 
-            {!isHideEliminateButton && <Button onClick={() => { onEliminatePeople(participantId) }} className={classes.eliminateBtn}>
-                <img height='20px' src='./error-failure-10382.svg' />
-            </Button>}
-            <Paper className={classes.nameContainer}>
-                <Typography>
-                    {name}
-                </Typography>
-            </Paper>
+                {!isHideEliminateButton && <Button onClick={() => { onEliminatePeople(participantId) }} className={classes.eliminateBtn}>
+                    <img height='20px' src='./error-failure-10382.svg' />
+                </Button>}
+                <Paper className={classes.nameContainer}>
+                    <Typography>
+                        {name}
+                    </Typography>
+                </Paper>
+            </>
+                : <>
+                    <div className={classes.avatarImgPlayCardContainer}>
+                        <img
+                            className={classes.avatarImgPlayCardAlive}
+                            src={avatarUrl}
+                        />
+
+                    </div>
+
+                </>
+            }
+
         </div>
     )
 }
