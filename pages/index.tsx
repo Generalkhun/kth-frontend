@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useContext, useState } from 'react';
 import { WebSocketContext } from '../src/contextProviders/WebSocketProviders';
 import { GameStateContext } from '../src/contextProviders/GameStateProvider';
+import { TimeoutBar } from '../src/components/GameSession/TimeoutBar';
 //import { initWs, ws } from '../config/constants';
 
 const useStyles = makeStyles({
@@ -96,11 +97,8 @@ const Home: NextPage = () => {
 
       </Grid>
 
-      <Grid item md={4}>
-
+      <Grid item md={4} style={{ marginTop: '10px'}}>
       </Grid>
-
-
 
     </Grid>
   )

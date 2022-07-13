@@ -63,34 +63,34 @@ export const GameStateProviders = ({ children }: any) => {
         playerId: '',
         playerAvatarUrl: 'https://res.amazingtalker.com/users/images/no-avatar.png',
     })
-    const [guessingTimeState, setGuessingTimeState] = useState<GuessingTimeState>({
-        isGuessingTime: false,
-        playerIdGuessing: ''
-    })
+    // const [guessingTimeState, setGuessingTimeState] = useState<GuessingTimeState>({
+    //     isGuessingTime: false,
+    //     playerIdGuessing: ''
+    // })
 
     const onSyncPlayerData = (data: WebsocketSyncPlayerData) => {
         setMyPlayerInfoState(data)
     }
 
-    const onStartGuessingTime = () => {
+    // const onStartGuessingTime = () => {
 
-        console.log("🚀 ~ file: GameStateProvider.tsx ~ line 79 ~ onStartGuessingTime ~ roomDataState", roomDataState)
-        // find a player that is their current turn
-        const playerGuessing = Object.keys(roomDataState.currentPlayerStatus)
-            .map(playerId => (
-                {
-                    playerId,
-                    status: roomDataState.currentPlayerStatus[playerId]
-                }
-            ))
-            .filter(player => player.status === 'GUESSING')
-        [0]
-        console.log("🚀 ~ file: GameStateProvider.tsx ~ line 80 ~ onStartGuessingTime ~ playerGuessing", playerGuessing)
-        setGuessingTimeState({
-            isGuessingTime: true,
-            playerIdGuessing: playerGuessing?.playerId,
-        })
-    }
+    //     console.log("🚀 ~ file: GameStateProvider.tsx ~ line 79 ~ onStartGuessingTime ~ roomDataState", roomDataState)
+    //     // find a player that is their current turn
+    //     const playerGuessing = Object.keys(roomDataState.currentPlayerStatus)
+    //         .map(playerId => (
+    //             {
+    //                 playerId,
+    //                 status: roomDataState.currentPlayerStatus[playerId]
+    //             }
+    //         ))
+    //         .filter(player => player.status === 'GUESSING')
+    //     [0]
+    //     console.log("🚀 ~ file: GameStateProvider.tsx ~ line 80 ~ onStartGuessingTime ~ playerGuessing", playerGuessing)
+    //     setGuessingTimeState({
+    //         isGuessingTime: true,
+    //         playerIdGuessing: playerGuessing?.playerId,
+    //     })
+    // }
 
     const getPlayerNameFromId = (id: string) => {
         const foundPlayer = roomDataState.players.filter((player: BasePlayerData) => player.playerId === id);
@@ -109,8 +109,6 @@ export const GameStateProviders = ({ children }: any) => {
                     roomDataDispatch,
                     myPlayerInfoState,
                     onSyncPlayerData,
-                    guessingTimeState,
-                    onStartGuessingTime,
                     getPlayerNameFromId
                 }
             }

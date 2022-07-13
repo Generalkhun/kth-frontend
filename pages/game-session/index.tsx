@@ -3,14 +3,18 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import useCountdownTimer from '../../src/hooks/useCountdownTimer';
 import { MockParticipants } from '../../src/mockData'
 import { Participant } from '../../src/models/ui-layer/model';
-import { DisplayParticipantInGameCard } from '../../src/components/InGameInteraction/DisplayParticipantInGameCard'
+import { DisplayParticipantInGameCard } from '../../src/components/PlayerCard/DisplayParticipantInGameCard'
 import { withStyles } from '@material-ui/styles';
 import { KillConfirmation } from '../../src/components/modal/KillConfirmation';
-import GameSessionHeader from '../../src/components/GameSessionHeader';
+import GameSessionHeader from '../../src/components/GameSession/GameSessionHeader';
 import { GameStateContext } from '../../src/contextProviders/GameStateProvider';
 import { WebSocketContext } from '../../src/contextProviders/WebSocketProviders';
 import { mapPlayersToParticipants } from '../../src/utils/mapper';
 import { GuessWord } from '../../src/components/modal/GuessWord';
+import { TimeoutBar } from '../../src/components/GameSession/TimeoutBar';
+import { usePrevious } from '../../src/hooks/usePrevious';
+import useGuessingTime from '../../src/hooks/useGuessingTime';
+import { SHOWING_GUESSED_RESULT_MILLISECCOND } from '../../src/config/constants';
 
 type Props = {}
 
@@ -28,7 +32,16 @@ const useStyles = makeStyles({
     }
 })
 const index = (props: Props) => {
-    const { roomDataState, myPlayerInfoState, guessingTimeState, onStartGuessingTime, getPlayerNameFromId } = useContext(GameStateContext);
+    const { roomDataState, myPlayerInfoState, getPlayerNameFromId } = useContext(GameStateContext);
+    const {
+        guessingTimeState,
+        onStartGuessingTime,
+        playerIdGuessing,
+        isGuessingTime,
+        isMyTurnToGuess,
+        showingResultParticipant
+    } = useGuessingTime()
+    console.log("🚀 ~ file: index.tsx ~ line 43 ~ index ~ guessingTimeState", guessingTimeState)
     const { eliminatePlayer, guessWord } = useContext(WebSocketContext);
     const {
         displayTimeLeftMin,
@@ -46,10 +59,12 @@ const index = (props: Props) => {
     const myPlayerId = myPlayerInfoState?.playerId
     const myAvatarUrl = myPlayerInfoState?.playerAvatarUrl
     const currentRound = roomDataState.currentRound;
-    const isGuessingTime = guessingTimeState?.isGuessingTime;
-    const playerIdGuessing = guessingTimeState?.playerIdGuessing;
-    const isMyTurnToGuess = playerIdGuessing === myPlayerId
     let participantsData: any = mapPlayersToParticipants(roomDataState.players, roomDataState.currentPlayerStatus, roomDataState.currentWords);
+
+    // Guessing time
+    const showingResultPlayerStatus = roomDataState.currentPlayerStatus[guessingTimeState.playerIdShowingResult]
+    const guessingPlayerStatusColor = showingResultPlayerStatus === 'WRONG' ? '#E2515A' : (showingResultPlayerStatus === 'CORRECT' ? '#009245' : 'grey')
+    const guessingPlayerStatusTextInfo = showingResultPlayerStatus === 'WRONG' ? 'ผิด +0' : (showingResultPlayerStatus === 'CORRECT' ? 'ถูก +1' : '...')
 
     const onEliminatePeople = (participantId: string) => {
         eliminatePlayer({
@@ -63,19 +78,13 @@ const index = (props: Props) => {
         })
     }
 
+    // first effect to start first guessing
     useEffect(() => {
         if (displayTimeLeftMin === 0 && displayTimeLeftSecond === 0) {
             pauseCountdown()
             onStartGuessingTime();
         }
     }, [displayTimeLeftMin, displayTimeLeftSecond])
-
-    useEffect(() => {
-        if(isGuessingTime) {
-            onStartGuessingTime();
-        }
-    }, [roomDataState.currentPlayerStatus])
-    
 
     return (
         <div className={classes.topContainer} style={{ textAlign: 'center' }}>
@@ -107,11 +116,27 @@ const index = (props: Props) => {
                     </Paper>
                 </Grid>
                 <Grid item md={4}>
-                    {isGuessingTime && <div>รอ {`<${getPlayerNameFromId(playerIdGuessing)}> ทายคำตอบ`}</div>}
+                    {/* Word guessing result */}
+                    {guessingTimeState?.isShowingGuessedResult && <>
+                        <DisplayParticipantInGameCard
+                            isGuessingTime={isGuessingTime}
+                            playerIdGuessing={guessingTimeState?.playerIdShowingResult}
+                            myPlayerId={myPlayerId}
+                            participant={showingResultParticipant}
+                            onEliminatePeople={onEliminatePeople}
+                            displayImgOnly
+                        />
+                        <TimeoutBar
+                            timeout={SHOWING_GUESSED_RESULT_MILLISECCOND}
+                            progressBarColor={guessingPlayerStatusColor}
+                        />
+                        <Typography>{`<${getPlayerNameFromId(guessingTimeState.playerIdShowingResult)}> ตอบ${guessingPlayerStatusTextInfo}`}</Typography>
+                    </>}
+                    {(isGuessingTime && !guessingTimeState.isShowingGuessedResult) && <Typography>รอ {`<${getPlayerNameFromId(playerIdGuessing)}> ทายคำตอบ`}</Typography>}
                 </Grid>
             </Grid>
             {/* Modals */}
-            {isMyTurnToGuess && <GuessWord
+            {(isMyTurnToGuess && !guessingTimeState.isShowingGuessedResult) && <GuessWord
                 open={isMyTurnToGuess}
                 onSubmitGuessingAnswer={onSubmitGuessingAnswer}
                 playerAvatarUrl={myAvatarUrl}
