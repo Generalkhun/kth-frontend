@@ -7,7 +7,7 @@ export const mapPlayersToParticipants = (players: Player[], currentPlayerStatus:
         return {
             participantId: player.playerId,
             name: player.playerName,
-            avatarUrl: 'https://play-lh.googleusercontent.com/bkHvRVEP4AEGO1-8kjOoh_tKKtjjhaDl7_vhFC7oyCz9mJzi2KTwGv_eJMDNb4R6iA',
+            avatarUrl: player.playerAvatarUrl || '??',
             isEliminated: currentPlayerStatus[player.playerId] === 'ELIMINATED',
             guessingWord: !!currentWords ? currentWords[player.playerId] : ''
         }

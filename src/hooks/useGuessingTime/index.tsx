@@ -30,7 +30,7 @@ const useGuessingTime = () => {
 
 
 
-    const showingResultParticipant = participantsData.filter((participant: Participant) => participant.participantId === guessingTimeState.playerIdShowingResult);
+    const showingResultParticipant = participantsData.filter((participant: Participant) => participant.participantId === guessingTimeState.playerIdShowingResult)[0] as Participant;
 
     const onStartGuessingTime = useCallback(
         () => {
