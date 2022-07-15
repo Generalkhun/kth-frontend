@@ -1,20 +1,32 @@
+import { makeStyles, Paper } from '@material-ui/core'
 import React from 'react'
 import { ParticipantGameSummaryInfo } from '../../models/ui-layer/model'
 
 type Props = {
-    participantGameSummaryInfo: ParticipantGameSummaryInfo
+  gameInfoEachRound: any
+  summmary?: boolean
 }
 
-const ParticipantScore = ({participantGameSummaryInfo}: Props) => {
-    const participantId = participantGameSummaryInfo.participantId
-  return (
-    <></>
-    // <Grid container>
-    //     <Grid item>
-    //         <img src={}/>
+const useStyles = makeStyles({
+  scoreRoundWrapper: {
+    minWidth: '400px',
+    maxWidth: '10000px',
+    backgroundColor: 'white',
+    height: '70px',
+    borderRadius: '90px',
+    marginBottom: '10px',
+    marginLeft: '50px',
+    marginRight: '50px',
 
-    //     </Grid>
-    // </Grid>
+  }
+})
+
+const ParticipantScore = ({ gameInfoEachRound, summmary }: Props) => {
+  const classes = useStyles()
+  return (
+    <Paper className={classes.scoreRoundWrapper}>
+
+    </Paper>
   )
 }
 

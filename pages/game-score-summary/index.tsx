@@ -1,18 +1,46 @@
 import React from 'react'
-import { Grid, Paper, makeStyles } from '@material-ui/core';
-import {MockParticipantsGameInfo} from '../../src/mockData'
+import { Grid, Paper, makeStyles, Typography } from '@material-ui/core';
+import { MockParticipantsGameInfo } from '../../src/mockData'
 import ParticipantScore from '../../src/components/ParticipantScore';
 
 const useStyles = makeStyles({
-    scoreBoardContainer: {
-        background: 'lightgrey',
-        border: 0,
-        borderRadius: 3,
-        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-        color: 'black',
-        height: '40vh',
-        padding: '0 30px',
+    topContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        position: 'relative',
     },
+    contentContainer: {
+        paddingTop: '70px',
+        position: 'relative',
+
+    },
+    scoreBoardContainer: {
+        background: '#FFD589',
+        borderRadius: '24px',
+        height: '75vh',
+        minWidth: '450px',
+        display: 'flex',
+        alignContent: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        paddingTop: '100px',
+    },
+    scoreBoardHeaderContainer: {
+        backgroundColor: '#262626',
+        borderRadius: '40px',
+        minWidth: '500px',
+        position: 'absolute',
+        marginTop: '35px',
+        zIndex: 4,
+        height: '60px',
+        textAlign: 'center'
+    },
+    scoreBoardTxt: {
+        color: '#FFFFFF',
+        fontWeight: 'bold',
+        fontSize: '35px',
+        paddingTop: '3px'
+    }
 });
 
 
@@ -22,22 +50,24 @@ type Props = {
 
 const index = (props: Props) => {
     const classes = useStyles()
-    const participantsGameSummaryInfo = MockParticipantsGameInfo
+    const gameInfos = MockParticipantsGameInfo
+    const mockParticipantAvatarUrl = 'https://play-lh.googleusercontent.com/bkHvRVEP4AEGO1-8kjOoh_tKKtjjhaDl7_vhFC7oyCz9mJzi2KTwGv_eJMDNb4R6iA'
+
     return (
-        <div>
-            <div>SCORE BOARD</div>
-            <Paper className={classes.scoreBoardContainer}>
-                <Grid container>
-                    {participantsGameSummaryInfo.map((participantGameSummaryInfo, idx) => (
-                        <ParticipantScore key={idx} participantGameSummaryInfo={participantGameSummaryInfo}/>
-                    ))}
-                </Grid>
+        <Grid container className={classes.topContainer}>
+            <Paper className={classes.scoreBoardHeaderContainer}>
+                <Typography className={classes.scoreBoardTxt}>SCORE BOARD</Typography>
             </Paper>
-        </div>
+            <Grid item md={10} className={classes.contentContainer}>
+                <Paper className={classes.scoreBoardContainer}>
+                    {gameInfos.map((gameInfoEachRound, idx) => (
+                        <ParticipantScore key={idx} gameInfoEachRound={gameInfoEachRound} />
+                    ))}
+                    {/* <ParticipantScore key={'summary'} gameInfoEachRound={gameInfoSummary} summmary /> */}
+                </Paper>
+            </Grid>
 
-
-
-
+        </Grid>
     )
 }
 

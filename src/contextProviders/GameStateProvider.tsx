@@ -17,6 +17,7 @@ const initialRoomDataState: RoomDataState = {
     limitTime: 120,
     isPlaying: false,
     isFinish: false,
+    isViewingScoreBoard: false,
     scores: [],
     currentWords: {},
     currentPlayerStatus: {},
@@ -49,6 +50,8 @@ const roomDataStateReducer = (state: RoomDataState, action: any) => {
             return { ...state, currentPlayerStatus: action.payload.currentPlayerStatus }
         case MethodRecieve.ROUND_TIME_UP:
             return { ...state, isPlaying: false }
+        case MethodRecieve.END_ROUND:
+            return { ...state, isViewingScoreBoard: true }
         default:
             return state
     }

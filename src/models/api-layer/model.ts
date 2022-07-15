@@ -65,6 +65,7 @@ export enum MethodRecieve {
     START_ROUND = 'START_ROUND',
     ROUND_TIME_UP = 'ROUND_TIME_UP',
     UPDATE_PLAYER_STATUS = 'UPDATE_PLAYER_STATUS',
+    END_ROUND = 'END_ROUND',
     END_GAME = 'END_GAME',
 }
 
@@ -81,4 +82,5 @@ export type Player = PlayerFromBE;
 
 export interface RoomDataState extends RoomDataFromBE {
     players: BasePlayerData[]
+    isViewingScoreBoard: boolean
 }

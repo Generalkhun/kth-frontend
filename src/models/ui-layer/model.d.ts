@@ -5,10 +5,4 @@ export interface Participant {
     isEliminated: boolean
     guessingWord: string
 }
-export interface ParticipantGameSummaryInfo {
-    gameSessionId: number
-    participantId: string
-    totalScore: number
-    countDeads: number
-    countKills: number
-}
+export type ParticipantGameSummaryInfo = Record<string, number>
