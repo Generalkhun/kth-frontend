@@ -15,6 +15,7 @@ import { TimeoutBar } from '../../src/components/GameSession/TimeoutBar';
 import { usePrevious } from '../../src/hooks/usePrevious';
 import useGuessingTime from '../../src/hooks/useGuessingTime';
 import { SHOWING_GUESSED_RESULT_MILLISECCOND } from '../../src/config/constants';
+import { useRouter } from 'next/router';
 
 type Props = {}
 
@@ -78,13 +79,22 @@ const index = (props: Props) => {
         })
     }
 
-    // first effect to start first guessing
+    // effect to start first guessing
     useEffect(() => {
         if (displayTimeLeftMin === 0 && displayTimeLeftSecond === 0) {
             pauseCountdown()
             onStartGuessingTime();
         }
     }, [displayTimeLeftMin, displayTimeLeftSecond])
+
+    // effect to navigate to scoreboard page after the guessing time is over
+    const router = useRouter()
+    useEffect(() => {
+        if (roomDataState.isViewingScoreBoard) {
+            router.push('/game-score-summary')
+        }
+    }, [roomDataState.isViewingScoreBoard])
+
 
     return (
         <div className={classes.topContainer} style={{ textAlign: 'center' }}>
