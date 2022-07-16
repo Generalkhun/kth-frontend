@@ -34,6 +34,7 @@ const useStyles = makeStyles({
 })
 const index = (props: Props) => {
     const { roomDataState, myPlayerInfoState, getPlayerNameFromId } = useContext(GameStateContext);
+    const [isGuessingModalOpened, setIsGuessingModalOpened] = useState<boolean>(false)
     const {
         guessingTimeState,
         onStartGuessingTime,
@@ -42,7 +43,7 @@ const index = (props: Props) => {
         isMyTurnToGuess,
         showingResultParticipant
     } = useGuessingTime()
-    console.log("🚀 ~ file: index.tsx ~ line 43 ~ index ~ guessingTimeState", guessingTimeState)
+    console.log("🚀 ~ file: index.tsx ~ line 45 ~ index ~ isMyTurnToGuess", isMyTurnToGuess)
     const { eliminatePlayer, guessWord } = useContext(WebSocketContext);
     const {
         displayTimeLeftMin,
@@ -83,17 +84,33 @@ const index = (props: Props) => {
     useEffect(() => {
         if (displayTimeLeftMin === 0 && displayTimeLeftSecond === 0) {
             pauseCountdown()
+            console.log('paused countdown');
+            
             onStartGuessingTime();
         }
     }, [displayTimeLeftMin, displayTimeLeftSecond])
 
+    //effect to open the guessing modal (will not open if still showing the previous guessed result)
+    useEffect(() => {
+        if (!isMyTurnToGuess || guessingTimeState.isShowingGuessedResult) {
+            return;
+        }
+        setIsGuessingModalOpened(true);
+    }, [isMyTurnToGuess, guessingTimeState.isShowingGuessedResult])
+
+
     // effect to navigate to scoreboard page after the guessing time is over
     const router = useRouter()
     useEffect(() => {
+        //if still showing last player's results, wait for next effect to go to score board
+        if (guessingTimeState.isShowingGuessedResult) {
+            return;
+        }
+
         if (roomDataState.isViewingScoreBoard) {
             router.push('/game-score-summary')
         }
-    }, [roomDataState.isViewingScoreBoard])
+    }, [roomDataState.isViewingScoreBoard, guessingTimeState.isShowingGuessedResult])
 
 
     return (
@@ -146,7 +163,7 @@ const index = (props: Props) => {
                 </Grid>
             </Grid>
             {/* Modals */}
-            {(isMyTurnToGuess && !guessingTimeState.isShowingGuessedResult) && <GuessWord
+            {(isGuessingModalOpened) && <GuessWord
                 open={isMyTurnToGuess}
                 onSubmitGuessingAnswer={onSubmitGuessingAnswer}
                 playerAvatarUrl={myAvatarUrl}

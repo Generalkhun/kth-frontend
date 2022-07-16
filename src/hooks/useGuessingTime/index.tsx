@@ -20,16 +20,13 @@ const useGuessingTime = () => {
         playerIdGuessing: '',
         playerIdShowingResult: '',
     })
+    const [isMyTurnToGuess, setIsMyTurnToGuess] = useState<boolean>(false)
     let participantsData: any = mapPlayersToParticipants(roomDataState.players, roomDataState.currentPlayerStatus, roomDataState.currentWords);
     const myPlayerId = myPlayerInfoState?.playerId
     const isGuessingTime = guessingTimeState?.isGuessingTime;
     const playerIdGuessing = guessingTimeState?.playerIdGuessing;
-    const isMyTurnToGuess = playerIdGuessing === myPlayerId;
     const guessingPlayerStatus = roomDataState.currentPlayerStatus[playerIdGuessing]
     const previous = usePrevious({ guessingPlayerStatus })
-
-
-
     const showingResultParticipant = participantsData.filter((participant: Participant) => participant.participantId === guessingTimeState.playerIdShowingResult)[0] as Participant;
 
     const onStartGuessingTime = useCallback(
@@ -65,6 +62,19 @@ const useGuessingTime = () => {
             isShowingGuessedResult: true,
         }));
     }
+
+    // effect to check is myturn to guess
+    useEffect(() => {
+        if(!guessingTimeState.isGuessingTime) {
+            return;
+        }
+        if(guessingTimeState.playerIdGuessing === myPlayerId) {
+            setIsMyTurnToGuess(true);
+        } else {
+            setIsMyTurnToGuess(false);
+        }
+    }, [guessingTimeState.playerIdGuessing, guessingTimeState.isGuessingTime, myPlayerId])
+    
 
     useEffect(() => {
         if (!!guessingTimeState.playerIdShowingResult) {
@@ -108,7 +118,6 @@ const useGuessingTime = () => {
         onStartGuessingTime,
         onStartShowingGuessedResult,
         guessingTimeState,
-
         playerIdGuessing,
         isGuessingTime,
         isMyTurnToGuess,

@@ -1,8 +1,10 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useContext, useMemo } from 'react'
 import { Grid, Paper, makeStyles, Typography, Avatar, Button } from '@material-ui/core';
 import { MockParticipantsGameInfo } from '../../src/mockData'
 import ParticipantScore from '../../src/components/ParticipantScore';
 import { isEmpty } from 'lodash';
+import { GameStateContext } from '../../src/contextProviders/GameStateProvider';
+import { WebSocketContext } from '../../src/contextProviders/WebSocketProviders';
 
 const useStyles = makeStyles({
     topContainer: {
@@ -20,7 +22,7 @@ const useStyles = makeStyles({
     scoreBoardContainer: {
         background: '#FFD589',
         borderRadius: '24px',
-        height: '80vh',
+        height: '77vh',
         minWidth: '450px',
         display: 'flex',
         justifyContent: 'end',
@@ -72,7 +74,7 @@ const useStyles = makeStyles({
         fontSize: '28px',
         fontWeight: 'bold',
         color: 'white',
-        top: '91%',
+        top: '90%',
     }
 });
 
@@ -82,54 +84,19 @@ type Props = {
 }
 
 const index = (props: Props) => {
-
-
-
     const classes = useStyles()
-    const gameInfos = [
-        {
-            '1': 1,
-            '2': 0,
-            '3': 0,
-            '4': 0,
-            '5': 2,
-            '6': 3,
-        },
-        {
-            '1': 1,
-            '2': 1,
-            '3': 2,
-            '4': 0,
-            '5': 3,
-            '6': 3,
-        },
-        {
-            '1': 3,
-            '2': 1,
-            '3': 2,
-            '4': 1,
-            '5': 3,
-            '6': 5,
-        },
-        {
-            '1': 5,
-            '2': 2,
-            '3': 2,
-            '4': 2,
-            '5': 4,
-            '6': 6,
-        },
-        {
-            '1': 6,
-            '2': 3,
-            '3': 2,
-            '4': 4,
-            '5': 6,
-            '6': 7,
-        },
-    ];
+    const { roomDataState, myPlayerInfoState, getPlayerAvatarFromPlayerId } = useContext(GameStateContext);
+    const { startRound } = useContext(WebSocketContext);
+    const gameInfos = roomDataState.scores
+    const isShowNextRoundBtn = roomDataState.host === myPlayerInfoState.playerId
 
-    const calculateGameInfoSummary = useCallback(
+    const onNextRoundStart = () => {
+        startRound({
+            roomId: '123'
+        })
+    }
+
+    const calculateEachPlayerTotalScore = useCallback(
         (gameInfos: any) => {
             if (isEmpty(gameInfos)) {
                 return {};
@@ -149,12 +116,9 @@ const index = (props: Props) => {
         },
         [gameInfos],
     )
-
-    const gameInfoSummary = calculateGameInfoSummary(gameInfos);
-
-    const mockParticipantAvatarUrl = 'https://play-lh.googleusercontent.com/bkHvRVEP4AEGO1-8kjOoh_tKKtjjhaDl7_vhFC7oyCz9mJzi2KTwGv_eJMDNb4R6iA'
-
+    const eachPlayerTotalScore = calculateEachPlayerTotalScore(gameInfos);
     const playerIds = Object.keys(gameInfos[0])
+
     return (
         <Grid container className={classes.topContainer}>
             <Paper className={classes.scoreBoardHeaderContainer}>
@@ -166,12 +130,12 @@ const index = (props: Props) => {
                     <>
                         <div className={classes.AvatarRowWrapper}>
                             {playerIds.map((playerId: string) => {
-                                return <Avatar className={classes.imgAvatar} alt="ME" src={mockParticipantAvatarUrl} />
+                                return <Avatar className={classes.imgAvatar} alt="ME" src={getPlayerAvatarFromPlayerId(playerId)} />
                             })}
                         </div>
 
 
-                        {gameInfos.map((gameInfoEachRound, idx) => (
+                        {gameInfos.map((gameInfoEachRound: Record<string, number>, idx: number) => (
                             <ParticipantScore
                                 key={idx}
                                 gameInfoEachRound={gameInfoEachRound}
@@ -182,16 +146,16 @@ const index = (props: Props) => {
                         ))}
                         <ParticipantScore
                             key={'summary'}
-                            gameInfoEachRound={gameInfoSummary}
+                            gameInfoEachRound={eachPlayerTotalScore}
                             rowOption={'summaryRow'}
                             rowName={'PTH'}
                         />
                     </>
                 </Paper>
 
-                <Button className={classes.nextRoundBtn}>
+                {isShowNextRoundBtn && <Button onClick={onNextRoundStart} className={classes.nextRoundBtn}>
                     เล่นรอบต่อไป
-                </Button>
+                </Button>}
             </Grid>
 
 

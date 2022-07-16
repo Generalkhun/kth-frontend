@@ -2,6 +2,7 @@ import { BasePlayerData } from "kth-type";
 import { isEmpty } from "lodash";
 import { createContext, useReducer, useState } from "react";
 import { MethodRecieve, RoomDataState, WebsocketSyncPlayerData } from "../models/api-layer/model";
+import { createInitalScoreObj, updateScores } from "../utils/scoresCalculator";
 
 interface GuessingTimeState {
     isGuessingTime: boolean,
@@ -39,11 +40,16 @@ const roomDataStateReducer = (state: RoomDataState, action: any) => {
         // case MethodRecieve.SYNC_PLAYER_DATA:
         //     return currentPlayerInfoState({ id:  })
         case MethodRecieve.ADD_PLAYER:
-            return { ...state, players: [...state.players, action.payload] }
+            return { ...state, scores: createInitalScoreObj(state.totalRound, [...state.players, action.payload]), players: [...state.players, action.payload] }
         case MethodRecieve.REMOVE_PLAYER:
             return { ...state, players: state.players.filter((player: any) => player.playerId !== action.payload.playerId) }
         case MethodRecieve.UPDATE_ROOM_SETTING:
-            return { ...state, totalRound: action.payload.totalRound, limitTime: action.payload.limitTime }
+            return {
+                ...state,
+                scores: createInitalScoreObj(action.payload.totalRound, state.players),
+                totalRound: action.payload.totalRound,
+                limitTime: action.payload.limitTime
+            }
         case MethodRecieve.START_ROUND:
             return { ...state, isPlaying: true, currentRound: action.payload.currentRound, currentWords: action.payload.currentWords }
         case MethodRecieve.UPDATE_PLAYER_STATUS:
@@ -51,7 +57,7 @@ const roomDataStateReducer = (state: RoomDataState, action: any) => {
         case MethodRecieve.ROUND_TIME_UP:
             return { ...state, isPlaying: false }
         case MethodRecieve.END_ROUND:
-            return { ...state, isViewingScoreBoard: true }
+            return { ...state, isViewingScoreBoard: true, scores: updateScores(state.scores, action.payload.scores) }
         default:
             return state
     }
@@ -80,6 +86,14 @@ export const GameStateProviders = ({ children }: any) => {
         return foundPlayer[0].playerName
     }
 
+    const getPlayerAvatarFromPlayerId = (id: string) => {
+        const foundPlayer = roomDataState.players.filter((player: BasePlayerData) => player.playerId === id);
+        if (isEmpty(foundPlayer)) {
+            return 'undefined player'
+        }
+        return foundPlayer[0].playerAvatarUrl
+    }
+
 
     return (
         <GameStateContext.Provider
@@ -89,7 +103,8 @@ export const GameStateProviders = ({ children }: any) => {
                     roomDataDispatch,
                     myPlayerInfoState,
                     onSyncPlayerData,
-                    getPlayerNameFromId
+                    getPlayerNameFromId,
+                    getPlayerAvatarFromPlayerId
                 }
             }
         >

@@ -58,17 +58,17 @@ const ParticipantScore = ({ gameInfoEachRound, rowOption, rowName, isAvatarOntop
   return (
     <Paper className={classes.scoreRoundWrapper}>
 
-        <Typography
-          style={{ color: rowOption === 'summaryRow' ? '#E2515A' : 'black' }}
-          className={classes.rowNameTxt}>
-          {rowName === 'PTH' ? <span>{rowName} &nbsp; &nbsp; &nbsp; &nbsp;</span> : rowName}
-        </Typography>
-        {gameInfoEachRoundArr.map((score, idx) => {
-          return (
-            <Typography style={{ color: scoreTxtFontColor }} className={classes.scoreTxt} key={idx}>{score}</Typography>
-          )
-        })}
-      </Paper>
+      <Typography
+        style={{ color: rowOption === 'summaryRow' ? '#E2515A' : 'black' }}
+        className={classes.rowNameTxt}>
+        {rowName === 'PTH' ? <span>{rowName} &nbsp; &nbsp; &nbsp; &nbsp;</span> : rowName}
+      </Typography>
+      {gameInfoEachRoundArr.map((score, idx) => {
+        return (
+          <Typography style={{ color: scoreTxtFontColor }} className={classes.scoreTxt} key={idx}>{!!score ? score : ''}</Typography>
+        )
+      })}
+    </Paper>
   )
 }
 
