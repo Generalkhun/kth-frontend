@@ -51,9 +51,18 @@ const roomDataStateReducer = (state: RoomDataState, action: any) => {
                 limitTime: action.payload.limitTime
             }
         case MethodRecieve.START_ROUND:
-            return { ...state, isPlaying: true, currentRound: action.payload.currentRound, currentWords: action.payload.currentWords }
+            return { 
+                ...state, 
+                isPlaying: true, 
+                currentRound: action.payload.currentRound, 
+                currentWords: action.payload.currentWords,
+                isViewingScoreBoard: false,
+            }
         case MethodRecieve.UPDATE_PLAYER_STATUS:
-            return { ...state, currentPlayerStatus: action.payload.currentPlayerStatus }
+            return { 
+                ...state, 
+                currentPlayerStatus: action.payload.currentPlayerStatus
+            }
         case MethodRecieve.ROUND_TIME_UP:
             return { ...state, isPlaying: false }
         case MethodRecieve.END_ROUND:

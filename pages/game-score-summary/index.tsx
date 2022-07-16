@@ -1,10 +1,12 @@
-import React, { useCallback, useContext, useMemo } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo } from 'react'
 import { Grid, Paper, makeStyles, Typography, Avatar, Button } from '@material-ui/core';
 import { MockParticipantsGameInfo } from '../../src/mockData'
 import ParticipantScore from '../../src/components/ParticipantScore';
 import { isEmpty } from 'lodash';
 import { GameStateContext } from '../../src/contextProviders/GameStateProvider';
 import { WebSocketContext } from '../../src/contextProviders/WebSocketProviders';
+import { useRouter } from 'next/router';
+import { usePrevious } from '../../src/hooks/usePrevious';
 
 const useStyles = makeStyles({
     topContainer: {
@@ -89,12 +91,25 @@ const index = (props: Props) => {
     const { startRound } = useContext(WebSocketContext);
     const gameInfos = roomDataState.scores
     const isShowNextRoundBtn = roomDataState.host === myPlayerInfoState.playerId
-
+    const previous = usePrevious({ currentRound: roomDataState.currentRound })
     const onNextRoundStart = () => {
         startRound({
             roomId: '123'
         })
     }
+
+    /**
+     * game session starting based on the gameState
+     * if current round is increased from previous render,
+     * navigate to game-session to play next round
+     */
+    const router = useRouter();
+    useEffect(() => {
+        if (roomDataState.currentRound === previous?.currentRound + 1) {
+            
+            router.push('/game-session')
+        }
+    }, [roomDataState.currentRound])
 
     const calculateEachPlayerTotalScore = useCallback(
         (gameInfos: any) => {

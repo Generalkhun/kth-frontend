@@ -65,16 +65,16 @@ const useGuessingTime = () => {
 
     // effect to check is myturn to guess
     useEffect(() => {
-        if(!guessingTimeState.isGuessingTime) {
+        if (!guessingTimeState.isGuessingTime) {
             return;
         }
-        if(guessingTimeState.playerIdGuessing === myPlayerId) {
+        if (guessingTimeState.playerIdGuessing === myPlayerId) {
             setIsMyTurnToGuess(true);
         } else {
             setIsMyTurnToGuess(false);
         }
     }, [guessingTimeState.playerIdGuessing, guessingTimeState.isGuessingTime, myPlayerId])
-    
+
 
     useEffect(() => {
         if (!!guessingTimeState.playerIdShowingResult) {
@@ -112,6 +112,22 @@ const useGuessingTime = () => {
         guessingTimeState.playerIdShowingResult,
         guessingTimeState.playerIdGuessing,
     ])
+
+
+    /**Reset all guessing state if it is score board viewing state */
+    useEffect(() => {
+        if (!roomDataState.isViewingScoreBoard) {
+            return;
+        }
+        // reset guessing time state
+        setGuessingTimeState({
+            isGuessingTime: false,
+            isShowingGuessedResult: false,
+            playerIdGuessing: '',
+            playerIdShowingResult: '',
+        })
+    }, [roomDataState.isViewingScoreBoard])
+
 
 
     return ({

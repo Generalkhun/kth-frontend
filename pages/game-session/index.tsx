@@ -43,7 +43,6 @@ const index = (props: Props) => {
         isMyTurnToGuess,
         showingResultParticipant
     } = useGuessingTime()
-    console.log("🚀 ~ file: index.tsx ~ line 45 ~ index ~ isMyTurnToGuess", isMyTurnToGuess)
     const { eliminatePlayer, guessWord } = useContext(WebSocketContext);
     const {
         displayTimeLeftMin,
@@ -79,7 +78,7 @@ const index = (props: Props) => {
             word
         })
     }
-
+    
     // effect to start first guessing
     useEffect(() => {
         if (displayTimeLeftMin === 0 && displayTimeLeftSecond === 0) {
