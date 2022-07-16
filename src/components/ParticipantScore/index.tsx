@@ -1,4 +1,4 @@
-import { makeStyles, Paper, Typography } from '@material-ui/core'
+import { Avatar, makeStyles, Paper, Typography } from '@material-ui/core'
 import { values } from 'lodash'
 import React from 'react'
 import { ParticipantGameSummaryInfo } from '../../models/ui-layer/model'
@@ -7,6 +7,7 @@ type Props = {
   gameInfoEachRound: any
   rowOption: 'normalRoundRow' | 'currentRoundRow' | 'summaryRow'
   rowName: string
+  isAvatarOntop?: boolean
 }
 
 const useStyles = makeStyles({
@@ -23,19 +24,21 @@ const useStyles = makeStyles({
     flexDirection: 'row',
     justifyContent: 'space-around',
     textAlign: 'center',
-    padding: '10px'
+    padding: '10px',
   },
   scoreTxt: {
     fontWeight: 'bold',
     fontSize: '30px',
+    textAlign: 'center'
   },
   rowNameTxt: {
     fontSize: '18px',
-    padding: '10px',
-  }
+    paddingTop: '10px',
+    textAlign: 'center',
+  },
 })
 
-const ParticipantScore = ({ gameInfoEachRound, rowOption, rowName }: Props) => {
+const ParticipantScore = ({ gameInfoEachRound, rowOption, rowName, isAvatarOntop }: Props) => {
   const classes = useStyles()
   const gameInfoEachRoundArr = values(gameInfoEachRound)
   let scoreTxtFontColor: string;
@@ -54,17 +57,18 @@ const ParticipantScore = ({ gameInfoEachRound, rowOption, rowName }: Props) => {
   }
   return (
     <Paper className={classes.scoreRoundWrapper}>
-      <Typography
-        style={{ color: rowOption === 'summaryRow' ? '#E2515A' : 'black' }}
-        className={classes.rowNameTxt}>
-        {rowName === 'PTH' ? <span>{rowName}<span>&nbsp; &nbsp; &nbsp;</span></span> : rowName}
-      </Typography>
-      {gameInfoEachRoundArr.map((score, idx) => {
-        return (
-          <Typography style={{ color: scoreTxtFontColor }} className={classes.scoreTxt} key={idx}>{score}</Typography>
-        )
-      })}
-    </Paper>
+
+        <Typography
+          style={{ color: rowOption === 'summaryRow' ? '#E2515A' : 'black' }}
+          className={classes.rowNameTxt}>
+          {rowName === 'PTH' ? <span>{rowName} &nbsp; &nbsp; &nbsp; &nbsp;</span> : rowName}
+        </Typography>
+        {gameInfoEachRoundArr.map((score, idx) => {
+          return (
+            <Typography style={{ color: scoreTxtFontColor }} className={classes.scoreTxt} key={idx}>{score}</Typography>
+          )
+        })}
+      </Paper>
   )
 }
 
