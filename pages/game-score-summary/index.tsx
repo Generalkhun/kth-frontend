@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useMemo } from 'react'
-import { Grid, Paper, makeStyles, Typography, Avatar, Button } from '@material-ui/core';
+import { Grid, Paper, makeStyles, Typography, Avatar, Button, Divider } from '@material-ui/core';
 import { MockParticipantsGameInfo } from '../../src/mockData'
 import ParticipantScore from '../../src/components/ParticipantScore';
 import { isEmpty } from 'lodash';
@@ -77,6 +77,16 @@ const useStyles = makeStyles({
         fontWeight: 'bold',
         color: 'white',
         top: '90%',
+    },
+    waitingForHostToProceedInfoContainer: {
+        width: '420px',
+        height: '60px',
+        backgroundColor: '#D9D9D9 !important',
+        borderRadius: '40px',
+        fontSize: '24px',
+        fontWeight: 'bold',
+        color: '#262626 !important',
+        top: '90%',
     }
 });
 
@@ -87,7 +97,7 @@ type Props = {
 
 const index = (props: Props) => {
     const classes = useStyles()
-    const { roomDataState, myPlayerInfoState, getPlayerAvatarFromPlayerId } = useContext(GameStateContext);
+    const { roomDataState, myPlayerInfoState, getPlayerAvatarFromPlayerId, getPlayerNameFromId } = useContext(GameStateContext);
     const { startRound } = useContext(WebSocketContext);
     const gameInfos = roomDataState.scores
     const isShowNextRoundBtn = roomDataState.host === myPlayerInfoState.playerId
@@ -168,9 +178,15 @@ const index = (props: Props) => {
                     </>
                 </Paper>
 
-                {isShowNextRoundBtn && <Button onClick={onNextRoundStart} className={classes.nextRoundBtn}>
-                    เล่นรอบต่อไป
-                </Button>}
+                {isShowNextRoundBtn ?
+                    <Button onClick={onNextRoundStart} className={classes.nextRoundBtn}>
+                        เล่นรอบต่อไป
+                    </Button> :
+                    <Button disabled className={classes.waitingForHostToProceedInfoContainer}>
+                        <img height='40px' src='./sandClockIcon.svg'/>
+                        {` รอ ${getPlayerNameFromId(roomDataState.host)} เพื่อเริ่มเกมส์ต่อไป`}
+                    </Button>
+                }
             </Grid>
 
 

@@ -82,7 +82,10 @@ const index = (props: Props) => {
     
     // effect to start first guessing
     useEffect(() => {
-        if (displayTimeLeftMin === 0 && displayTimeLeftSecond === 0) {
+        if(displayTimeLeftMin === null || displayTimeLeftSecond === null) {
+            return;
+        }
+        if (displayTimeLeftMin <= 0 && displayTimeLeftSecond <= 0) {
             pauseCountdown()
             console.log('paused countdown');
             
@@ -158,9 +161,9 @@ const index = (props: Props) => {
                             timeout={SHOWING_GUESSED_RESULT_MILLISECCOND}
                             progressBarColor={guessedResultColor}
                         />
-                        <Typography style={{ color: guessedResultColor }}>{`<${getPlayerNameFromId(guessingTimeState.playerIdShowingResult)}> ตอบ${guessedResultTextInfo}`}</Typography>
+                        <Typography style={{ color: guessedResultColor }}>{`${getPlayerNameFromId(guessingTimeState.playerIdShowingResult)} ตอบ${guessedResultTextInfo}`}</Typography>
                     </>}
-                    {(isGuessingTime && !guessingTimeState.isShowingGuessedResult) && <Typography>รอ {`<${getPlayerNameFromId(playerIdGuessing)}> ทายคำตอบ`}</Typography>}
+                    {(isGuessingTime && !guessingTimeState.isShowingGuessedResult) && <Typography>รอ {`${getPlayerNameFromId(playerIdGuessing)} ทายคำตอบ`}</Typography>}
                 </Grid>
             </Grid>
             {/* Modals */}
