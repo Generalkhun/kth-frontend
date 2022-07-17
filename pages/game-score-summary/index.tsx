@@ -41,10 +41,13 @@ const useStyles = makeStyles({
         borderRadius: '40px',
         minWidth: '500px',
         position: 'absolute',
-        marginTop: '35px',
+        marginTop: '50px',
         zIndex: 4,
         height: '8%',
-        textAlign: 'center'
+        textAlign: 'center',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
     },
     scoreBoardTxt: {
         color: '#FFFFFF',
@@ -154,8 +157,8 @@ const index = (props: Props) => {
                 <Paper className={classes.scoreBoardContainer}>
                     <>
                         <div className={classes.AvatarRowWrapper}>
-                            {playerIds.map((playerId: string) => {
-                                return <Avatar className={classes.imgAvatar} alt="ME" src={getPlayerAvatarFromPlayerId(playerId)} />
+                            {playerIds.map((playerId: string, idx: number) => {
+                                return <Avatar key={idx} className={classes.imgAvatar} alt="ME" src={getPlayerAvatarFromPlayerId(playerId)} />
                             })}
                         </div>
 

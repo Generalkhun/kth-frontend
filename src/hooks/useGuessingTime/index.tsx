@@ -28,30 +28,27 @@ const useGuessingTime = () => {
     const guessingPlayerStatus = roomDataState.currentPlayerStatus[playerIdGuessing]
     const previous = usePrevious({ guessingPlayerStatus })
     const showingResultParticipant = participantsData.filter((participant: Participant) => participant.participantId === guessingTimeState.playerIdShowingResult)[0] as Participant;
+    
+    const onStartGuessingTime = () => {
+        // find a player that is their current turn
+        const playerGuessing = Object.keys(roomDataState.currentPlayerStatus)
+            .map(playerId => (
+                {
+                    playerId,
+                    status: roomDataState.currentPlayerStatus[playerId]
+                }
+            ))
+            .filter(player => player.status === 'GUESSING')
+        [0]
 
-    const onStartGuessingTime = useCallback(
-        () => {
-            // find a player that is their current turn
-            const playerGuessing = Object.keys(roomDataState.currentPlayerStatus)
-                .map(playerId => (
-                    {
-                        playerId,
-                        status: roomDataState.currentPlayerStatus[playerId]
-                    }
-                ))
-                .filter(player => player.status === 'GUESSING')
-            [0]
-
-            setGuessingTimeState(prev => ({
-                ...prev,
-                isGuessingTime: true,
-                isShowingGuessedResult: false,
-                playerIdGuessing: playerGuessing?.playerId,
-                playerIdShowingResult: '',
-            }))
-        },
-        [roomDataState.currentPlayerStatus],
-    )
+        setGuessingTimeState(prev => ({
+            ...prev,
+            isGuessingTime: true,
+            isShowingGuessedResult: false,
+            playerIdGuessing: playerGuessing?.playerId,
+            playerIdShowingResult: '',
+        }))
+    }
 
     const onStartShowingGuessedResult = () => {
 
@@ -78,6 +75,7 @@ const useGuessingTime = () => {
 
     useEffect(() => {
         if (!!guessingTimeState.playerIdShowingResult) {
+            console.log("🚀 ~ file: index.tsx ~ line 81 ~ useEffect ~ guessingTimeState.playerIdShowingResult", guessingTimeState.playerIdShowingResult)
             setIsMyTurnToGuess(false)
             // Start count down to end the showing result phase
             setTimeout(() => {
@@ -85,6 +83,8 @@ const useGuessingTime = () => {
                     ...prev,
                     isShowingGuessedResult: false,
                 }))
+
+                console.log("🚀 ~ file: index.tsx ~ line 81 ~ useEffect ~ guessingTimeState", guessingTimeState)
             }, SHOWING_GUESSED_RESULT_MILLISECCOND);
         }
     }, [guessingTimeState.playerIdShowingResult])
@@ -117,8 +117,10 @@ const useGuessingTime = () => {
     /**Reset all guessing state if it is score board viewing state and isShowingGuessedResult is changed to false after the settimeout of viewing guessed result */
     useEffect(() => {
         if (!roomDataState.isViewingScoreBoard || guessingTimeState.isShowingGuessedResult) {
+            console.log("🚀 ~ file: index.tsx ~ line 120 ~ useEffect ~ guessingTimeState", guessingTimeState)
             return;
         }
+        console.log("🚀 ~ file: index.tsx ~ line 123 ~ useEffect ~ guessingTimeState", guessingTimeState)
         // reset guessing time state
         setGuessingTimeState({
             isGuessingTime: false,

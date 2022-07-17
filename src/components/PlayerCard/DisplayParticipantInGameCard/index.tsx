@@ -13,13 +13,13 @@ type Props = {
 }
 
 const useStyles = makeStyles({
+    ParticipantCardContainerGuessedResult: {
+        position: 'relative',
+        height: '30vh',
+    },
     ParticipantCardContainer: {
         position: 'relative',
         height: '30vh',
-        width: '200px',
-        backgroundColor: 'black',
-        paddingTop: '20px',
-        marginBottom: '30px',
     },
     eliminateBtn: {
         position: 'absolute',
@@ -41,7 +41,6 @@ const useStyles = makeStyles({
         height: '250px',
         margin: '3px',
         padding: '3px',
-        backgroundColor: '#262626',
         position: 'relative'
     },
     avatarImgPlayCardAlive: {
@@ -65,8 +64,8 @@ const useStyles = makeStyles({
         width: '180px',
         height: '80px',
         backgroundColor: '#FFFFFF',
-        bottom: '100px', /*your button position*/
-        right: '-20px', /*your button position*/
+        bottom: '170px', /*your button position*/
+        right: '50px', /*your button position*/
     },
     guessingWord: {
         fontWeight: 'bold',
@@ -96,32 +95,36 @@ export const DisplayParticipantInGameCard = ({
 
     return (
         <div className={classes.ParticipantCardContainer}>
+            {!isShowGuessedAnswer ?
+                <>
+                    <div className={classes.avatarImgPlayCardContainer}>
+                        {isGuessingPlayer && <div className={classes.guessingPlayerGreenFilter}></div>}
+                        <img
+                            className={isEliminated ? classes.avatarImgPlayCardEliminated : classes.avatarImgPlayCardAlive}
+                            src={avatarUrl}
+                        />
 
-            {!isShowGuessedAnswer ? <>
-                <div className={classes.avatarImgPlayCardContainer}>
-                    {isGuessingPlayer && <div className={classes.guessingPlayerGreenFilter}></div>}
-                    <img
-                        className={isEliminated ? classes.avatarImgPlayCardEliminated : classes.avatarImgPlayCardAlive}
-                        src={avatarUrl}
-                    />
+                    </div>
+                    <Paper className={classes.guessingWordContainer}>
+                        <Typography className={classes.guessingWord}>
+                            {displayGuessingWord}
+                        </Typography>
+                    </Paper>
 
-                </div>
-                <Paper className={classes.guessingWordContainer}>
-                    <Typography className={classes.guessingWord}>
-                        {displayGuessingWord}
-                    </Typography>
-                </Paper>
+                    {!isHideEliminateButton && <Button onClick={() => { onEliminatePeople(participantId) }} className={classes.eliminateBtn}>
+                        <img height='20px' src='./error-failure-10382.svg' />
+                    </Button>}
+                    <Paper className={classes.nameContainer}>
+                        <Typography>
+                            {name}
+                        </Typography>
+                    </Paper>
 
-                {!isHideEliminateButton && <Button onClick={() => { onEliminatePeople(participantId) }} className={classes.eliminateBtn}>
-                    <img height='20px' src='./error-failure-10382.svg' />
-                </Button>}
-                <Paper className={classes.nameContainer}>
-                    <Typography>
-                        {name}
-                    </Typography>
-                </Paper>
-            </>
-                : <>
+                </>
+
+                :
+
+                <>
                     <div className={classes.avatarImgPlayCardContainer}>
                         <img
                             className={classes.avatarImgPlayCardAlive}
@@ -134,8 +137,9 @@ export const DisplayParticipantInGameCard = ({
                         </Typography>
                     </Paper>
                 </>
-            }
 
+            }
         </div>
+
     )
 }
