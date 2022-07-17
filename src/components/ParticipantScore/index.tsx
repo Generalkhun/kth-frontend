@@ -22,19 +22,25 @@ const useStyles = makeStyles({
     marginRight: '50px',
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'start',
     textAlign: 'center',
-    padding: '10px',
+    paddingLeft: '4%',
+    gap: '10%'
   },
   scoreTxt: {
     fontWeight: 'bold',
     fontSize: '30px',
-    textAlign: 'center'
+    textAlign: 'center',
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'column',
   },
   rowNameTxt: {
     fontSize: '18px',
-    paddingTop: '10px',
     textAlign: 'center',
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'column',
   },
 })
 
@@ -65,7 +71,7 @@ const ParticipantScore = ({ gameInfoEachRound, rowOption, rowName, isAvatarOntop
       </Typography>
       {gameInfoEachRoundArr.map((score, idx) => {
         return (
-          <Typography style={{ color: scoreTxtFontColor }} className={classes.scoreTxt} key={idx}>{!!score ? score : ''}</Typography>
+          <Typography style={{ color: scoreTxtFontColor }} className={classes.scoreTxt} key={idx}>{(score !== null) ? score : ''}</Typography>
         )
       })}
     </Paper>

@@ -101,7 +101,7 @@ const index = (props: Props) => {
     // effect to navigate to scoreboard page after the guessing time is over
     const router = useRouter()
     useEffect(() => {
-        //if still showing last player's results, wait for next effect to go to score board
+        //if still showing last player's results, wait for next effect when isShowingGuessedResult => false before go to score board
         if (guessingTimeState.isShowingGuessedResult) {
             return;
         }

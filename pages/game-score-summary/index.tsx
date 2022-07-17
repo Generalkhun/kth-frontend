@@ -55,14 +55,14 @@ const useStyles = makeStyles({
     AvatarRowWrapper: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'start',
         minWidth: '400px',
         maxWidth: '10000px',
         height: '11.5%',
-        marginBottom: '10px',
-        marginLeft: '25%',
+        marginBottom: '1%',
+        marginLeft: '19%',
         marginRight: '8.5%',
-
+        gap: '7%'
     },
     imgAvatar: {
         width: '70px',
@@ -106,7 +106,7 @@ const index = (props: Props) => {
     const router = useRouter();
     useEffect(() => {
         if (roomDataState.currentRound === previous?.currentRound + 1) {
-            
+
             router.push('/game-session')
         }
     }, [roomDataState.currentRound])
@@ -154,7 +154,7 @@ const index = (props: Props) => {
                             <ParticipantScore
                                 key={idx}
                                 gameInfoEachRound={gameInfoEachRound}
-                                rowOption={idx === gameInfos.length - 1 ? 'currentRoundRow' : 'normalRoundRow'}
+                                rowOption={idx === roomDataState.currentRound - 1 ? 'currentRoundRow' : 'normalRoundRow'}
                                 rowName={`Round ${idx + 1}`}
                                 isAvatarOntop={idx === 0}
                             />

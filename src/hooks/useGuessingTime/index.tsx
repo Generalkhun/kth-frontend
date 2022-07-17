@@ -65,7 +65,7 @@ const useGuessingTime = () => {
 
     // effect to check is myturn to guess
     useEffect(() => {
-        if (!guessingTimeState.isGuessingTime) {
+        if (!guessingTimeState.isGuessingTime || !guessingTimeState.playerIdGuessing) {
             return;
         }
         if (guessingTimeState.playerIdGuessing === myPlayerId) {
@@ -78,6 +78,7 @@ const useGuessingTime = () => {
 
     useEffect(() => {
         if (!!guessingTimeState.playerIdShowingResult) {
+            setIsMyTurnToGuess(false)
             // Start count down to end the showing result phase
             setTimeout(() => {
                 setGuessingTimeState(prev => ({
@@ -113,10 +114,9 @@ const useGuessingTime = () => {
         guessingTimeState.playerIdGuessing,
     ])
 
-
-    /**Reset all guessing state if it is score board viewing state */
+    /**Reset all guessing state if it is score board viewing state and isShowingGuessedResult is changed to false after the settimeout of viewing guessed result */
     useEffect(() => {
-        if (!roomDataState.isViewingScoreBoard) {
+        if (!roomDataState.isViewingScoreBoard || guessingTimeState.isShowingGuessedResult) {
             return;
         }
         // reset guessing time state
@@ -126,7 +126,7 @@ const useGuessingTime = () => {
             playerIdGuessing: '',
             playerIdShowingResult: '',
         })
-    }, [roomDataState.isViewingScoreBoard])
+    }, [roomDataState.isViewingScoreBoard, guessingTimeState.isShowingGuessedResult])
 
 
 

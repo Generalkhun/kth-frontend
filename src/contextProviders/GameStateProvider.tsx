@@ -56,6 +56,7 @@ const roomDataStateReducer = (state: RoomDataState, action: any) => {
                 isPlaying: true, 
                 currentRound: action.payload.currentRound, 
                 currentWords: action.payload.currentWords,
+                currentPlayerStatus: {},
                 isViewingScoreBoard: false,
             }
         case MethodRecieve.UPDATE_PLAYER_STATUS:
@@ -77,7 +78,6 @@ export const GameStateContext = createContext({} as any);
 export const GameStateProviders = ({ children }: any) => {
     /** Data store of game state*/
     const [roomDataState, roomDataDispatch] = useReducer(roomDataStateReducer, initialRoomDataState)
-    console.log("🚀 ~ file: GameStateProvider.tsx ~ line 62 ~ GameStateProviders ~ roomDataState", roomDataState)
     const [myPlayerInfoState, setMyPlayerInfoState] = useState<WebsocketSyncPlayerData>({
         playerId: '',
         playerAvatarUrl: 'https://res.amazingtalker.com/users/images/no-avatar.png',
