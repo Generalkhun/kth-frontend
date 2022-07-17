@@ -28,7 +28,27 @@ const useGuessingTime = () => {
     const guessingPlayerStatus = roomDataState.currentPlayerStatus[playerIdGuessing]
     const previous = usePrevious({ guessingPlayerStatus })
     const showingResultParticipant = participantsData.filter((participant: Participant) => participant.participantId === guessingTimeState.playerIdShowingResult)[0] as Participant;
-    
+
+
+    /** 
+     * To enter guessing time, need to ensure that atleast one player got guessing status and game is not playing 
+     * (ws also time up on current round)
+    */
+    const readyForGuessingTimeChecker = () => {
+        // find a player that is their current turn
+        const playerGuessing = Object.keys(roomDataState.currentPlayerStatus)
+            .map(playerId => (
+                {
+                    playerId,
+                    status: roomDataState.currentPlayerStatus[playerId]
+                }
+            ))
+            .filter(player => player.status === 'GUESSING')
+        [0]
+
+        return !!playerGuessing && !roomDataState.isPlaying
+    }
+
     const onStartGuessingTime = () => {
         // find a player that is their current turn
         const playerGuessing = Object.keys(roomDataState.currentPlayerStatus)
@@ -75,7 +95,6 @@ const useGuessingTime = () => {
 
     useEffect(() => {
         if (!!guessingTimeState.playerIdShowingResult) {
-            console.log("🚀 ~ file: index.tsx ~ line 81 ~ useEffect ~ guessingTimeState.playerIdShowingResult", guessingTimeState.playerIdShowingResult)
             setIsMyTurnToGuess(false)
             // Start count down to end the showing result phase
             setTimeout(() => {
@@ -83,8 +102,6 @@ const useGuessingTime = () => {
                     ...prev,
                     isShowingGuessedResult: false,
                 }))
-
-                console.log("🚀 ~ file: index.tsx ~ line 81 ~ useEffect ~ guessingTimeState", guessingTimeState)
             }, SHOWING_GUESSED_RESULT_MILLISECCOND);
         }
     }, [guessingTimeState.playerIdShowingResult])
@@ -135,6 +152,7 @@ const useGuessingTime = () => {
     return ({
         onStartGuessingTime,
         onStartShowingGuessedResult,
+        readyForGuessingTimeChecker,
         guessingTimeState,
         playerIdGuessing,
         isGuessingTime,

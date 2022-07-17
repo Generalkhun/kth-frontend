@@ -7,11 +7,6 @@ type Props = {
 }
 
 const useSyles = makeStyles({
-    timeoutBarContainer: {
-        display: 'flex',
-        justifyContent: 'center',
-        flexDirection: 'column',
-    },
     child: {
         animationName: '$roundtime',
     },
@@ -30,21 +25,17 @@ export const TimeoutBar = ({
     const duration = timeout / 1000
 
     return (
-
-        <div className={classes.timeoutBarContainer}>
-            <div style={{
-                margin: '1rem',
-                overflow: 'hidden',
-                maxWidth: '250px',
-            }}>
-                <div className={classes.child} style={{
-                    height: '16px',
-                    backgroundColor: progressBarColor,
-                    animationDuration: `${duration}s`,
-                    animationFillMode: 'forwards',
-                    animationTimingFunction: 'linear',
-                }}></div>
-            </div>
+        <div style={{
+            overflow: 'hidden',
+            maxWidth: '250px',
+        }}>
+            <div className={classes.child} style={{
+                height: '16px',
+                backgroundColor: progressBarColor,
+                animationDuration: `${duration}s`,
+                animationFillMode: 'forwards',
+                animationTimingFunction: 'linear',
+            }}></div>
         </div>
     )
 }

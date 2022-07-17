@@ -36,9 +36,13 @@ const useStyles = makeStyles({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+        height: '90%',
+        marginTop: '10%'
     },
-    displayParticipantCardGuessedResultContainer: {
-        width: '100%',
+    guessingTxt: {
+        position: 'absolute',
+        top: '70%',
+        left: '82%'
     }
 })
 const index = (props: Props) => {
@@ -47,12 +51,12 @@ const index = (props: Props) => {
     const {
         guessingTimeState,
         onStartGuessingTime,
+        readyForGuessingTimeChecker,
         playerIdGuessing,
         isGuessingTime,
         isMyTurnToGuess,
         showingResultParticipant
     } = useGuessingTime()
-    console.log("🚀 ~ file: index.tsx ~ line 55 ~ index ~ guessingTimeState", guessingTimeState)
     const { eliminatePlayer, guessWord } = useContext(WebSocketContext);
     const {
         displayTimeLeftMin,
@@ -90,18 +94,18 @@ const index = (props: Props) => {
         })
     }
 
-    // effect to start first guessing
+    /**
+     * effect to start first guessing, when time is up or isPlaying is already changed to false (from ws)
+     */
     useEffect(() => {
-        if (displayTimeLeftMin === null || displayTimeLeftSecond === null) {
+        if (displayTimeLeftMin === null || displayTimeLeftSecond === null || roomDataState.isPlaying || !readyForGuessingTimeChecker()) {
             return;
         }
         if (displayTimeLeftMin <= 0 && displayTimeLeftSecond <= 0) {
             pauseCountdown()
-            console.log('paused countdown');
-
             onStartGuessingTime();
         }
-    }, [displayTimeLeftMin, displayTimeLeftSecond])
+    }, [displayTimeLeftMin, displayTimeLeftSecond, roomDataState.isPlaying, readyForGuessingTimeChecker])
 
     //effect to open the guessing modal (will not open if still showing the previous guessed result)
     useEffect(() => {
@@ -145,7 +149,7 @@ const index = (props: Props) => {
                                 <Grid key={idx} item md={4}>
                                     <DisplayParticipantInGameCard
                                         isGuessingTime={isGuessingTime}
-                                        playerIdGuessing={playerIdGuessing}
+                                        playerIdGuessing={playerIdGuessing === '' ? guessingTimeState?.playerIdShowingResult : playerIdGuessing}
                                         myPlayerId={myPlayerId}
                                         isForceDisableEliminatedBtn={isImDead}
                                         participant={participant}
@@ -171,38 +175,29 @@ const index = (props: Props) => {
                                         myPlayerId={myPlayerId}
                                         participant={showingResultParticipant}
                                         onEliminatePeople={onEliminatePeople}
-                                        isShowGuessedAnswer
+                                        isShowGuessedAnswerCard
                                     />
                                 </div>
-                                <TimeoutBar
-                                    timeout={SHOWING_GUESSED_RESULT_MILLISECCOND}
-                                    progressBarColor={guessedResultColor}
-                                />
-                                <Typography style={{ color: guessedResultColor }}>{`${getPlayerNameFromId(guessingTimeState.playerIdShowingResult)} ตอบ${guessedResultTextInfo}`}</Typography>
+                                <Grid container>
+                                    <Grid item md={3}></Grid>
+                                    <Grid item md={7}>
+                                        <TimeoutBar
+                                            timeout={SHOWING_GUESSED_RESULT_MILLISECCOND}
+                                            progressBarColor={guessedResultColor}
+                                        />
+                                    </Grid>
+                                    <Grid item md={2}></Grid>
+
+                                </Grid>
+
+                                <Typography className={classes.guessingTxt} style={{ color: guessedResultColor }}>{`${getPlayerNameFromId(guessingTimeState.playerIdShowingResult)} ตอบ${guessedResultTextInfo}`}</Typography>
                             </Grid>
                             <Grid item md={2}>
 
                             </Grid>
                         </Grid>
-                        {/* <div className={classes.guessedResultContainer}>
-                            <DisplayParticipantInGameCard
-                                isGuessingTime={isGuessingTime}
-                                playerIdGuessing={guessingTimeState?.playerIdShowingResult}
-                                myPlayerId={myPlayerId}
-                                participant={showingResultParticipant}
-                                onEliminatePeople={onEliminatePeople}
-                                isShowGuessedAnswer
-                            />
-                        </div>
-                        <TimeoutBar
-                            timeout={SHOWING_GUESSED_RESULT_MILLISECCOND}
-                            progressBarColor={guessedResultColor}
-                        />
-                        <Typography style={{ color: guessedResultColor }}>{`${getPlayerNameFromId(guessingTimeState.playerIdShowingResult)} ตอบ${guessedResultTextInfo}`}</Typography> */}
                     </>}
-
-                    {/* Word guessing result */}
-                    {(isGuessingTime && !guessingTimeState.isShowingGuessedResult) && <Typography>รอ {`${getPlayerNameFromId(playerIdGuessing)} ทายคำตอบ`}</Typography>}
+                    {(isGuessingTime && !guessingTimeState.isShowingGuessedResult) && <Typography className={classes.guessingTxt}>รอ {`${getPlayerNameFromId(playerIdGuessing)} ทายคำตอบ`}</Typography>}
                 </Grid>
             </Grid>
             {/* Modals */}
