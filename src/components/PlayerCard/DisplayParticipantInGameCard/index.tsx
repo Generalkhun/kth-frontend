@@ -8,7 +8,8 @@ type Props = {
     myPlayerId: string
     isGuessingTime: boolean
     playerIdGuessing: string
-    displayImgOnly?: boolean
+    isShowGuessedAnswer?: boolean
+    isForceDisableEliminatedBtn?: boolean
 }
 
 const useStyles = makeStyles({
@@ -79,7 +80,8 @@ export const DisplayParticipantInGameCard = ({
     myPlayerId,
     isGuessingTime,
     playerIdGuessing,
-    displayImgOnly,
+    isShowGuessedAnswer,
+    isForceDisableEliminatedBtn,
 }: Props) => {
     const avatarUrl = participant.avatarUrl || '??'
     const name = participant.name
@@ -87,15 +89,15 @@ export const DisplayParticipantInGameCard = ({
     const isMeThisParticipant = myPlayerId === participantId
     const isEliminated = participant.isEliminated
     const classes = useStyles()
-    const isShowGuessingWord = !isMeThisParticipant ? true : (isEliminated)
-    const isHideEliminateButton = isGuessingTime || isMeThisParticipant
+    const isShowGuessingWord = !isMeThisParticipant ? true : (isEliminated || isShowGuessedAnswer)
+    const isHideEliminateButton = isGuessingTime || isMeThisParticipant || isForceDisableEliminatedBtn;
     const displayGuessingWord = isShowGuessingWord ? participant.guessingWord : ''
     const isGuessingPlayer = playerIdGuessing === participantId
 
     return (
         <div className={classes.ParticipantCardContainer}>
 
-            {!displayImgOnly ? <>
+            {!isShowGuessedAnswer ? <>
                 <div className={classes.avatarImgPlayCardContainer}>
                     {isGuessingPlayer && <div className={classes.guessingPlayerGreenFilter}></div>}
                     <img
@@ -125,9 +127,12 @@ export const DisplayParticipantInGameCard = ({
                             className={classes.avatarImgPlayCardAlive}
                             src={avatarUrl}
                         />
-
                     </div>
-
+                    <Paper className={classes.guessingWordContainer}>
+                        <Typography className={classes.guessingWord}>
+                            {displayGuessingWord}
+                        </Typography>
+                    </Paper>
                 </>
             }
 

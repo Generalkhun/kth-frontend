@@ -60,6 +60,7 @@ const index = (props: Props) => {
     const myPlayerId = myPlayerInfoState?.playerId
     const myAvatarUrl = myPlayerInfoState?.playerAvatarUrl
     const currentRound = roomDataState.currentRound;
+    const isImDead = !!roomDataState.currentPlayerStatus[myPlayerId] ? roomDataState.currentPlayerStatus[myPlayerId] === 'ELIMINATED' : false;
     let participantsData: any = mapPlayersToParticipants(roomDataState.players, roomDataState.currentPlayerStatus, roomDataState.currentWords);
 
     // Guessing time
@@ -133,6 +134,7 @@ const index = (props: Props) => {
                                         isGuessingTime={isGuessingTime}
                                         playerIdGuessing={playerIdGuessing}
                                         myPlayerId={myPlayerId}
+                                        isForceDisableEliminatedBtn={isImDead}
                                         participant={participant}
                                         key={idx}
                                         onEliminatePeople={onEliminatePeople} />
@@ -150,7 +152,7 @@ const index = (props: Props) => {
                             myPlayerId={myPlayerId}
                             participant={showingResultParticipant}
                             onEliminatePeople={onEliminatePeople}
-                            displayImgOnly
+                            isShowGuessedAnswer
                         />
                         <TimeoutBar
                             timeout={SHOWING_GUESSED_RESULT_MILLISECCOND}
