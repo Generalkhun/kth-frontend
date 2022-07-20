@@ -104,8 +104,6 @@ const index = (props: Props) => {
             return;
         }
         if (displayTimeLeftMin <= 0 && displayTimeLeftSecond <= 0) {
-            
-            console.log("🚀 ~ file: index.tsx ~ line 102 ~ useEffect ~ roomDataState", roomDataState)
             pauseCountdown()
             onStartGuessingTime();
         }

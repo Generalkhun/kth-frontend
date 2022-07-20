@@ -4,8 +4,6 @@ import { GameStateContext } from '../../contextProviders/GameStateProvider';
 import { Participant } from '../../models/ui-layer/model';
 import { mapPlayersToParticipants } from '../../utils/mapper';
 import { usePrevious } from '../usePrevious';
-
-type Props = {}
 interface GuessingTimeState {
     isGuessingTime: boolean,
     isShowingGuessedResult: boolean,
@@ -53,21 +51,6 @@ const useGuessingTime = () => {
         [roomDataState.currentPlayerStatus, roomDataState.isPlaying],
     )
 
-    // const readyForGuessingTimeChecker = () => {
-    //     // find a player that is their current turn
-    //     const playerGuessing = Object.keys(roomDataState.currentPlayerStatus)
-    //         .map(playerId => (
-    //             {
-    //                 playerId,
-    //                 status: roomDataState.currentPlayerStatus[playerId]
-    //             }
-    //         ))
-    //         .filter(player => player.status === 'GUESSING')
-    //     [0]
-
-    //     return !!playerGuessing && !roomDataState.isPlaying
-    // }
-
     const onStartGuessingTime = () => {
         // find a player that is their current turn
         const playerGuessing = Object.keys(roomDataState.currentPlayerStatus)
@@ -104,7 +87,6 @@ const useGuessingTime = () => {
 
     useEffect(() => {
         if (!!guessingTimeState.playerIdShowingResult) {
-            console.log("🚀 ~ file: index.tsx ~ line 98 ~ useEffect ~ guessingTimeState1", guessingTimeState)
             setIsMyTurnToGuess(false)
             // Start count down to end the showing result phase
             setTimeout(() => {
@@ -112,7 +94,6 @@ const useGuessingTime = () => {
                     ...prev,
                     isShowingGuessedResult: false,
                 }))
-                console.log("🚀 ~ file: index.tsx ~ line 98 ~ useEffect ~ guessingTimeState2", guessingTimeState)
             }, SHOWING_GUESSED_RESULT_MILLISECCOND);
         }
     }, [guessingTimeState.playerIdShowingResult])
@@ -120,11 +101,8 @@ const useGuessingTime = () => {
 
     /**guessingPlayerStatus is updated from guessing to wrong/correct => should show the result by calling onStartShowingGuessedResult*/
     useEffect(() => {
-        console.log("🚀 ~ file: index.tsx ~ line 115 ~ useEffect ~ previous?.guessingPlayerStatus1", previous?.guessingPlayerStatus)
 
         if (previous?.guessingPlayerStatus === 'GUESSING' && ['WRONG', 'CORRECT'].includes(guessingPlayerStatus)) {
-            console.log("🚀 ~ file: index.tsx ~ line 108 ~ useEffect ~ guessingPlayerStatus", guessingPlayerStatus)
-            console.log("🚀 ~ file: index.tsx ~ line 115 ~ useEffect ~ previous?.guessingPlayerStatu2", previous?.guessingPlayerStatus)
 
             // update guessing player to showing result player
             setGuessingTimeState(prev => ({
@@ -142,8 +120,6 @@ const useGuessingTime = () => {
      * In order to not starting next guess abruptly when playerIdShowingResult is still false and not being true even once (when first player's guessed)
     */
     useEffect(() => {
-        console.log("🚀 ~ file: index.tsx ~ line 130 ~ useEffect ~ previous", previous)
-        console.log("🚀 ~ file: index.tsx ~ line 138 ~ useEffect ~ isShowingGuessedResult", isShowingGuessedResult)
         if (
             guessingTimeState.isGuessingTime &&
             !isShowingGuessedResult &&
@@ -151,8 +127,6 @@ const useGuessingTime = () => {
             guessingTimeState.playerIdShowingResult &&
             !guessingTimeState.playerIdGuessing) {
 
-            console.log("🚀 ~ file: index.tsx ~ line 133 ~ useEffect ~ previous", previous)
-            console.log("🚀 ~ file: index.tsx ~ line 131 ~ useEffect ~ guessingTimeState", guessingTimeState)
             onStartGuessingTime();
         }
     }, [

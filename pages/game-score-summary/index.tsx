@@ -108,6 +108,7 @@ const index = (props: Props) => {
     const scoresEachRound = roomDataState.scores
     const isShowNextRoundBtn = roomDataState.host === myPlayerInfoState.playerId
     const previous = usePrevious({ currentRound: roomDataState.currentRound })
+    const isLastRound = roomDataState.currentRound === roomDataState.totalRound
     const onNextRoundStart = () => {
         startRound({
             roomId: '123'
@@ -149,11 +150,11 @@ const index = (props: Props) => {
                 })
                 .sort((a, b) => {
                     if(a.totalScore > b.totalScore) {
-                        return 1
+                        return -1
                     }
-                    return -1
+                    return 1
                 })
-                .map((player) => player.playerId)
+                .map((player,index) => ({...player, rank: index}))
         )
         //navigate tp winner page
         router.push('/game-winner')
@@ -219,11 +220,11 @@ const index = (props: Props) => {
 
                 {isShowNextRoundBtn ?
                     <Button onClick={onNextRoundStart} className={classes.nextRoundBtn}>
-                        เล่นรอบต่อไป
+                        {isLastRound ? 'จบเกมส์' : 'เล่นรอบต่อไป'}
                     </Button> :
                     <Button disabled className={classes.waitingForHostToProceedInfoContainer}>
                         <img height='40px' src='./sandClockIcon.svg' />
-                        {` รอ ${getPlayerNameFromId(roomDataState.host)} เพื่อเริ่มเกมส์ต่อไป`}
+                        {` รอ ${getPlayerNameFromId(roomDataState.host)} เพื่อ ${isLastRound ? 'จบเกมส์' : 'เริ่มเกมส์ต่อไป'}`}
                     </Button>
                 }
             </Grid>

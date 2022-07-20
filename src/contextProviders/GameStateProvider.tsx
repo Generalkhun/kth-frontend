@@ -3,10 +3,10 @@ import { isEmpty } from "lodash";
 import { createContext, useCallback, useEffect, useReducer, useState } from "react";
 import { MethodRecieve, RoomDataState, WebsocketSyncPlayerData } from "../models/api-layer/model";
 import { createInitalScoreObj, updateScores } from "../utils/scoresCalculator";
-
-interface GuessingTimeState {
-    isGuessingTime: boolean,
-    playerIdGuessing: string,
+export interface PlayerScoreData {
+    rank: number
+    playerId: string,
+    totalScore: number,
 }
 
 const initialRoomDataState: RoomDataState = {
@@ -86,7 +86,7 @@ export const GameStateProviders = ({ children }: any) => {
     })
 
     /** Set winner on game-score-summary on the last round */
-    const [sortedPlayerIdByTotalScore, setSortedPlayerIdByTotalScore] = useState<string[]>([])
+    const [sortedPlayerIdByTotalScore, setSortedPlayerIdByTotalScore] = useState<Record<string, PlayerScoreData>[]>([])
 
     const onSyncPlayerData = (data: WebsocketSyncPlayerData) => {
         setMyPlayerInfoState(data)
@@ -119,6 +119,7 @@ export const GameStateProviders = ({ children }: any) => {
                     getPlayerNameFromId,
                     getPlayerAvatarFromPlayerId,
                     setSortedPlayerIdByTotalScore,
+                    sortedPlayerIdByTotalScore,
                 }
             }
         >
