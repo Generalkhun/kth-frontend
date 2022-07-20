@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useMemo } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { Grid, Paper, makeStyles, Typography, Avatar, Button, Divider } from '@material-ui/core';
 import { MockParticipantsGameInfo } from '../../src/mockData'
 import ParticipantScore from '../../src/components/ParticipantScore';
@@ -99,10 +99,13 @@ type Props = {
 }
 
 const index = (props: Props) => {
-    const classes = useStyles()
-    const { roomDataState, myPlayerInfoState, getPlayerAvatarFromPlayerId, getPlayerNameFromId } = useContext(GameStateContext);
+    const classes = useStyles();
+    const router = useRouter();
+    const { roomDataState, myPlayerInfoState, getPlayerAvatarFromPlayerId, getPlayerNameFromId, setSortedPlayerIdByTotalScore } = useContext(GameStateContext);
+    const [totalScore, setTotalScore] = useState<Record<string, number>>({})
     const { startRound } = useContext(WebSocketContext);
-    const gameInfos = roomDataState.scores
+
+    const scoresEachRound = roomDataState.scores
     const isShowNextRoundBtn = roomDataState.host === myPlayerInfoState.playerId
     const previous = usePrevious({ currentRound: roomDataState.currentRound })
     const onNextRoundStart = () => {
@@ -111,25 +114,58 @@ const index = (props: Props) => {
         })
     }
 
+    //calculate total score if updated
+    useEffect(() => {
+        setTotalScore(
+            calculateEachPlayerTotalScore(scoresEachRound)
+        )
+    }, [scoresEachRound])
+
+
     /**
      * game session starting based on the gameState
      * if current round is increased from previous render,
      * navigate to game-session to play next round
      */
-    const router = useRouter();
     useEffect(() => {
         if (roomDataState.currentRound === previous?.currentRound + 1) {
-
             router.push('/game-session')
         }
     }, [roomDataState.currentRound])
 
+    /**End game effect: navigate to winner page */
+    useEffect(() => {
+        if (!roomDataState.isFinish) {
+            return;
+        }
+        // Calculate winner and save to game state
+        setSortedPlayerIdByTotalScore(
+            Object.keys(totalScore)
+                .map((playerId: string) => {
+                    return {
+                        playerId: playerId,
+                        totalScore: totalScore[playerId],
+                    }
+                })
+                .sort((a, b) => {
+                    if(a.totalScore > b.totalScore) {
+                        return 1
+                    }
+                    return -1
+                })
+                .map((player) => player.playerId)
+        )
+        //navigate tp winner page
+        router.push('/game-winner')
+    }, [roomDataState.isFinish])
+
+
     const calculateEachPlayerTotalScore = useCallback(
-        (gameInfos: any) => {
-            if (isEmpty(gameInfos)) {
+        (scoresEachRound: any) => {
+            if (isEmpty(scoresEachRound)) {
                 return {};
             }
-            return gameInfos.reduce((carry: any, current: any, index: number) => {
+            return scoresEachRound.reduce((carry: any, current: any, index: number) => {
                 const playerIds = Object.keys(current)
 
                 // increment
@@ -142,10 +178,10 @@ const index = (props: Props) => {
                 return carry
             }, {})
         },
-        [gameInfos],
+        [scoresEachRound],
     )
-    const eachPlayerTotalScore = calculateEachPlayerTotalScore(gameInfos);
-    const playerIds = Object.keys(gameInfos[0])
+    //const eachPlayerTotalScore = calculateEachPlayerTotalScore(scoresEachRound);
+    const playerIds = Object.keys(scoresEachRound[0])
 
     return (
         <Grid container className={classes.topContainer}>
@@ -163,7 +199,7 @@ const index = (props: Props) => {
                         </div>
 
 
-                        {gameInfos.map((gameInfoEachRound: Record<string, number>, idx: number) => (
+                        {scoresEachRound.map((gameInfoEachRound: Record<string, number>, idx: number) => (
                             <ParticipantScore
                                 key={idx}
                                 gameInfoEachRound={gameInfoEachRound}
@@ -174,7 +210,7 @@ const index = (props: Props) => {
                         ))}
                         <ParticipantScore
                             key={'summary'}
-                            gameInfoEachRound={eachPlayerTotalScore}
+                            gameInfoEachRound={totalScore}
                             rowOption={'summaryRow'}
                             rowName={'PTH'}
                         />
@@ -186,7 +222,7 @@ const index = (props: Props) => {
                         เล่นรอบต่อไป
                     </Button> :
                     <Button disabled className={classes.waitingForHostToProceedInfoContainer}>
-                        <img height='40px' src='./sandClockIcon.svg'/>
+                        <img height='40px' src='./sandClockIcon.svg' />
                         {` รอ ${getPlayerNameFromId(roomDataState.host)} เพื่อเริ่มเกมส์ต่อไป`}
                     </Button>
                 }

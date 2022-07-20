@@ -1,6 +1,6 @@
 import { BasePlayerData } from "kth-type";
 import { isEmpty } from "lodash";
-import { createContext, useReducer, useState } from "react";
+import { createContext, useCallback, useEffect, useReducer, useState } from "react";
 import { MethodRecieve, RoomDataState, WebsocketSyncPlayerData } from "../models/api-layer/model";
 import { createInitalScoreObj, updateScores } from "../utils/scoresCalculator";
 
@@ -51,23 +51,25 @@ const roomDataStateReducer = (state: RoomDataState, action: any) => {
                 limitTime: action.payload.limitTime
             }
         case MethodRecieve.START_ROUND:
-            return { 
-                ...state, 
-                isPlaying: true, 
-                currentRound: action.payload.currentRound, 
+            return {
+                ...state,
+                isPlaying: true,
+                currentRound: action.payload.currentRound,
                 currentWords: action.payload.currentWords,
                 currentPlayerStatus: {},
                 isViewingScoreBoard: false,
             }
         case MethodRecieve.UPDATE_PLAYER_STATUS:
-            return { 
-                ...state, 
+            return {
+                ...state,
                 currentPlayerStatus: action.payload.currentPlayerStatus
             }
         case MethodRecieve.ROUND_TIME_UP:
             return { ...state, isPlaying: false }
         case MethodRecieve.END_ROUND:
             return { ...state, isViewingScoreBoard: true, scores: updateScores(state.scores, action.payload.scores) }
+        case MethodRecieve.END_GAME:
+            return { ...state, isFinish: true }
         default:
             return state
     }
@@ -82,6 +84,9 @@ export const GameStateProviders = ({ children }: any) => {
         playerId: '',
         playerAvatarUrl: 'https://res.amazingtalker.com/users/images/no-avatar.png',
     })
+
+    /** Set winner on game-score-summary on the last round */
+    const [sortedPlayerIdByTotalScore, setSortedPlayerIdByTotalScore] = useState<string[]>([])
 
     const onSyncPlayerData = (data: WebsocketSyncPlayerData) => {
         setMyPlayerInfoState(data)
@@ -103,7 +108,6 @@ export const GameStateProviders = ({ children }: any) => {
         return foundPlayer[0].playerAvatarUrl
     }
 
-
     return (
         <GameStateContext.Provider
             value={
@@ -113,7 +117,8 @@ export const GameStateProviders = ({ children }: any) => {
                     myPlayerInfoState,
                     onSyncPlayerData,
                     getPlayerNameFromId,
-                    getPlayerAvatarFromPlayerId
+                    getPlayerAvatarFromPlayerId,
+                    setSortedPlayerIdByTotalScore,
                 }
             }
         >

@@ -71,7 +71,7 @@ const useStyles = makeStyles({
         color: '#E2515A',
         fontWeight: 'bold',
         fontSize: '160px',
-        zIndex: 10,
+        zIndex: 0,
         left: '33%',
         top: '13%',
         position: 'absolute',
