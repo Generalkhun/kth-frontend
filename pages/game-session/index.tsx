@@ -96,16 +96,20 @@ const index = (props: Props) => {
 
     /**
      * effect to start first guessing, when time is up or isPlaying is already changed to false (from ws)
+     * Since this is used only for the first player to start guessing (game is not enter guessingTime state yet), 
+     * if the game already enter the guessingTime, it should not excecuted.
      */
     useEffect(() => {
-        if (displayTimeLeftMin === null || displayTimeLeftSecond === null || roomDataState.isPlaying || !readyForGuessingTimeChecker()) {
+        if (displayTimeLeftMin === null || displayTimeLeftSecond === null || roomDataState.isPlaying || !readyForGuessingTimeChecker() || isGuessingTime) {
             return;
         }
         if (displayTimeLeftMin <= 0 && displayTimeLeftSecond <= 0) {
+            
+            console.log("🚀 ~ file: index.tsx ~ line 102 ~ useEffect ~ roomDataState", roomDataState)
             pauseCountdown()
             onStartGuessingTime();
         }
-    }, [displayTimeLeftMin, displayTimeLeftSecond, roomDataState.isPlaying, readyForGuessingTimeChecker])
+    }, [displayTimeLeftMin, displayTimeLeftSecond, roomDataState.isPlaying, readyForGuessingTimeChecker, isGuessingTime])
 
     //effect to open the guessing modal (will not open if still showing the previous guessed result)
     useEffect(() => {

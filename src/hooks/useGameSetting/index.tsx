@@ -6,6 +6,7 @@ import { WebSocketContext } from '../../contextProviders/WebSocketProviders'
 type Props = {}
 
 export const useGameSetting = () => {
+    const [isReadyToAdjustRoom, setIsReadyToAdjustRoom] = useState(false)
     const { updateRoomSetting } = useContext(WebSocketContext)
     const { roomDataState } = useContext(GameStateContext)
     const totalRound = roomDataState.totalRound
@@ -13,14 +14,23 @@ export const useGameSetting = () => {
     const [round, setRound] = useState<number>(5)
     const [timePerRoundSecond, setTimePerRoundSecond] = useState<number>(120)
 
+    /**
+     * After first render, player is ready to adjust the room
+     * this will fix the problem that newly joined player automatically send
+     * defauly room setting to update on the server
+     */
+    useEffect(() => {
+        setIsReadyToAdjustRoom(true);
+    }, [])
+    
     // update to ws server
     useEffect(() => {
-        if(!!round && !!timePerRoundSecond)
+        if(!!round && !!timePerRoundSecond && isReadyToAdjustRoom)
         updateRoomSetting({
             totalRound: round,
             limitTime: timePerRoundSecond,
         })
-    }, [round, timePerRoundSecond])
+    }, [round, timePerRoundSecond, isReadyToAdjustRoom])
 
     // update from ws server
     useEffect(() => {

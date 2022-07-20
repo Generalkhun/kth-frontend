@@ -33,8 +33,6 @@ export const WebSocketProviders = ({ children }: any) => {
         // };
     }, []);
 
-
-
     /**
      * Web socket send data to BE handlers 
      */

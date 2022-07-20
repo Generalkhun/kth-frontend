@@ -25,8 +25,9 @@ const useGuessingTime = () => {
     const myPlayerId = myPlayerInfoState?.playerId
     const isGuessingTime = guessingTimeState?.isGuessingTime;
     const playerIdGuessing = guessingTimeState?.playerIdGuessing;
-    const guessingPlayerStatus = roomDataState.currentPlayerStatus[playerIdGuessing]
-    const previous = usePrevious({ guessingPlayerStatus })
+    const guessingPlayerStatus = roomDataState.currentPlayerStatus[playerIdGuessing];
+    const isShowingGuessedResult = guessingTimeState.isShowingGuessedResult;
+    const previous = usePrevious({ guessingPlayerStatus, isShowingGuessedResult });
     const showingResultParticipant = participantsData.filter((participant: Participant) => participant.participantId === guessingTimeState.playerIdShowingResult)[0] as Participant;
 
 
@@ -34,20 +35,38 @@ const useGuessingTime = () => {
      * To enter guessing time, need to ensure that atleast one player got guessing status and game is not playing 
      * (ws also time up on current round)
     */
-    const readyForGuessingTimeChecker = () => {
-        // find a player that is their current turn
-        const playerGuessing = Object.keys(roomDataState.currentPlayerStatus)
-            .map(playerId => (
-                {
-                    playerId,
-                    status: roomDataState.currentPlayerStatus[playerId]
-                }
-            ))
-            .filter(player => player.status === 'GUESSING')
-        [0]
+    const readyForGuessingTimeChecker = useCallback(
+        () => {
+            // find a player that is their current turn
+            const playerGuessing = Object.keys(roomDataState.currentPlayerStatus)
+                .map(playerId => (
+                    {
+                        playerId,
+                        status: roomDataState.currentPlayerStatus[playerId]
+                    }
+                ))
+                .filter(player => player.status === 'GUESSING')
+            [0]
 
-        return !!playerGuessing && !roomDataState.isPlaying
-    }
+            return !!playerGuessing && !roomDataState.isPlaying
+        },
+        [roomDataState.currentPlayerStatus, roomDataState.isPlaying],
+    )
+
+    // const readyForGuessingTimeChecker = () => {
+    //     // find a player that is their current turn
+    //     const playerGuessing = Object.keys(roomDataState.currentPlayerStatus)
+    //         .map(playerId => (
+    //             {
+    //                 playerId,
+    //                 status: roomDataState.currentPlayerStatus[playerId]
+    //             }
+    //         ))
+    //         .filter(player => player.status === 'GUESSING')
+    //     [0]
+
+    //     return !!playerGuessing && !roomDataState.isPlaying
+    // }
 
     const onStartGuessingTime = () => {
         // find a player that is their current turn
@@ -70,16 +89,6 @@ const useGuessingTime = () => {
         }))
     }
 
-    const onStartShowingGuessedResult = () => {
-
-        setGuessingTimeState(prev => ({
-            ...prev,
-            playerIdGuessing: '',
-            playerIdShowingResult: prev.playerIdGuessing,
-            isShowingGuessedResult: true,
-        }));
-    }
-
     // effect to check is myturn to guess
     useEffect(() => {
         if (!guessingTimeState.isGuessingTime || !guessingTimeState.playerIdGuessing) {
@@ -95,6 +104,7 @@ const useGuessingTime = () => {
 
     useEffect(() => {
         if (!!guessingTimeState.playerIdShowingResult) {
+            console.log("🚀 ~ file: index.tsx ~ line 98 ~ useEffect ~ guessingTimeState1", guessingTimeState)
             setIsMyTurnToGuess(false)
             // Start count down to end the showing result phase
             setTimeout(() => {
@@ -102,6 +112,7 @@ const useGuessingTime = () => {
                     ...prev,
                     isShowingGuessedResult: false,
                 }))
+                console.log("🚀 ~ file: index.tsx ~ line 98 ~ useEffect ~ guessingTimeState2", guessingTimeState)
             }, SHOWING_GUESSED_RESULT_MILLISECCOND);
         }
     }, [guessingTimeState.playerIdShowingResult])
@@ -109,24 +120,44 @@ const useGuessingTime = () => {
 
     /**guessingPlayerStatus is updated from guessing to wrong/correct => should show the result by calling onStartShowingGuessedResult*/
     useEffect(() => {
+        console.log("🚀 ~ file: index.tsx ~ line 115 ~ useEffect ~ previous?.guessingPlayerStatus1", previous?.guessingPlayerStatus)
+
         if (previous?.guessingPlayerStatus === 'GUESSING' && ['WRONG', 'CORRECT'].includes(guessingPlayerStatus)) {
+            console.log("🚀 ~ file: index.tsx ~ line 108 ~ useEffect ~ guessingPlayerStatus", guessingPlayerStatus)
+            console.log("🚀 ~ file: index.tsx ~ line 115 ~ useEffect ~ previous?.guessingPlayerStatu2", previous?.guessingPlayerStatus)
 
             // update guessing player to showing result player
-            onStartShowingGuessedResult()
+            setGuessingTimeState(prev => ({
+                ...prev,
+                playerIdGuessing: '',
+                playerIdShowingResult: prev.playerIdGuessing,
+                isShowingGuessedResult: true,
+            }));
         }
-    }, [guessingPlayerStatus, onStartShowingGuessedResult])
+    }, [guessingPlayerStatus])
 
     /**
-* Will start the guessing again to update guessing player only if not showing guessing result
-* On first player guessing, isShowGuessingResult will be false for sure.
-*/
+     * Will start the guessing again to update guessing player only if not showing guessing result. 
+     * Need to check if isShowGuessingResult is true but previous isShowGuessingResult is false to start next guessing
+     * In order to not starting next guess abruptly when playerIdShowingResult is still false and not being true even once (when first player's guessed)
+    */
     useEffect(() => {
-        if (guessingTimeState.isGuessingTime && !guessingTimeState.isShowingGuessedResult && guessingTimeState.playerIdShowingResult && !guessingTimeState.playerIdGuessing) {
+        console.log("🚀 ~ file: index.tsx ~ line 130 ~ useEffect ~ previous", previous)
+        console.log("🚀 ~ file: index.tsx ~ line 138 ~ useEffect ~ isShowingGuessedResult", isShowingGuessedResult)
+        if (
+            guessingTimeState.isGuessingTime &&
+            !isShowingGuessedResult &&
+            previous?.isShowingGuessedResult &&
+            guessingTimeState.playerIdShowingResult &&
+            !guessingTimeState.playerIdGuessing) {
+
+            console.log("🚀 ~ file: index.tsx ~ line 133 ~ useEffect ~ previous", previous)
+            console.log("🚀 ~ file: index.tsx ~ line 131 ~ useEffect ~ guessingTimeState", guessingTimeState)
             onStartGuessingTime();
         }
     }, [
         roomDataState.currentPlayerStatus,
-        guessingTimeState.isShowingGuessedResult,
+        isShowingGuessedResult,
         guessingTimeState.playerIdShowingResult,
         guessingTimeState.playerIdGuessing,
     ])
@@ -134,10 +165,8 @@ const useGuessingTime = () => {
     /**Reset all guessing state if it is score board viewing state and isShowingGuessedResult is changed to false after the settimeout of viewing guessed result */
     useEffect(() => {
         if (!roomDataState.isViewingScoreBoard || guessingTimeState.isShowingGuessedResult) {
-            console.log("🚀 ~ file: index.tsx ~ line 120 ~ useEffect ~ guessingTimeState", guessingTimeState)
             return;
         }
-        console.log("🚀 ~ file: index.tsx ~ line 123 ~ useEffect ~ guessingTimeState", guessingTimeState)
         // reset guessing time state
         setGuessingTimeState({
             isGuessingTime: false,
@@ -145,13 +174,12 @@ const useGuessingTime = () => {
             playerIdGuessing: '',
             playerIdShowingResult: '',
         })
-    }, [roomDataState.isViewingScoreBoard, guessingTimeState.isShowingGuessedResult])
+    }, [roomDataState.isViewingScoreBoard, isShowingGuessedResult])
 
 
 
     return ({
         onStartGuessingTime,
-        onStartShowingGuessedResult,
         readyForGuessingTimeChecker,
         guessingTimeState,
         playerIdGuessing,
