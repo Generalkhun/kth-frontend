@@ -228,8 +228,6 @@ const index = (props: Props) => {
                     </Button>
                 }
             </Grid>
-
-
         </Grid>
     )
 }
