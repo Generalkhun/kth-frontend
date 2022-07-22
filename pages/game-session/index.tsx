@@ -208,7 +208,7 @@ const index = (props: Props) => {
                             </Grid>
                         </Grid>
                     </>}
-                    {(isGuessingTime && !guessingTimeState.isShowingGuessedResult) && <Typography className={classes.guessingTxt}>รอ {`${getPlayerNameFromId(playerIdGuessing)} ทายคำตอบ`}</Typography>}
+                    {(isGuessingTime && !guessingTimeState.isShowingGuessedResult) && <Typography className={classes.guessingTxt}>◌ รอ {`${getPlayerNameFromId(playerIdGuessing)} ทายคำตอบ`}</Typography>}
                 </Grid>
             </Grid>
             {/* Modals */}
