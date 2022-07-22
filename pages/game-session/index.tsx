@@ -22,14 +22,22 @@ type Props = {}
 const useStyles = makeStyles({
     topContainer: {
         backgroundColor: '#FFFFF3',
+        height: '100vh',
+        paddingTop: '3%'
     },
     ParticipantsPlayableAreaContainer: {
         margin: '10px',
     },
     OuterContainer: {
         height: '75vh',
-        borderRadius: '4px',
-        backgroundColor: 'black'
+        borderRadius: '23px',
+        backgroundColor: 'black',
+    },
+    gameMotto: {
+        marginTop: '2.5%',
+        fontSize: '40px',
+        fontWeight: 'bold',
+        colot: '#262626'
     },
     guessedResultContainer: {
         display: 'flex',
@@ -145,6 +153,7 @@ const index = (props: Props) => {
                 <Grid item md={1}>
                 </Grid>
                 <Grid item md={7}>
+                    <Typography className={classes.gameMotto}>คำต้องห้าม ใครพูด<span style={{color: '#E2515A'}}>ตาย</span>!</Typography>
                     <Paper className={classes.OuterContainer}>
                         <Grid container className={classes.ParticipantsPlayableAreaContainer}>
                             {participantsData.map((participant: Participant, idx: number) => (

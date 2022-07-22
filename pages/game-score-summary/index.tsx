@@ -130,7 +130,7 @@ const index = (props: Props) => {
      */
     useEffect(() => {
         if (roomDataState.currentRound === previous?.currentRound + 1) {
-            router.push('/game-session')
+            router.push('/game-splash-screen')
         }
     }, [roomDataState.currentRound])
 

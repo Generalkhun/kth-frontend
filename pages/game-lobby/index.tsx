@@ -131,7 +131,7 @@ const index = (props: Props) => {
     const router = useRouter()
     useEffect(() => {
         if (roomDataState.currentRound === 1) {
-            router.push('/game-session')
+            router.push('/game-splash-screen')
         }
     }, [roomDataState.currentRound])
 

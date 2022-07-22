@@ -5,8 +5,6 @@ import Link from 'next/link'
 import { useContext, useState } from 'react';
 import { WebSocketContext } from '../src/contextProviders/WebSocketProviders';
 import { GameStateContext } from '../src/contextProviders/GameStateProvider';
-import { TimeoutBar } from '../src/components/GameSession/TimeoutBar';
-//import { initWs, ws } from '../config/constants';
 
 const useStyles = makeStyles({
   topContainer: {

@@ -13,8 +13,7 @@ const useStyles = makeStyles({
         width: '600px',
         height: '76px',
         backgroundColor: '#262626',
-        marginTop: '80px',
-        marginLeft: '260px',
+        marginLeft: '22%',
         borderRadius: '43.475px',
     },
     clockContainer: {
