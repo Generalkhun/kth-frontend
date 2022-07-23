@@ -30,7 +30,7 @@ export const ParticipantDisplayOnLobby = (props: Props) => {
     const name = props.name || ''
     const avatarUrl = props.avatarUrl || ''
     return (
-        <Paper className={classes.participantDisplayItemContaienr}>
+        <Paper elevation={0} className={classes.participantDisplayItemContaienr}>
             <Grid container>
                 <Grid item md={4}>
                     <Avatar className={classes.imgAvatar} alt={name} src={avatarUrl} />

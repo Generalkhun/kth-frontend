@@ -89,10 +89,9 @@ export const DisplayParticipantInGameCard = ({
     const participantId = participant.participantId
     const isMeThisParticipant = myPlayerId === participantId
     const isEliminated = participant.isEliminated
-    const previous = usePrevious({ isEliminated })
     const classes = useStyles()
     const isShowGuessingWord = !isMeThisParticipant ? true : (isEliminated || isShowGuessedAnswerCard)
-    const isHideEliminateButton = isGuessingTime || isMeThisParticipant || isForceDisableEliminatedBtn || isShowGuessedAnswerCard;
+    const isHideEliminateButton = isEliminated || isGuessingTime || isMeThisParticipant || isForceDisableEliminatedBtn || isShowGuessedAnswerCard;
     const displayGuessingWord = isShowGuessingWord ? participant.guessingWord : ''
     const isShowingGreenFilter = (playerIdGuessing === participantId) && !isShowGuessedAnswerCard
 

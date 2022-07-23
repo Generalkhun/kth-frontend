@@ -62,8 +62,9 @@ const useStyles = makeStyles({
     optionValueSettingContainer: {
         paddingTop: '30px',
     },
-    /** @todo style not correct */
     optionValue: {
+        backgroundColor: 'white',
+        borderColor: '#262626',
         borderWidth: '2px',
         paddingRight: '15px',
         marginTop: '3px',
@@ -98,7 +99,7 @@ const useStyles = makeStyles({
     startGameBtn: {
         backgroundColor: '#E2515A',
         borderRadius: '40px',
-        width: '420px',
+        width: '90%',
         height: '50px',
         marginLeft: '60px',
         marginTop: '-5px'
@@ -167,7 +168,6 @@ const index = () => {
                                 </Grid>
                                 <Grid item md={8} className={classes.optionValueContainer}>
                                     <input className={classes.optionValue} type='text' disabled value={round} />
-                                    {/* <TextField className={classes.optionValue} fullWidth variant="outlined" type='text' disabled value={round}></TextField> */}
                                 </Grid>
                                 <Grid item md={2} className={classes.btnArrowcontainer}>
                                     <Button className={classes.increaseBtn} onClick={increaseRound}></Button>
@@ -186,7 +186,6 @@ const index = () => {
                                 </Grid>
                                 <Grid item md={8} className={classes.optionValueContainer}>
                                 <input className={classes.optionValue} type='text' disabled value={displayTimePerRound} />
-                                    {/* <TextField className={classes.optionValue} fullWidth variant="outlined" type='text' disabled value={displayTimePerRound}></TextField> */}
                                 </Grid>
                                 <Grid item md={2} className={classes.btnArrowcontainer}>
                                     <Button className={classes.increaseBtn} onClick={increaseTimePerRound}></Button>

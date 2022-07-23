@@ -146,7 +146,6 @@ const Home: NextPage = () => {
 
       <Grid item md={4} style={{ marginTop: '10px' }}>
       </Grid>
-
     </Grid>
   )
 }
