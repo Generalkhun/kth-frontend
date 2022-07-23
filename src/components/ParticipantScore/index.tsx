@@ -34,6 +34,7 @@ const useStyles = makeStyles({
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
+    fontFamily: 'Kanit',
   },
   rowNameTxt: {
     fontSize: '18px',
@@ -41,6 +42,7 @@ const useStyles = makeStyles({
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
+    fontFamily: 'Kanit',
   },
 })
 

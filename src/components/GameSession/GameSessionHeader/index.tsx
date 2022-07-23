@@ -42,6 +42,7 @@ const useStyles = makeStyles({
         fontWeight: 700,
         marginTop: '10px',
         marginLeft: '60px',
+        fontFamily: 'Kanit',
     },
     gameSessionHeaderTxtTime: {
         color: 'white',

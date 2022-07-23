@@ -53,7 +53,8 @@ const useStyles = makeStyles({
         color: '#FFFFFF',
         fontWeight: 'bold',
         fontSize: '35px',
-        paddingTop: '3px'
+        paddingTop: '3px',
+        fontFamily: 'Kanit',
     },
     AvatarRowWrapper: {
         display: 'flex',

@@ -37,7 +37,8 @@ const useStyles = makeStyles({
         marginTop: '2.5%',
         fontSize: '40px',
         fontWeight: 'bold',
-        colot: '#262626'
+        colot: '#262626',
+        fontFamily: 'Kanit',
     },
     guessedResultContainer: {
         display: 'flex',
@@ -50,7 +51,8 @@ const useStyles = makeStyles({
     guessingTxt: {
         position: 'absolute',
         top: '70%',
-        left: '82%'
+        left: '82%',
+        fontFamily: 'Kanit',
     }
 })
 const index = (props: Props) => {

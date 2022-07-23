@@ -65,7 +65,8 @@ const useStyles = makeStyles({
     },
     guessingWord: {
         fontWeight: 'bold',
-        fontSize: '30px'
+        fontSize: '30px',
+        fontFamily: 'Kanit',
     },
     X: {
         color: '#E2515A',
@@ -75,6 +76,10 @@ const useStyles = makeStyles({
         left: '33%',
         top: '13%',
         position: 'absolute',
+        fontFamily: 'Kanit',
+    },
+    nameTxt: {
+        fontFamily: 'Kanit',
     }
 
 })
@@ -120,7 +125,7 @@ export const DisplayParticipantInGameCard = ({
             </Button>}
             {!isShowGuessedAnswerCard &&
                 <Paper className={classes.nameContainer}>
-                    <Typography>
+                    <Typography className={classes.nameTxt}>
                         {name}
                     </Typography>
                 </Paper>}

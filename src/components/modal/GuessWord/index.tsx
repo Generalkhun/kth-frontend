@@ -27,6 +27,7 @@ const useStyles = makeStyles({
         color: 'white !important',
         fontSize: '22px',
         fontWeight: 'bold',
+        fontFamily: 'Kanit',
     },
     modalContentContainer: {
         display: 'flex',
@@ -44,6 +45,7 @@ const useStyles = makeStyles({
     txtAboveInput: {
         marginBottom: '20px',
         color: '#262626',
+        fontFamily: 'Kanit',
     },
     form: {
         /* This bit sets up the horizontal layout */

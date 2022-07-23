@@ -36,6 +36,7 @@ const useStyles = makeStyles({
         fontSize: '30px',
         fontWeight: 'bold',
         color: 'white',
+        fontFamily: 'Kanit',
     },
     decreaseBtn: {
         width: 0,
@@ -59,6 +60,7 @@ const useStyles = makeStyles({
         fontWeight: 'bold',
         color: 'black',
         textAlign: 'center',
+        fontFamily: 'Kanit',
     },
     optionValueSettingContainer: {
         paddingTop: '30px',
@@ -95,11 +97,13 @@ const useStyles = makeStyles({
         fontSize: '32px',
         fontWeight: 'bold',
         color: 'white',
+        fontFamily: 'Kanit',
     },
     playersTxt: {
         color: 'white',
         paddingTop: '24px',
-        marginLeft: '24px'
+        marginLeft: '24px',
+        fontFamily: 'Kanit',
     }
 })
 

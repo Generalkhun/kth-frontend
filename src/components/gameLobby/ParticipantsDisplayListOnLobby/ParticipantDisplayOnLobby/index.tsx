@@ -20,7 +20,8 @@ const useStyles = makeStyles({
         color: 'white',
         marginTop: '40px',
         fontWeight: 700,
-        fontSize: 24
+        fontSize: 24,
+        fontFamily: 'Kanit',
     }
 })
 

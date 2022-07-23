@@ -2,9 +2,11 @@
 import { Avatar, Button, Grid, makeStyles, Paper, TextField, Typography } from '@material-ui/core'
 import type { NextPage } from 'next'
 import Link from 'next/link'
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { WebSocketContext } from '../src/contextProviders/WebSocketProviders';
 import { GameStateContext } from '../src/contextProviders/GameStateProvider';
+import { useRouter } from 'next/router';
+import { ShakeHorizontal } from 'reshake'
 
 const useStyles = makeStyles({
   topContainer: {
@@ -35,11 +37,26 @@ const useStyles = makeStyles({
   inputName: {
     backgroundColor: 'white',
     width: '409px',
-    height: '75px',
+    height: '52px',
     borderRadius: '16px',
     paddingLeft: '0px',
     marginLeft: '40px',
     marginTop: '100px', /**@todo fix design by using breakpoint */
+    fontFamily: 'Kanit',
+    textAlign: 'center',
+    fontSize: '20px'
+  },
+  inputNameError: {
+    backgroundColor: 'pink',
+    width: '409px',
+    height: '52px',
+    borderRadius: '16px',
+    paddingLeft: '0px',
+    marginLeft: '40px',
+    marginTop: '100px', /**@todo fix design by using breakpoint */
+    fontFamily: 'Kanit',
+    textAlign: 'center',
+    fontSize: '20px'
   },
   imgAvatar: {
     width: '167px',
@@ -50,23 +67,53 @@ const useStyles = makeStyles({
     fontSize: '32px',
     fontWeight: 'bold',
     color: 'white',
+    fontFamily: 'Kanit',
   }
 })
 
 const Home: NextPage = () => {
   const classes = useStyles()
+  const router = useRouter()
   const [inputName, setInputName] = useState<string>('')
-  const { myPlayerInfoState } = useContext(GameStateContext);
+  const [showInputNameError, setShowInputNameError] = useState<boolean>(false)
+  const [showShakingInputBox, setShowShakingInputBox] = useState<boolean>(false)
+  const { myPlayerInfoState, roomDataState } = useContext(GameStateContext);
   const onChangeNameInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputName(e.target.value)
+    setShowInputNameError(false)
   }
   const { joinRoom } = useContext(WebSocketContext);
 
   const onJoinAGame = () => {
+    if (!inputName) {
+      setShowInputNameError(true);
+      return;
+    }
     joinRoom({
       playerName: inputName,
       roomId: '123' /** @todo use real roomId */
-    })
+    });
+  }
+
+  useEffect(() => {
+    if (!roomDataState.id) {
+      return;
+    }
+    router.push('/game-lobby')
+  }, [roomDataState.id, showShakingInputBox])
+
+  useEffect(() => {
+    if (showInputNameError) {
+      setShowShakingInputBox(true)
+      setTimeout(() => {
+        setShowShakingInputBox(false)
+        setShowInputNameError(false)
+      }, 400);
+    }
+  }, [showInputNameError])
+
+  const inputNameComponentRenderer = () => {
+    return <input onChange={onChangeNameInput} className={showInputNameError ? classes.inputNameError : classes.inputName} type='text' autoFocus placeholder='ชื่อผู้เล่น' value={inputName} />
   }
 
   return (
@@ -81,21 +128,24 @@ const Home: NextPage = () => {
             <Avatar className={classes.imgAvatar} alt="ME" src={myPlayerInfoState?.playerAvatarUrl} />
 
           </Paper>
-          <TextField onChange={onChangeNameInput} className={classes.inputName} variant="filled" type='text' autoFocus placeholder='ENTER NAME'></TextField>
-
+          {showShakingInputBox ?
+            <ShakeHorizontal fixed>
+              {inputNameComponentRenderer()}
+            </ShakeHorizontal>
+            :
+            inputNameComponentRenderer()
+          }
         </Paper>
-        <Link href='/game-lobby'>
-          <Button onClick={onJoinAGame} className={classes.playBtn}>
-            <Typography className={classes.joinGame}>
-              เข้าร่วมเกมส์
-            </Typography>
+        <Button onClick={onJoinAGame} className={classes.playBtn}>
+          <Typography className={classes.joinGame}>
+            เข้าร่วมเกมส์
+          </Typography>
 
-          </Button>
-        </Link>
+        </Button>
 
       </Grid>
 
-      <Grid item md={4} style={{ marginTop: '10px'}}>
+      <Grid item md={4} style={{ marginTop: '10px' }}>
       </Grid>
 
     </Grid>
