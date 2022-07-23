@@ -1,8 +1,7 @@
-import { Card, CardActionArea, CardMedia, CardContent, Typography, Paper, Button, makeStyles, IconButton } from '@material-ui/core'
-import React, { useEffect, useState } from 'react'
+import { Typography, Paper, Button, makeStyles } from '@material-ui/core'
+import React from 'react'
 import { usePrevious } from '../../../hooks/usePrevious'
 import { Participant } from '../../../models/ui-layer/model'
-import { ShakeRotate } from 'reshake'
 import useShakingXMark from './useShakingXMark'
 
 type Props = {
@@ -71,21 +70,6 @@ const useStyles = makeStyles({
         fontSize: '30px',
         fontFamily: 'Kanit',
     },
-    // X: {
-    //     color: '#E2515A',
-    //     fontWeight: 'bold',
-    //     fontSize: '160px',
-    //     zIndex: 0,
-    //     left: '33%',
-    //     top: '13%',
-    //     position: 'absolute',
-    //     fontFamily: 'Kanit',
-    // },
-    // shakingXContainer: {
-    //     left: '33%',
-    //     top: '13%',
-    //     position: 'absolute',
-    // },
     nameTxt: {
         fontFamily: 'Kanit',
     }
@@ -112,31 +96,7 @@ export const DisplayParticipantInGameCard = ({
     const displayGuessingWord = isShowGuessingWord ? participant.guessingWord : ''
     const isShowingGreenFilter = (playerIdGuessing === participantId) && !isShowGuessedAnswerCard
 
-    const [XmarkRenderer] = useShakingXMark({isEliminated});
-
-
-    // // Eliminated Mark shaking effect
-    // const [isXmarkShaking, setIsXmarkShaking] = useState<boolean>(false)
-    // const onShakeXMark = () => {
-    //     setIsXmarkShaking(true)
-    //     setTimeout(() => {
-    //         setIsXmarkShaking(false)
-    //     }, 400);
-    // }
-    // useEffect(() => {
-    //     if (previous?.isEliminated === false && isEliminated === true && !isXmarkShaking) {
-    //         onShakeXMark();
-    //     }
-    // }, [isEliminated, isXmarkShaking])
-    // const XmarkRenderer = () => {
-    //     return (isXmarkShaking ?
-    //         <ShakeRotate className={classes.shakingXContainer} fixed>
-    //             <Typography className={classes.X}>X</Typography>
-    //         </ShakeRotate>
-    //         :
-    //         <Typography className={classes.X}>X</Typography>)
-    // }
-
+    const [XmarkRenderer] = useShakingXMark({ isEliminated });
 
     return (
         <div className={classes.ParticipantCardContainer}>
