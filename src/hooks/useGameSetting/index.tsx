@@ -3,8 +3,6 @@ import { MAX_ROUND, MAX_TIME_PER_ROUND_SEC } from '../../config/constants'
 import { GameStateContext } from '../../contextProviders/GameStateProvider'
 import { WebSocketContext } from '../../contextProviders/WebSocketProviders'
 
-type Props = {}
-
 export const useGameSetting = () => {
     const [isReadyToAdjustRoom, setIsReadyToAdjustRoom] = useState(false)
     const { updateRoomSetting } = useContext(WebSocketContext)
@@ -44,13 +42,13 @@ export const useGameSetting = () => {
         setRound((prev) => prev === MAX_ROUND ? prev : prev + 1)
     }
     const decreaseRound = () => {
-        setRound((prev) => prev === 0 ? prev : prev - 1)
+        setRound((prev) => prev === 1 ? prev : prev - 1)
     }
     const increaseTimePerRound = () => {
         setTimePerRoundSecond(prev => prev === MAX_TIME_PER_ROUND_SEC ? prev : prev + 30)
     }
     const decreaseTimePerRound = () => {
-        setTimePerRoundSecond(prev => prev === 0 ? prev : prev - 5) /** @todo change to 30 */
+        setTimePerRoundSecond(prev => prev === 30 ? prev : prev - 30)
     }
 
     return ({

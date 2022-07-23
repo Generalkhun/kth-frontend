@@ -1,6 +1,9 @@
 import { Card, CardActionArea, CardMedia, CardContent, Typography, Paper, Button, makeStyles, IconButton } from '@material-ui/core'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { usePrevious } from '../../../hooks/usePrevious'
 import { Participant } from '../../../models/ui-layer/model'
+import { ShakeRotate } from 'reshake'
+import useShakingXMark from './useShakingXMark'
 
 type Props = {
     participant: Participant
@@ -68,16 +71,21 @@ const useStyles = makeStyles({
         fontSize: '30px',
         fontFamily: 'Kanit',
     },
-    X: {
-        color: '#E2515A',
-        fontWeight: 'bold',
-        fontSize: '160px',
-        zIndex: 0,
-        left: '33%',
-        top: '13%',
-        position: 'absolute',
-        fontFamily: 'Kanit',
-    },
+    // X: {
+    //     color: '#E2515A',
+    //     fontWeight: 'bold',
+    //     fontSize: '160px',
+    //     zIndex: 0,
+    //     left: '33%',
+    //     top: '13%',
+    //     position: 'absolute',
+    //     fontFamily: 'Kanit',
+    // },
+    // shakingXContainer: {
+    //     left: '33%',
+    //     top: '13%',
+    //     position: 'absolute',
+    // },
     nameTxt: {
         fontFamily: 'Kanit',
     }
@@ -97,11 +105,38 @@ export const DisplayParticipantInGameCard = ({
     const participantId = participant.participantId
     const isMeThisParticipant = myPlayerId === participantId
     const isEliminated = participant.isEliminated
+    const previous = usePrevious({ isEliminated })
     const classes = useStyles()
     const isShowGuessingWord = !isMeThisParticipant ? true : (isEliminated || isShowGuessedAnswerCard)
     const isHideEliminateButton = isGuessingTime || isMeThisParticipant || isForceDisableEliminatedBtn || isShowGuessedAnswerCard;
     const displayGuessingWord = isShowGuessingWord ? participant.guessingWord : ''
     const isShowingGreenFilter = (playerIdGuessing === participantId) && !isShowGuessedAnswerCard
+
+    const [XmarkRenderer] = useShakingXMark({isEliminated});
+
+
+    // // Eliminated Mark shaking effect
+    // const [isXmarkShaking, setIsXmarkShaking] = useState<boolean>(false)
+    // const onShakeXMark = () => {
+    //     setIsXmarkShaking(true)
+    //     setTimeout(() => {
+    //         setIsXmarkShaking(false)
+    //     }, 400);
+    // }
+    // useEffect(() => {
+    //     if (previous?.isEliminated === false && isEliminated === true && !isXmarkShaking) {
+    //         onShakeXMark();
+    //     }
+    // }, [isEliminated, isXmarkShaking])
+    // const XmarkRenderer = () => {
+    //     return (isXmarkShaking ?
+    //         <ShakeRotate className={classes.shakingXContainer} fixed>
+    //             <Typography className={classes.X}>X</Typography>
+    //         </ShakeRotate>
+    //         :
+    //         <Typography className={classes.X}>X</Typography>)
+    // }
+
 
     return (
         <div className={classes.ParticipantCardContainer}>
@@ -111,10 +146,10 @@ export const DisplayParticipantInGameCard = ({
                     className={isEliminated ? classes.avatarImgPlayCardEliminated : classes.avatarImgPlayCardAlive}
                     src={avatarUrl}
                 />
-                {isEliminated && <Typography className={classes.X}>X</Typography>}
+                {isEliminated && XmarkRenderer()}
 
             </div>
-            <Paper style={{filter: isEliminated ? 'brightness(50%)' : undefined}} className={classes.guessingWordContainer}>
+            <Paper style={{ filter: isEliminated ? 'brightness(50%)' : undefined }} className={classes.guessingWordContainer}>
                 <Typography className={classes.guessingWord}>
                     {displayGuessingWord}
                 </Typography>

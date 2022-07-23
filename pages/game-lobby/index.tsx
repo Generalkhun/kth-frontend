@@ -64,17 +64,30 @@ const useStyles = makeStyles({
     },
     optionValueSettingContainer: {
         paddingTop: '30px',
-
     },
     /** @todo style not correct */
     optionValue: {
         borderWidth: '2px',
-        color: 'black',
-        fontWeight: 'bold',
-        fontSize: '20px',
         paddingRight: '15px',
         marginTop: '3px',
         borderRadius: '24px',
+        fontSize: '40px',
+        fontWeight: 'bold',
+        color: 'black',
+        textAlign: 'center',
+        width: '80%',
+        fontFamily: 'Kanit',
+    },
+    btnArrowcontainer: {
+        paddingTop: '7px',
+        display: 'flex',
+        justifyContent: 'space-around'
+    },
+    optionValueContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+
+
     },
     participantsListContainer: {
         borderRadius: '24px',
@@ -152,13 +165,14 @@ const index = (props: Props) => {
                                 จำนวนรอบ:
                             </Typography>
                             <Grid container className={classes.optionValueSettingContainer}>
-                                <Grid item md={2}>
+                                <Grid item md={2} className={classes.btnArrowcontainer}>
                                     <Button className={classes.decreaseBtn} onClick={decreaseRound}></Button>
                                 </Grid>
-                                <Grid item md={8}>
-                                    <TextField className={classes.optionValue} fullWidth variant="outlined" type='text' disabled value={round}></TextField>
+                                <Grid item md={8} className={classes.optionValueContainer}>
+                                    <input className={classes.optionValue} type='text' disabled value={round} />
+                                    {/* <TextField className={classes.optionValue} fullWidth variant="outlined" type='text' disabled value={round}></TextField> */}
                                 </Grid>
-                                <Grid item md={2}>
+                                <Grid item md={2} className={classes.btnArrowcontainer}>
                                     <Button className={classes.increaseBtn} onClick={increaseRound}></Button>
 
                                 </Grid>
@@ -170,13 +184,14 @@ const index = (props: Props) => {
                                 เวลาต่อรอบ:
                             </Typography>
                             <Grid container className={classes.optionValueSettingContainer}>
-                                <Grid item md={2}>
+                                <Grid item md={2} className={classes.btnArrowcontainer}>
                                     <Button className={classes.decreaseBtn} onClick={decreaseTimePerRound}></Button>
                                 </Grid>
-                                <Grid item md={8}>
-                                    <TextField className={classes.optionValue} fullWidth variant="outlined" type='text' disabled value={displayTimePerRound}></TextField>
+                                <Grid item md={8} className={classes.optionValueContainer}>
+                                <input className={classes.optionValue} type='text' disabled value={displayTimePerRound} />
+                                    {/* <TextField className={classes.optionValue} fullWidth variant="outlined" type='text' disabled value={displayTimePerRound}></TextField> */}
                                 </Grid>
-                                <Grid item md={2}>
+                                <Grid item md={2} className={classes.btnArrowcontainer}>
                                     <Button className={classes.increaseBtn} onClick={increaseTimePerRound}></Button>
 
                                 </Grid>
