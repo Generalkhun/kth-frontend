@@ -1,6 +1,5 @@
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
-import { Grid, Paper, makeStyles, Typography, Avatar, Button, Divider } from '@material-ui/core';
-import { MockParticipantsGameInfo } from '../../src/mockData'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
+import { Grid, Paper, makeStyles, Typography, Avatar, Button } from '@material-ui/core';
 import ParticipantScore from '../../src/components/ParticipantScore';
 import { isEmpty } from 'lodash';
 import { GameStateContext } from '../../src/contextProviders/GameStateProvider';
@@ -182,7 +181,6 @@ const index = (props: Props) => {
         },
         [scoresEachRound],
     )
-    //const eachPlayerTotalScore = calculateEachPlayerTotalScore(scoresEachRound);
     const playerIds = Object.keys(scoresEachRound[0])
 
     return (

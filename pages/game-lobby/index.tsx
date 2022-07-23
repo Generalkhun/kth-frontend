@@ -1,4 +1,4 @@
-import { Button, Grid, makeStyles, Paper, TextField, Typography } from '@material-ui/core';
+import { Button, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
 import React, { useContext, useEffect } from 'react'
 import { ParticipantsDisplayListOnLobby } from '../../src/components/gameLobby/ParticipantsDisplayListOnLobby';
 import { GameStateContext } from '../../src/contextProviders/GameStateProvider';
@@ -6,9 +6,6 @@ import { WebSocketContext } from '../../src/contextProviders/WebSocketProviders'
 import { useGameSetting } from '../../src/hooks/useGameSetting';
 import { mapPlayersToParticipants } from '../../src/utils/mapper';
 import { useRouter } from 'next/router'
-//import { MockParticipants } from '../../mockData';
-
-type Props = {}
 
 const useStyles = makeStyles({
     topContainer: {
@@ -120,7 +117,7 @@ const useStyles = makeStyles({
     }
 })
 
-const index = (props: Props) => {
+const index = () => {
     const classes = useStyles();
     const { roomDataState } = useContext(GameStateContext);
     const { startRound } = useContext(WebSocketContext);

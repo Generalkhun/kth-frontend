@@ -1,23 +1,17 @@
-import { Box, Grid, Paper, Typography, makeStyles } from '@material-ui/core';
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import { Grid, Paper, Typography, makeStyles } from '@material-ui/core';
+import React, { useContext, useEffect, useState } from 'react'
 import useCountdownTimer from '../../src/hooks/useCountdownTimer';
-import { MockParticipants } from '../../src/mockData'
 import { Participant } from '../../src/models/ui-layer/model';
 import { DisplayParticipantInGameCard } from '../../src/components/PlayerCard/DisplayParticipantInGameCard'
-import { withStyles } from '@material-ui/styles';
-import { KillConfirmation } from '../../src/components/modal/KillConfirmation';
 import GameSessionHeader from '../../src/components/GameSession/GameSessionHeader';
 import { GameStateContext } from '../../src/contextProviders/GameStateProvider';
 import { WebSocketContext } from '../../src/contextProviders/WebSocketProviders';
 import { mapPlayersToParticipants } from '../../src/utils/mapper';
 import { GuessWord } from '../../src/components/modal/GuessWord';
 import { TimeoutBar } from '../../src/components/GameSession/TimeoutBar';
-import { usePrevious } from '../../src/hooks/usePrevious';
 import useGuessingTime from '../../src/hooks/useGuessingTime';
 import { SHOWING_GUESSED_RESULT_MILLISECCOND } from '../../src/config/constants';
 import { useRouter } from 'next/router';
-
-type Props = {}
 
 const useStyles = makeStyles({
     topContainer: {
@@ -55,7 +49,7 @@ const useStyles = makeStyles({
         fontFamily: 'Kanit',
     }
 })
-const index = (props: Props) => {
+const index = () => {
     const { roomDataState, myPlayerInfoState, getPlayerNameFromId } = useContext(GameStateContext);
     const [isGuessingModalOpened, setIsGuessingModalOpened] = useState<boolean>(false)
     const {

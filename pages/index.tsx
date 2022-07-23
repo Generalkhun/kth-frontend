@@ -1,7 +1,6 @@
 
-import { Avatar, Button, Grid, makeStyles, Paper, TextField, Typography } from '@material-ui/core'
+import { Avatar, Button, Grid, makeStyles, Paper, Typography } from '@material-ui/core'
 import type { NextPage } from 'next'
-import Link from 'next/link'
 import { useContext, useEffect, useState } from 'react';
 import { WebSocketContext } from '../src/contextProviders/WebSocketProviders';
 import { GameStateContext } from '../src/contextProviders/GameStateProvider';
