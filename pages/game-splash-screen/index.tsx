@@ -1,6 +1,7 @@
 import { Grid, makeStyles } from '@material-ui/core';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect } from 'react'
+import { SPLASH_PAGE_SHOWING_MILLISECOND } from '../../src/config/constants';
 import { GameStateContext } from '../../src/contextProviders/GameStateProvider';
 
 const useStyle = makeStyles({
@@ -22,14 +23,14 @@ const useStyle = makeStyles({
 })
 const index = () => {
     const classes = useStyle();
-    const { roomDataState } = useContext(GameStateContext)
+    //const { roomDataState } = useContext(GameStateContext)
     const router = useRouter();
     //const currentRound = roomDataState.currentRound
 
     useEffect(() => {
         setTimeout(() => {
             router.push('/game-session')
-        }, 3000);
+        }, SPLASH_PAGE_SHOWING_MILLISECOND);
     }, [])
 
     return (

@@ -84,8 +84,6 @@ const useStyles = makeStyles({
     optionValueContainer: {
         display: 'flex',
         justifyContent: 'center',
-
-
     },
     participantsListContainer: {
         borderRadius: '24px',
@@ -120,12 +118,13 @@ const useStyles = makeStyles({
 
 const index = () => {
     const classes = useStyles();
-    const { roomDataState } = useContext(GameStateContext);
+    const { roomDataState, myPlayerInfoState } = useContext(GameStateContext);
     const { startRound } = useContext(WebSocketContext);
     /** handle data from game state */
     const players = roomDataState.players;
     const participants = mapPlayersToParticipants(players, roomDataState.currentPlayerStatus)
     const numberOfParticipants = participants.length
+    const isIamHost = roomDataState.host === myPlayerInfoState.playerId
 
     const {
         round,
@@ -164,13 +163,13 @@ const index = () => {
                             </Typography>
                             <Grid container className={classes.optionValueSettingContainer}>
                                 <Grid item md={2} className={classes.btnArrowcontainer}>
-                                    <Button className={classes.decreaseBtn} onClick={decreaseRound}></Button>
+                                    {isIamHost && <Button className={classes.decreaseBtn} onClick={decreaseRound}></Button>}
                                 </Grid>
                                 <Grid item md={8} className={classes.optionValueContainer}>
                                     <input className={classes.optionValue} type='text' disabled value={round} />
                                 </Grid>
                                 <Grid item md={2} className={classes.btnArrowcontainer}>
-                                    <Button className={classes.increaseBtn} onClick={increaseRound}></Button>
+                                    {isIamHost && <Button className={classes.increaseBtn} onClick={increaseRound}></Button>}
 
                                 </Grid>
                             </Grid>
@@ -182,14 +181,13 @@ const index = () => {
                             </Typography>
                             <Grid container className={classes.optionValueSettingContainer}>
                                 <Grid item md={2} className={classes.btnArrowcontainer}>
-                                    <Button className={classes.decreaseBtn} onClick={decreaseTimePerRound}></Button>
+                                    {isIamHost && <Button className={classes.decreaseBtn} onClick={decreaseTimePerRound}></Button>}
                                 </Grid>
                                 <Grid item md={8} className={classes.optionValueContainer}>
-                                <input className={classes.optionValue} type='text' disabled value={displayTimePerRound} />
+                                    <input className={classes.optionValue} type='text' disabled value={displayTimePerRound} />
                                 </Grid>
                                 <Grid item md={2} className={classes.btnArrowcontainer}>
-                                    <Button className={classes.increaseBtn} onClick={increaseTimePerRound}></Button>
-
+                                    {isIamHost && <Button className={classes.increaseBtn} onClick={increaseTimePerRound}></Button>}
                                 </Grid>
                             </Grid>
                         </Grid>
