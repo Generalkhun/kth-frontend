@@ -19,6 +19,12 @@ const useStyles = makeStyles({
     height: '75px',
     marginTop: '24px',
   },
+  loginContainerWrapper: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
   loginContainer: {
     backgroundColor: '#262626',
     marginTop: '10%',
@@ -118,10 +124,10 @@ const Home: NextPage = () => {
   return (
     <Grid container className={classes.topContainer}>
 
-      <Grid item md={4}>
+      <Grid item md={2} lg={4}>
 
       </Grid>
-      <Grid item md={4}>
+      <Grid item xs={12} md={8} lg={4} className={classes.loginContainerWrapper}>
         <Paper className={classes.loginContainer}>
           <Paper elevation={0} className={classes.inputContainer}>
             <Avatar className={classes.imgAvatar} alt="ME" src={myPlayerInfoState?.playerAvatarUrl} />
@@ -144,7 +150,7 @@ const Home: NextPage = () => {
 
       </Grid>
 
-      <Grid item md={4} style={{ marginTop: '10px' }}>
+      <Grid item md={2} lg={4} style={{ marginTop: '10px' }}>
       </Grid>
     </Grid>
   )

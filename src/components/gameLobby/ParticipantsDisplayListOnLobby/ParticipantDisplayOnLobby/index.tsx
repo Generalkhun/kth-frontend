@@ -22,6 +22,7 @@ const useStyles = makeStyles({
         fontWeight: 700,
         fontSize: 24,
         fontFamily: 'Kanit',
+        paddingLeft: '30%'
     }
 })
 

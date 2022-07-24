@@ -14,7 +14,7 @@ const useStyles = makeStyles({
     setupGameContainer: {
         marginTop: '50px',
         marginBottom: '30px',
-        marginLeft: '40px',
+        marginLeft: '5%',
         width: '100%',
         backgroundColor: '#EFEEEE',
         height: '90vh',
@@ -90,17 +90,19 @@ const useStyles = makeStyles({
         backgroundColor: '#262626',
         marginTop: '50px',
         marginBottom: '30px',
-        marginLeft: '60px',
         height: '80vh',
-        overflow: 'scroll'
+        overflow: 'scroll',
+        marginLeft: '14%',
+
     },
     startGameBtn: {
         backgroundColor: '#E2515A',
         borderRadius: '40px',
-        width: '90%',
+        width: '87%',
         height: '50px',
-        marginLeft: '60px',
-        marginTop: '-5px'
+        marginLeft: '14%',
+        marginTop: '-5px',
+        marginRight: '2%'
     },
     startGameTxt: {
         fontSize: '32px',
@@ -151,7 +153,7 @@ const index = () => {
 
     return (
         <Grid container className={classes.topContainer}>
-            <Grid item md={7}>
+            <Grid item xs={12} sm={6} md={7}>
                 <Paper className={classes.setupGameContainer}>
                     <Paper className={classes.setupGameHeader} >
                         <Typography className={classes.setupAGame}>SET UP A GAME</Typography>
@@ -194,7 +196,7 @@ const index = () => {
                     </Grid>
                 </Paper>
             </Grid>
-            <Grid item md={4}>
+            <Grid item sm={6} md={5}>
                 <Paper className={classes.participantsListContainer}>
                     <Typography className={classes.playersTxt}>Players: {numberOfParticipants}</Typography>
                     <ParticipantsDisplayListOnLobby participants={participants} />
