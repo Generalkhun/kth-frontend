@@ -1,4 +1,4 @@
-import { Button, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
+import { Avatar, Button, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
 import React, { useContext, useEffect } from 'react'
 import { ParticipantsDisplayListOnLobby } from '../../src/components/gameLobby/ParticipantsDisplayListOnLobby';
 import { GameStateContext } from '../../src/contextProviders/GameStateProvider';
@@ -6,6 +6,7 @@ import { WebSocketContext } from '../../src/contextProviders/WebSocketProviders'
 import { useGameSetting } from '../../src/hooks/useGameSetting';
 import { mapPlayersToParticipants } from '../../src/utils/mapper';
 import { useRouter } from 'next/router'
+import useIsMobile from '../../src/hooks/useIsMobile';
 
 const useStyles = makeStyles({
     topContainer: {
@@ -87,6 +88,7 @@ const useStyles = makeStyles({
     },
     participantsListContainer: {
         borderRadius: '24px',
+        marginRight: '2%',
         backgroundColor: '#4C467D',
         marginTop: '50px',
         marginBottom: '30px',
@@ -94,7 +96,32 @@ const useStyles = makeStyles({
         overflow: 'scroll',
         marginLeft: '14%',
     },
+    participantsListMobileModeContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'start',
+        padding: '10px',
+    },
+    participantMobileModeWrapper: {
+        backgroundColor: '#262626',
+        padding: '10px',
+        margin: '10px',
+    },
+    participantNameMobileMode: {
+        color: 'white',
+        margin: '1%',
+        fontFamily: 'Kanit',
+    },
     startGameBtn: {
+        backgroundColor: '#E2515A',
+        borderRadius: '40px',
+        width: '84%',
+        height: '50px',
+        marginLeft: '14%',
+        marginTop: '-5px',
+        marginRight: '2%'
+    },
+    startGameBtnMobileMode: {
         backgroundColor: '#E2515A',
         borderRadius: '40px',
         width: '84%',
@@ -126,6 +153,7 @@ const index = () => {
     const participants = mapPlayersToParticipants(players, roomDataState.currentPlayerStatus)
     const numberOfParticipants = participants.length
     const isIamHost = roomDataState.host === myPlayerInfoState.playerId
+    const isMobile = useIsMobile();
 
     const {
         round,
@@ -149,10 +177,10 @@ const index = () => {
             router.push('/game-splash-screen')
         }
     }, [roomDataState.currentRound])
-
+    console.log('screen.width', screen.width)
     return (
         <Grid container className={classes.topContainer}>
-            <Grid item xs={12} sm={6} md={7}>
+            <Grid item xs={11} sm={6} md={7}>
                 <Paper className={classes.setupGameContainer}>
                     <Paper className={classes.setupGameHeader} >
                         <Typography className={classes.setupAGame}>SET UP A GAME</Typography>
@@ -163,13 +191,13 @@ const index = () => {
                                 จำนวนรอบ:
                             </Typography>
                             <Grid container className={classes.optionValueSettingContainer}>
-                                <Grid item md={2} className={classes.btnArrowcontainer}>
+                                <Grid item xs={1} md={2} className={classes.btnArrowcontainer}>
                                     {isIamHost && <Button className={classes.decreaseBtn} onClick={decreaseRound}></Button>}
                                 </Grid>
-                                <Grid item md={8} className={classes.optionValueContainer}>
+                                <Grid item xs={10} md={8} className={classes.optionValueContainer}>
                                     <input className={classes.optionValue} type='text' disabled value={round} />
                                 </Grid>
-                                <Grid item md={2} className={classes.btnArrowcontainer}>
+                                <Grid item xs={1} md={2} className={classes.btnArrowcontainer}>
                                     {isIamHost && <Button className={classes.increaseBtn} onClick={increaseRound}></Button>}
 
                                 </Grid>
@@ -181,21 +209,52 @@ const index = () => {
                                 เวลาต่อรอบ:
                             </Typography>
                             <Grid container className={classes.optionValueSettingContainer}>
-                                <Grid item md={2} className={classes.btnArrowcontainer}>
+                                <Grid item xs={1} md={2} className={classes.btnArrowcontainer}>
                                     {isIamHost && <Button className={classes.decreaseBtn} onClick={decreaseTimePerRound}></Button>}
                                 </Grid>
-                                <Grid item md={8} className={classes.optionValueContainer}>
+                                <Grid item xs={10} md={8} className={classes.optionValueContainer}>
                                     <input className={classes.optionValue} type='text' disabled value={displayTimePerRound} />
                                 </Grid>
-                                <Grid item md={2} className={classes.btnArrowcontainer}>
+                                <Grid item xs={1} md={2} className={classes.btnArrowcontainer}>
                                     {isIamHost && <Button className={classes.increaseBtn} onClick={increaseTimePerRound}></Button>}
                                 </Grid>
                             </Grid>
                         </Grid>
+                        {
+                            isMobile &&
+                            <>
+                                <div className={classes.participantsListMobileModeContainer}>
+                                    {participants.map(participant => (
+                                        <Paper className={classes.participantMobileModeWrapper}>
+                                            <Avatar src={participant.avatarUrl} />
+                                            <Typography className={classes.participantNameMobileMode}>{participant.name}</Typography>
+                                        </Paper>
+
+                                    ))}
+
+                                </div>
+                                <Button onClick={onStartGame} className={classes.startGameBtnMobileMode}>
+                                    <Typography className={classes.startGameTxt}>เล่นเลย!</Typography>
+                                </Button>
+                            </>
+
+                        }
                     </Grid>
                 </Paper>
             </Grid>
-            <Grid item sm={6} md={5}>
+            {!isMobile &&
+                <Grid item sm={6} md={5}>
+                    <Paper className={classes.participantsListContainer}>
+                        <Typography className={classes.playersTxt}>Players: {numberOfParticipants}</Typography>
+                        <ParticipantsDisplayListOnLobby participants={participants} />
+                    </Paper>
+                    <Button onClick={onStartGame} className={classes.startGameBtn}>
+                        <Typography className={classes.startGameTxt}>เล่นเลย!</Typography>
+                    </Button>
+                </Grid>
+            }
+            {/* <Grid item xs={1} sm={6} md={5}>
+
                 <Paper className={classes.participantsListContainer}>
                     <Typography className={classes.playersTxt}>Players: {numberOfParticipants}</Typography>
                     <ParticipantsDisplayListOnLobby participants={participants} />
@@ -204,7 +263,7 @@ const index = () => {
                     <Typography className={classes.startGameTxt}>เล่นเลย!</Typography>
                 </Button>
 
-            </Grid>
+            </Grid> */}
 
         </Grid>
 
