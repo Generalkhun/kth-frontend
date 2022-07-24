@@ -15,7 +15,7 @@ import { useRouter } from 'next/router';
 
 const useStyles = makeStyles({
     topContainer: {
-        backgroundColor: '#FFFFF3',
+        backgroundColor: '#28264F',
         height: '100vh',
         paddingTop: '3%'
     },

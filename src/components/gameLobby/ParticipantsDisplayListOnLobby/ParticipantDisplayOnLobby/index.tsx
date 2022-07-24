@@ -14,7 +14,7 @@ const useStyles = makeStyles({
         marginLeft: '34px'
     },
     participantDisplayItemContaienr: {
-        backgroundColor: '#262626'
+        backgroundColor: '#4C467D'
     },
     nameTxt: {
         color: 'white',

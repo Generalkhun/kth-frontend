@@ -6,7 +6,7 @@ import StarIcon from '@material-ui/icons/Star';
 
 const useStyles = makeStyles({
     topContainer: {
-        backgroundColor: '#FFFFF3',
+        backgroundColor: '#28264F',
         height: '100vh',
     },
     playerContainer: {

@@ -9,19 +9,19 @@ import { useRouter } from 'next/router'
 
 const useStyles = makeStyles({
     topContainer: {
-        backgroundColor: '#FFFFF3',
+        backgroundColor: '#28264F',
     },
     setupGameContainer: {
         marginTop: '50px',
         marginBottom: '30px',
         marginLeft: '5%',
         width: '100%',
-        backgroundColor: '#EFEEEE',
+        backgroundColor: '#4C467D',
         height: '90vh',
         borderRadius: '24px 24px 24px 24px',
     },
     setupGameHeader: {
-        backgroundColor: '#262626',
+        backgroundColor: '#8175C1',
         textAlign: 'center',
         height: '106px',
         display: 'flex',
@@ -87,18 +87,17 @@ const useStyles = makeStyles({
     },
     participantsListContainer: {
         borderRadius: '24px',
-        backgroundColor: '#262626',
+        backgroundColor: '#4C467D',
         marginTop: '50px',
         marginBottom: '30px',
         height: '80vh',
         overflow: 'scroll',
         marginLeft: '14%',
-
     },
     startGameBtn: {
         backgroundColor: '#E2515A',
         borderRadius: '40px',
-        width: '87%',
+        width: '84%',
         height: '50px',
         marginLeft: '14%',
         marginTop: '-5px',

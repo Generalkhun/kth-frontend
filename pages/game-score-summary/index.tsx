@@ -12,7 +12,7 @@ const useStyles = makeStyles({
         display: 'flex',
         justifyContent: 'center',
         position: 'relative',
-        backgroundColor: '#FFFFF3',
+        backgroundColor: '#28264F',
         height: '100vh'
     },
     contentContainer: {

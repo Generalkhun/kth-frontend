@@ -9,13 +9,14 @@ import { ShakeHorizontal } from 'reshake'
 
 const useStyles = makeStyles({
   topContainer: {
-    backgroundColor: '#FFFFF3',
+    backgroundColor: '#28264F',
     height: '100vh',
   },
   playBtn: {
     backgroundColor: '#E2515A',
     borderRadius: '40px',
-    width: '485px',
+    maxWidth: '485px',
+    width: '100%',
     height: '75px',
     marginTop: '24px',
   },
@@ -26,39 +27,44 @@ const useStyles = makeStyles({
     alignItems: 'center',
   },
   loginContainer: {
-    backgroundColor: '#262626',
+    backgroundColor: '#8175C1',
     marginTop: '10%',
-    width: '489px',
+    maxWidth: '489px',
+    width: '100%',
     height: '500px', /**@todo fix design by using breakpoint */
     borderRadius: '24px',
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column'
   },
   inputContainer: {
     paddingTop: '100px',
-    paddingLeft: '160px',
-    backgroundColor: '#262626',
+    backgroundColor: '#8175C1',
     boxShadow: '0px',
     borderRadius: '24px',
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column'
+
   },
   inputName: {
     backgroundColor: 'white',
-    width: '409px',
+    maxWidth: '350px',
+    width: '80%',
     height: '52px',
     borderRadius: '16px',
-    paddingLeft: '0px',
-    marginLeft: '40px',
-    marginTop: '100px', /**@todo fix design by using breakpoint */
+    marginTop: '100px',
     fontFamily: 'Kanit',
     textAlign: 'center',
     fontSize: '20px'
   },
   inputNameError: {
     backgroundColor: 'pink',
-    width: '409px',
+    maxWidth: '350px',
+    width: '100%',
     height: '52px',
     borderRadius: '16px',
-    paddingLeft: '0px',
-    marginLeft: '40px',
-    marginTop: '100px', /**@todo fix design by using breakpoint */
+    marginTop: '100px',
     fontFamily: 'Kanit',
     textAlign: 'center',
     fontSize: '20px'
