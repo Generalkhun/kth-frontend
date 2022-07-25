@@ -12,6 +12,7 @@ import { TimeoutBar } from '../../src/components/GameSession/TimeoutBar';
 import useGuessingTime from '../../src/hooks/useGuessingTime';
 import { SHOWING_GUESSED_RESULT_MILLISECCOND } from '../../src/config/constants';
 import { useRouter } from 'next/router';
+import useIsMobile from '../../src/hooks/useIsMobile';
 
 const useStyles = makeStyles({
     topContainer: {
@@ -23,7 +24,7 @@ const useStyles = makeStyles({
         margin: '10px',
     },
     OuterContainer: {
-        height: '75vh',
+        height: '68vh',
         borderRadius: '23px',
         backgroundColor: 'black',
     },
@@ -31,7 +32,7 @@ const useStyles = makeStyles({
         marginTop: '2.5%',
         fontSize: '40px',
         fontWeight: 'bold',
-        colot: '#262626',
+        color: 'white',
         fontFamily: 'Kanit',
     },
     guessedResultContainer: {
@@ -73,6 +74,8 @@ const index = () => {
     } = useCountdownTimer({
         startTimeSecond: roomDataState.limitTime,
     })
+
+    const isMobile = useIsMobile();
 
     const classes = useStyles()
     const myPlayerId = myPlayerInfoState?.playerId
@@ -192,7 +195,7 @@ const index = () => {
                 <Grid item md={1}>
                 </Grid>
                 <Grid item md={7}>
-                    <Typography className={classes.gameMotto}>คำต้องห้าม ใครพูด<span style={{ color: '#E2515A' }}>ตาย</span>!</Typography>
+                    {!isMobile && < Typography className={classes.gameMotto}>คำต้องห้าม ใครพูดตาย!</Typography>}
                     <Paper className={classes.OuterContainer}>
                         <Grid container className={classes.ParticipantsPlayableAreaContainer}>
                             {participantsData.map((participant: Participant, idx: number) => (

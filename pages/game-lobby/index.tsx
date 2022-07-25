@@ -11,6 +11,7 @@ import useIsMobile from '../../src/hooks/useIsMobile';
 const useStyles = makeStyles({
     topContainer: {
         backgroundColor: '#28264F',
+        height: '100vh',
     },
     setupGameContainer: {
         marginTop: '50px',
@@ -53,7 +54,6 @@ const useStyles = makeStyles({
         padding: 0,
     },
     optionText: {
-        paddingTop: '50px',
         fontSize: '30px',
         fontWeight: 'bold',
         color: 'black',
@@ -124,11 +124,11 @@ const useStyles = makeStyles({
     startGameBtnMobileMode: {
         backgroundColor: '#E2515A',
         borderRadius: '40px',
-        width: '84%',
+        width: '88%',
         height: '50px',
-        marginLeft: '14%',
-        marginTop: '-5px',
-        marginRight: '2%'
+        marginLeft: '2%',
+        position: 'absolute',
+        top: '88%'
     },
     startGameTxt: {
         fontSize: '32px',
@@ -185,7 +185,21 @@ const index = () => {
                     <Paper className={classes.setupGameHeader} >
                         <Typography className={classes.setupAGame}>SET UP A GAME</Typography>
                     </Paper>
-                    <Grid container>
+                    {
+                        isMobile &&
+                        <div className={classes.participantsListMobileModeContainer}>
+                            {participants.map(participant => (
+                                <Paper className={classes.participantMobileModeWrapper}>
+                                    <Avatar src={participant.avatarUrl} />
+                                    <Typography className={classes.participantNameMobileMode}>{participant.name}</Typography>
+                                </Paper>
+
+                            ))}
+
+                        </div>
+
+                    }
+                    <Grid container style={{ paddingTop: isMobile ? '0px' : '50px' }}>
                         <Grid item md={6}>
                             <Typography className={classes.optionText}>
                                 จำนวนรอบ:
@@ -222,21 +236,9 @@ const index = () => {
                         </Grid>
                         {
                             isMobile &&
-                            <>
-                                <div className={classes.participantsListMobileModeContainer}>
-                                    {participants.map(participant => (
-                                        <Paper className={classes.participantMobileModeWrapper}>
-                                            <Avatar src={participant.avatarUrl} />
-                                            <Typography className={classes.participantNameMobileMode}>{participant.name}</Typography>
-                                        </Paper>
-
-                                    ))}
-
-                                </div>
-                                <Button onClick={onStartGame} className={classes.startGameBtnMobileMode}>
-                                    <Typography className={classes.startGameTxt}>เล่นเลย!</Typography>
-                                </Button>
-                            </>
+                            <Button onClick={onStartGame} className={classes.startGameBtnMobileMode}>
+                                <Typography className={classes.startGameTxt}>เล่นเลย!</Typography>
+                            </Button>
 
                         }
                     </Grid>
