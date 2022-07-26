@@ -24,7 +24,6 @@ const useStyles = makeStyles({
         margin: '10px',
     },
     OuterContainer: {
-        height: '68vh',
         borderRadius: '23px',
         backgroundColor: 'black',
     },
@@ -194,9 +193,9 @@ const index = () => {
             <Grid container>
                 <Grid item md={1}>
                 </Grid>
-                <Grid item md={7}>
+                <Grid item md={7} xs={12}>
                     {!isMobile && < Typography className={classes.gameMotto}>คำต้องห้าม ใครพูดตาย!</Typography>}
-                    <Paper className={classes.OuterContainer}>
+                    <Paper style={{ height: isMobile? '85vh' : '65vh' }} className={classes.OuterContainer}>
                         <Grid container className={classes.ParticipantsPlayableAreaContainer}>
                             {participantsData.map((participant: Participant, idx: number) => (
                                 <Grid key={idx} item md={4}>
@@ -219,7 +218,7 @@ const index = () => {
                         - If screen width > 960px => Show besides
                         - If < 960px => Show as modal instead
                     } */}
-                    {screen.width > 412 ?
+                    {!isMobile ?
                         guessingResultRenderer()
                         :
                         // <GuessingResultModal
