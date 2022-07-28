@@ -51,7 +51,9 @@ const useCountdownTimer = ({ startTimeMin, startTimeSecond }: Props) => {
 
     return {
         displayTimeLeftMin,
+        setDisplayTimeLeftMin,
         displayTimeLeftSecond,
+        setDisplayTimeLeftSecond,
         isCountingdown: isRunning,
         displayRatioTimeLeft,
         startCountdown,

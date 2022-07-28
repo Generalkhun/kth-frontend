@@ -35,7 +35,7 @@ const useStyles = makeStyles({
     },
     gameSessionHeaderTxtRound: {
         color: 'white',
-        fontSize: 35,
+        fontSize: 33,
         fontWeight: 700,
         marginTop: '10px',
         marginLeft: '60px',

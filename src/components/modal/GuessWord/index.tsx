@@ -19,7 +19,7 @@ const useStyles = makeStyles({
         justifyContent: 'center',
         alignItems: 'center',
         height: '64px',
-        backgroundColor: '#E2515A',
+        backgroundColor: '#8175C1',
         borderRadius: '0px',
         border: '0px solid rgb(204, 204, 204)',
     },
@@ -60,7 +60,8 @@ const useStyles = makeStyles({
         width: '95%',
         borderRadius: '40px',
         height: '50px',
-        marginTop: '50px',
+        position: 'absolute',
+        top: '86%',
         fontSize: '20px',
         paddingLeft: 30,
     },
@@ -68,6 +69,7 @@ const useStyles = makeStyles({
         flexGrow: 2,
         border: 'none',
         fontSize: '20px',
+        fontFamily: 'Kanit',
         ['&:focus']: {
             border: 'none',
             outline: 'none',
@@ -75,12 +77,13 @@ const useStyles = makeStyles({
 
     },
     submitGuessingWordBtn: {
-        backgroundColor: '#262626',
+        backgroundColor: '#E2515A',
         borderRadius: '100px',
         width: '80px',
         color: 'white',
         fontSize: '20px',
         fontWeight: 'bold',
+        fontFamily: 'Kanit'
     }
 })
 const customStyles = {
@@ -91,8 +94,9 @@ const customStyles = {
         bottom: 'auto',
         marginRight: '-50%',
         transform: 'translate(-50%, -50%)',
-        width: '551px',
-        height: '380px',
+        width: '85%',
+        height: '52%',
+        maxWidth: '400px',
         padding: '0px',
         borderRadius: '20px'
     },
@@ -107,7 +111,9 @@ export const GuessWord = ({
     const [guessInputWord, setGuessInputWord] = useState<string>('')
     const afterOpenModal = () => {
         // references are now sync'd and can be accessed.
-        subtitle.style.color = 'white';
+        if (!!subtitle?.style) {
+            subtitle.style.color = 'white';
+        }
     }
     const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         setGuessInputWord(e.target.value)

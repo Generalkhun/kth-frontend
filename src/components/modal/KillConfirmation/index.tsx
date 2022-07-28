@@ -45,7 +45,9 @@ export const KillConfirmation = ({
     const classes = useStyles();
     function afterOpenModal() {
         // references are now sync'd and can be accessed.
-        subtitle.style.color = '#f00';
+        if (!!subtitle?.style) {
+            subtitle.style.color = 'white';
+        }
     }
     return (
         <Modal

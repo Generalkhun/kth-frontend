@@ -69,7 +69,8 @@ const useStyles = makeStyles({
         width: '95%',
         borderRadius: '40px',
         height: '50px',
-        marginTop: '50px',
+        top: '87%',
+        position: 'absolute',
         fontSize: '20px',
         paddingLeft: 30,
     },
@@ -152,7 +153,9 @@ export const GuessResultForMiddleScreen = ({
     const classes = useStyles();
     const afterOpenModal = () => {
         // references are now sync'd and can be accessed.
-        subtitle.style.color = 'white';
+        if (!!subtitle?.style) {
+            subtitle.style.color = 'white';
+        }
     }
     const guessedResultColor = isCorrect ? '#6ADEBC' : '#E2515A';
     return (

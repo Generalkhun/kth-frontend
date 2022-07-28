@@ -6,7 +6,7 @@ import { WebSocketContext } from '../../contextProviders/WebSocketProviders'
 export const useGameSetting = () => {
     const [isReadyToAdjustRoom, setIsReadyToAdjustRoom] = useState(false)
     const { updateRoomSetting } = useContext(WebSocketContext)
-    const { roomDataState } = useContext(GameStateContext)
+    const { roomDataState, myPlayerInfoState } = useContext(GameStateContext)
     const totalRound = roomDataState.totalRound
     const limitTime = roomDataState.limitTime
     const [round, setRound] = useState<number>(5)
@@ -20,14 +20,14 @@ export const useGameSetting = () => {
     useEffect(() => {
         setIsReadyToAdjustRoom(true);
     }, [])
-    
+
     // update to ws server
     useEffect(() => {
-        if(!!round && !!timePerRoundSecond && isReadyToAdjustRoom)
-        updateRoomSetting({
-            totalRound: round,
-            limitTime: timePerRoundSecond,
-        })
+        if (!!round && !!timePerRoundSecond && isReadyToAdjustRoom && myPlayerInfoState.playerId === roomDataState.host)
+            updateRoomSetting({
+                totalRound: round,
+                limitTime: timePerRoundSecond,
+            })
     }, [round, timePerRoundSecond, isReadyToAdjustRoom])
 
     // update from ws server

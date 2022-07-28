@@ -53,17 +53,17 @@ const useStyles = makeStyles({
 const index = () => {
     const classes = useStyles()
     const confettiLaunchPoints = useMemo(() => [
-        // right side confetti cannon
+        // left side confetti cannon
         () => ({
             x: 0,
-            y: window.innerHeight / 2,
-            angle: 200,
+            y: window.innerHeight,
+            angle: 180,
         }),
-        // left side confetti cannon
+        // right side confetti cannon
         () => ({
             x: window.innerWidth,
             y: window.innerHeight,
-            angle: -200,
+            angle: -180,
         }),
     ], [])
     const ConfettiCannon = useConfettiCannon({

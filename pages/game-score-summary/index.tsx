@@ -6,6 +6,8 @@ import { GameStateContext } from '../../src/contextProviders/GameStateProvider';
 import { WebSocketContext } from '../../src/contextProviders/WebSocketProviders';
 import { useRouter } from 'next/router';
 import { usePrevious } from '../../src/hooks/usePrevious';
+import { MIDDLE_MAX_SCREEN_SIZE, MOBILE_MAX_SCREEN_SIZE } from '../../src/config/constants';
+import useIsSmallerWidthThan from '../../src/hooks/useIsSmallerWidthThan';
 
 const useStyles = makeStyles({
     topContainer: {
@@ -21,26 +23,29 @@ const useStyles = makeStyles({
         justifyContent: 'center',
     },
     scoreBoardContainer: {
-        background: '#FFD589',
+        background: '#4C467D',
         borderRadius: '24px',
-        height: '77vh',
+        maxHeight: '77vh',
         minWidth: '450px',
-        display: 'flex',
-        justifyContent: 'end',
-        flexDirection: 'column',
+        //overflow: 'scroll',
         paddingBottom: '20px',
         top: '10%',
         position: 'absolute',
         width: '83%',
-        maxWidth: '12x00px'
+        maxWidth: '1200px'
+    },
+    scoreBoardRoundContainer: {
+        overflow: 'scroll',
+        maxHeight: '49vh',
+    },
+    scoreBoardSummaryContainer: {
+        marginTop: '10px',
     },
     scoreBoardHeaderContainer: {
         top: '1%',
-        backgroundColor: '#262626',
         borderRadius: '40px',
         minWidth: '500px',
         position: 'absolute',
-        marginTop: '50px',
         zIndex: 4,
         height: '8%',
         textAlign: 'center',
@@ -51,25 +56,24 @@ const useStyles = makeStyles({
     scoreBoardTxt: {
         color: '#FFFFFF',
         fontWeight: 'bold',
-        fontSize: '35px',
         paddingTop: '3px',
         fontFamily: 'Kanit',
     },
     AvatarRowWrapper: {
+        minWidth: '400px',
+        maxWidth: '10000px',
+        backgroundColor: 'transparent',
+        height: '80px',
+        borderRadius: '90px',
+        marginBottom: '10px',
+        marginRight: '50px',
+        marginLeft: '50px',
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'start',
-        minWidth: '400px',
-        maxWidth: '10000px',
-        height: '11.5%',
-        marginBottom: '1%',
-        marginLeft: '19%',
-        marginRight: '8.5%',
-        gap: '7%'
-    },
-    imgAvatar: {
-        width: '70px',
-        height: '70px',
+        textAlign: 'center',
+        marginTop: '3%',
+        paddingLeft: '4%',
     },
     nextRoundBtn: {
         width: '300px',
@@ -80,6 +84,7 @@ const useStyles = makeStyles({
         fontWeight: 'bold',
         color: 'white',
         top: '90%',
+        fontFamily: 'Kanit',
     },
     waitingForHostToProceedInfoContainer: {
         width: '420px',
@@ -90,15 +95,11 @@ const useStyles = makeStyles({
         fontWeight: 'bold',
         color: '#262626 !important',
         top: '90%',
+        fontFamily: 'Kanit',
     }
 });
 
-
-type Props = {
-
-}
-
-const index = (props: Props) => {
+const index = () => {
     const classes = useStyles();
     const router = useRouter();
     const { roomDataState, myPlayerInfoState, getPlayerAvatarFromPlayerId, getPlayerNameFromId, setSortedPlayerIdByTotalScore } = useContext(GameStateContext);
@@ -109,6 +110,8 @@ const index = (props: Props) => {
     const isShowNextRoundBtn = roomDataState.host === myPlayerInfoState.playerId
     const previous = usePrevious({ currentRound: roomDataState.currentRound })
     const isLastRound = roomDataState.currentRound === roomDataState.totalRound
+    const isMobile = useIsSmallerWidthThan(MOBILE_MAX_SCREEN_SIZE);
+    const isSmallerThanMiddleScreenSize = useIsSmallerWidthThan(MIDDLE_MAX_SCREEN_SIZE);
     const onNextRoundStart = () => {
         startRound({
             roomId: '123'
@@ -149,12 +152,12 @@ const index = (props: Props) => {
                     }
                 })
                 .sort((a, b) => {
-                    if(a.totalScore > b.totalScore) {
+                    if (a.totalScore > b.totalScore) {
                         return -1
                     }
                     return 1
                 })
-                .map((player,index) => ({...player, rank: index}))
+                .map((player, index) => ({ ...player, rank: index }))
         )
         //navigate tp winner page
         router.push('/game-winner')
@@ -185,35 +188,52 @@ const index = (props: Props) => {
 
     return (
         <Grid container className={classes.topContainer}>
-            <Paper className={classes.scoreBoardHeaderContainer}>
-                <Typography className={classes.scoreBoardTxt}>SCORE BOARD</Typography>
+            <Paper elevation={isMobile ? 0 : 1} style={{
+                backgroundColor: isMobile ? 'transparent' : '#8175C1',
+                marginTop: isMobile ? '0px' : '30px',
+            }} className={classes.scoreBoardHeaderContainer}>
+                <Typography style={{
+                    fontSize: isMobile ? '25px' : '35px'
+                }} className={classes.scoreBoardTxt}>SCORE BOARD</Typography>
             </Paper>
 
-            <Grid item md={10} className={classes.contentContainer}>
+            <Grid item md={10} sm={12} className={classes.contentContainer}>
                 <Paper className={classes.scoreBoardContainer}>
                     <>
-                        <div className={classes.AvatarRowWrapper}>
+                        <div style={{
+                            gap: isMobile ? '2%' : '7%',
+                            paddingTop: isSmallerThanMiddleScreenSize ? '2%' : '0%'
+                        }} className={classes.AvatarRowWrapper}>
+                            <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
                             {playerIds.map((playerId: string, idx: number) => {
-                                return <Avatar key={idx} className={classes.imgAvatar} alt="ME" src={getPlayerAvatarFromPlayerId(playerId)} />
+                                return <Avatar style={{
+                                    width: isSmallerThanMiddleScreenSize ? '50px' : '70px',
+                                    height: isSmallerThanMiddleScreenSize ? '50px' : '70px',
+                                }} key={idx}
+                                    alt="ME" src={getPlayerAvatarFromPlayerId(playerId)} />
                             })}
                         </div>
 
+                        <div className={classes.scoreBoardRoundContainer}>
+                            {scoresEachRound.map((gameInfoEachRound: Record<string, number>, idx: number) => (
+                                <ParticipantScore
+                                    key={idx}
+                                    gameInfoEachRound={gameInfoEachRound}
+                                    rowOption={idx === roomDataState.currentRound - 1 ? 'currentRoundRow' : 'normalRoundRow'}
+                                    rowName={`Round ${idx + 1}`}
+                                    isAvatarOntop={idx === 0}
+                                />
+                            ))}
+                        </div>
 
-                        {scoresEachRound.map((gameInfoEachRound: Record<string, number>, idx: number) => (
+                        <div className={classes.scoreBoardSummaryContainer}>
                             <ParticipantScore
-                                key={idx}
-                                gameInfoEachRound={gameInfoEachRound}
-                                rowOption={idx === roomDataState.currentRound - 1 ? 'currentRoundRow' : 'normalRoundRow'}
-                                rowName={`Round ${idx + 1}`}
-                                isAvatarOntop={idx === 0}
+                                key={'summary'}
+                                gameInfoEachRound={totalScore}
+                                rowOption={'summaryRow'}
+                                rowName={'PTH'}
                             />
-                        ))}
-                        <ParticipantScore
-                            key={'summary'}
-                            gameInfoEachRound={totalScore}
-                            rowOption={'summaryRow'}
-                            rowName={'PTH'}
-                        />
+                        </div>
                     </>
                 </Paper>
 

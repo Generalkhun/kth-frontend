@@ -108,6 +108,23 @@ export const GameStateProviders = ({ children }: any) => {
         return foundPlayer[0].playerAvatarUrl
     }
 
+    // const countEliminatedPlayers = () => {
+    //     Object.keys(roomDataState.currentPlayerStatus).reduce((sumEliminatedPlayer, currentPlayerId) => {
+    //         if (roomDataState.currentPlayerStatus[currentPlayerId] === 'ELIMINATED') {
+    //             sumEliminatedPlayer += 1
+    //         }
+    //         return sumEliminatedPlayer
+    //     }, 0)
+
+    // }
+
+    const countEliminatedPlayers = useCallback(
+        () => {
+            return Object.values(roomDataState.currentPlayerStatus).filter((status) => status === 'PLAYING').length;
+        },
+        [roomDataState.currentPlayerStatus],
+    )
+
     return (
         <GameStateContext.Provider
             value={
@@ -120,6 +137,7 @@ export const GameStateProviders = ({ children }: any) => {
                     getPlayerAvatarFromPlayerId,
                     setSortedPlayerIdByTotalScore,
                     sortedPlayerIdByTotalScore,
+                    countEliminatedPlayers,
                 }
             }
         >

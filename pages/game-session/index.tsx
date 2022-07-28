@@ -26,6 +26,7 @@ const useStyles = makeStyles({
     },
     OuterContainer: {
         borderRadius: '23px',
+        overflow: 'scroll',
         backgroundColor: '#8175C1',
     },
     gameMotto: {
@@ -51,7 +52,7 @@ const useStyles = makeStyles({
     }
 })
 const index = () => {
-    const { roomDataState, myPlayerInfoState, getPlayerNameFromId } = useContext(GameStateContext);
+    const { roomDataState, myPlayerInfoState, getPlayerNameFromId, countEliminatedPlayers } = useContext(GameStateContext);
     const [isGuessingModalOpened, setIsGuessingModalOpened] = useState<boolean>(false)
     const {
         guessingTimeState,
@@ -65,7 +66,9 @@ const index = () => {
     const { eliminatePlayer, guessWord } = useContext(WebSocketContext);
     const {
         displayTimeLeftMin,
+        setDisplayTimeLeftMin,
         displayTimeLeftSecond,
+        setDisplayTimeLeftSecond,
         displayRatioTimeLeft,
         startCountdown,
         resetCountdown,
@@ -83,7 +86,8 @@ const index = () => {
     const myAvatarUrl = myPlayerInfoState?.playerAvatarUrl
     const currentRound = roomDataState.currentRound;
     const isImDead = !!roomDataState.currentPlayerStatus[myPlayerId] ? roomDataState.currentPlayerStatus[myPlayerId] === 'ELIMINATED' : false;
-    let participantsData: any = mapPlayersToParticipants(roomDataState.players, roomDataState.currentPlayerStatus, roomDataState.currentWords);
+    const participantsData: any = mapPlayersToParticipants(roomDataState.players, roomDataState.currentPlayerStatus, roomDataState.currentWords);
+    const totalEliminatedPlayers = countEliminatedPlayers();
 
     // Guessing time
     const showingResultPlayerStatus = roomDataState.currentPlayerStatus[guessingTimeState.playerIdShowingResult]
@@ -116,6 +120,16 @@ const index = () => {
             onStartGuessingTime();
         }
     }, [displayTimeLeftMin, displayTimeLeftSecond, roomDataState.isPlaying, readyForGuessingTimeChecker, isGuessingTime])
+
+    /**If only a single player servived, end the time*/
+    useEffect(() => {
+      if(totalEliminatedPlayers === 1) {
+        pauseCountdown();
+        setDisplayTimeLeftMin(0);
+        setDisplayTimeLeftSecond(0);
+      }
+    }, [totalEliminatedPlayers])
+    
 
     //effect to open the guessing modal (will not open if still showing the previous guessed result)
     useEffect(() => {
