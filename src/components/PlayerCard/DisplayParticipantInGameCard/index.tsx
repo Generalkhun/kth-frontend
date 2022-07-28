@@ -29,7 +29,7 @@ const useStyles = makeStyles({
     },
     nameContainer: {
         color: 'white',
-        backgroundColor: 'black',
+        backgroundColor: 'transparent',
         marginTop: '10px',
         textAlign: 'center',
         maxWidth: '250px',
@@ -54,7 +54,7 @@ const useStyles = makeStyles({
         width: '100%',
         height: '100%',
         opacity: 0.5,
-        backgroundColor: '#78E038',
+        backgroundColor: '#6ADEBC',
         position: 'absolute',
     },
     guessingWordContainer: {
@@ -118,11 +118,12 @@ export const DisplayParticipantInGameCard = ({
                 <img height='20px' src='./error-failure-10382.svg' />
             </Button>}
             {!isShowGuessedAnswerCard &&
-                <Paper className={classes.nameContainer}>
+                <div className={classes.nameContainer}>
                     <Typography className={classes.nameTxt}>
                         {name}
                     </Typography>
-                </Paper>}
+                </div>
+            }
         </div>
 
     )

@@ -6,7 +6,8 @@ import { WebSocketContext } from '../../src/contextProviders/WebSocketProviders'
 import { useGameSetting } from '../../src/hooks/useGameSetting';
 import { mapPlayersToParticipants } from '../../src/utils/mapper';
 import { useRouter } from 'next/router'
-import useIsMobile from '../../src/hooks/useIsMobile';
+import useIsSmallerWidthThan from '../../src/hooks/useIsSmallerWidthThan';
+import { MOBILE_MAX_SCREEN_SIZE } from '../../src/config/constants';
 
 const useStyles = makeStyles({
     topContainer: {
@@ -153,7 +154,7 @@ const index = () => {
     const participants = mapPlayersToParticipants(players, roomDataState.currentPlayerStatus)
     const numberOfParticipants = participants.length
     const isIamHost = roomDataState.host === myPlayerInfoState.playerId
-    const isMobile = useIsMobile();
+    const isMobile = useIsSmallerWidthThan(MOBILE_MAX_SCREEN_SIZE);
 
     const {
         round,

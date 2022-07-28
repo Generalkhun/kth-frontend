@@ -10,9 +10,10 @@ import { mapPlayersToParticipants } from '../../src/utils/mapper';
 import { GuessWord } from '../../src/components/modal/GuessWord';
 import { TimeoutBar } from '../../src/components/GameSession/TimeoutBar';
 import useGuessingTime from '../../src/hooks/useGuessingTime';
-import { SHOWING_GUESSED_RESULT_MILLISECCOND } from '../../src/config/constants';
+import { MIDDLE_MAX_SCREEN_SIZE, MOBILE_MAX_SCREEN_SIZE, SHOWING_GUESSED_RESULT_MILLISECCOND } from '../../src/config/constants';
 import { useRouter } from 'next/router';
-import useIsMobile from '../../src/hooks/useIsMobile';
+import useIsSmallerWidthThan from '../../src/hooks/useIsSmallerWidthThan';
+import { GuessResultForMiddleScreen } from '../../src/components/modal/GuessResultForMiddleScreen';
 
 const useStyles = makeStyles({
     topContainer: {
@@ -25,7 +26,7 @@ const useStyles = makeStyles({
     },
     OuterContainer: {
         borderRadius: '23px',
-        backgroundColor: 'black',
+        backgroundColor: '#8175C1',
     },
     gameMotto: {
         marginTop: '2.5%',
@@ -74,7 +75,8 @@ const index = () => {
         startTimeSecond: roomDataState.limitTime,
     })
 
-    const isMobile = useIsMobile();
+    const isMobile = useIsSmallerWidthThan(MOBILE_MAX_SCREEN_SIZE);
+    const isSmallerThanMiddleScreenSize = useIsSmallerWidthThan(MIDDLE_MAX_SCREEN_SIZE);
 
     const classes = useStyles()
     const myPlayerId = myPlayerInfoState?.playerId
@@ -85,7 +87,7 @@ const index = () => {
 
     // Guessing time
     const showingResultPlayerStatus = roomDataState.currentPlayerStatus[guessingTimeState.playerIdShowingResult]
-    const guessedResultColor = showingResultPlayerStatus === 'WRONG' ? '#E2515A' : (showingResultPlayerStatus === 'CORRECT' ? '#009245' : 'grey')
+    const guessedResultColor = showingResultPlayerStatus === 'WRONG' ? '#E2515A' : (showingResultPlayerStatus === 'CORRECT' ? '#6ADEBC' : 'grey')
     const guessedResultTextInfo = showingResultPlayerStatus === 'WRONG' ? 'ผิด +0' : (showingResultPlayerStatus === 'CORRECT' ? 'ถูก +1' : '...')
 
     const onEliminatePeople = (participantId: string) => {
@@ -195,7 +197,7 @@ const index = () => {
                 </Grid>
                 <Grid item md={7} xs={12}>
                     {!isMobile && < Typography className={classes.gameMotto}>คำต้องห้าม ใครพูดตาย!</Typography>}
-                    <Paper style={{ height: isMobile? '85vh' : '65vh' }} className={classes.OuterContainer}>
+                    <Paper style={{ height: isMobile ? '85vh' : '65vh' }} className={classes.OuterContainer}>
                         <Grid container className={classes.ParticipantsPlayableAreaContainer}>
                             {participantsData.map((participant: Participant, idx: number) => (
                                 <Grid key={idx} item md={4}>
@@ -218,25 +220,29 @@ const index = () => {
                         - If screen width > 960px => Show besides
                         - If < 960px => Show as modal instead
                     } */}
-                    {!isMobile ?
-                        guessingResultRenderer()
-                        :
-                        // <GuessingResultModal
-                        // guessingResultRenderer={guessingResultRenderer}
-                        // />
-                        /**@todo create modal to show guessing elements */
-                        <></>
-                    }
-
+                    {!isSmallerThanMiddleScreenSize && guessingResultRenderer()}
                 </Grid>
             </Grid>
             {/* Modals */}
             {
-                (isGuessingModalOpened) && <GuessWord
-                    open={isMyTurnToGuess}
-                    onSubmitGuessingAnswer={onSubmitGuessingAnswer}
-                    playerAvatarUrl={myAvatarUrl}
-                />
+                <>
+                    {(isGuessingModalOpened) && <GuessWord
+                        open={isMyTurnToGuess}
+                        onSubmitGuessingAnswer={onSubmitGuessingAnswer}
+                        playerAvatarUrl={myAvatarUrl}
+                    />}
+
+                    {(guessingTimeState?.isShowingGuessedResult && isSmallerThanMiddleScreenSize) && <GuessResultForMiddleScreen
+                        open={true}
+                        isGuessingTime={isGuessingTime}
+                        playerIdShowingResult={guessingTimeState?.playerIdShowingResult}
+                        myPlayerId={myPlayerId}
+                        showingResultParticipant={showingResultParticipant}
+                        isCorrect={showingResultPlayerStatus !== 'WRONG'}
+                    />}
+                </>
+
+
             }
         </div >
 

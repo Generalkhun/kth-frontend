@@ -28,6 +28,7 @@ export const TimeoutBar = ({
         <div style={{
             overflow: 'hidden',
             maxWidth: '250px',
+            zIndex: 10
         }}>
             <div className={classes.child} style={{
                 height: '16px',
@@ -36,6 +37,7 @@ export const TimeoutBar = ({
                 animationFillMode: 'forwards',
                 animationTimingFunction: 'linear',
             }}></div>
+            <p>&nbsp;</p>
         </div>
     )
 }

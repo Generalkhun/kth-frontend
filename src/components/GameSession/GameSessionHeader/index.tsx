@@ -1,6 +1,7 @@
 import { Grid, Paper, Typography, makeStyles } from '@material-ui/core'
 import React from 'react'
-import useIsMobile from '../../../hooks/useIsMobile'
+import { MIDDLE_MAX_SCREEN_SIZE, MOBILE_MAX_SCREEN_SIZE } from '../../../config/constants'
+import useIsSmallerWidthThan from '../../../hooks/useIsSmallerWidthThan'
 
 type Props = {
     round: number
@@ -14,26 +15,20 @@ const useStyles = makeStyles({
         maxWidth: '600px',
         width: '100%',
         height: '76px',
-        backgroundColor: '#262626',
-        //marginLeft: '22%',
+        backgroundColor: '#4C467D',
         borderRadius: '43.475px',
     },
     clockContainer: {
-        backgroundColor: '#262626',
-        // width: '143px',
-        // height: '143px',
+        backgroundColor: '#4C467D',
         borderRadius: '50%',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        //marginTop: '-40px',
         marginLeft: '30px',
         position: 'relative',
     },
     clockBody: {
         backgroundColor: '#FFFFFF',
-        // width: '112px',
-        // height: '112px',
         borderRadius: '50%',
         position: 'absolute',
         display: `inline-block`,
@@ -50,7 +45,7 @@ const useStyles = makeStyles({
         color: 'white',
         fontSize: 35,
         fontWeight: 700,
-        marginTop: '10px',
+        marginTop: '14px',
         marginRight: '60px',
     }
 })
@@ -60,7 +55,8 @@ const GameSessionHeader = ({
     displayTimeLeftSecond,
     displayRatioTimeLeft,
 }: Props) => {
-    const isMobile = useIsMobile();
+    const isMobile = useIsSmallerWidthThan(MOBILE_MAX_SCREEN_SIZE);
+    const isSmallerThanMiddleScreenSize = useIsSmallerWidthThan(MIDDLE_MAX_SCREEN_SIZE);
     const classes = useStyles()
     const displayTxtTime = (displayTimeLeftMin === null || displayTimeLeftSecond === null) ? '' : `${displayTimeLeftMin}.${displayTimeLeftSecond}`
     return (
@@ -70,9 +66,10 @@ const GameSessionHeader = ({
                     <Typography className={classes.gameSessionHeaderTxtRound} >{`Round ${round}`}</Typography>
                 </Grid>
                 <Grid item md={4}>
-                    <Paper style={{
+                    <div style={{
                         width: isMobile ? '80px' : '143px',
-                        marginTop: isMobile ? '37px' : '40px',
+                        height: isMobile ? '80px' : '143px',
+                        marginTop: isMobile ? '-4px' : '-40px',
                     }} className={classes.clockContainer}>
                         <div
                             style={{
@@ -81,10 +78,13 @@ const GameSessionHeader = ({
                                 height: isMobile ? '64px' : '112px',
                             }}
                             className={classes.clockBody}></div>
-                    </Paper>
+                    </div>
                 </Grid>
                 <Grid item md={4}>
-                    <Typography className={classes.gameSessionHeaderTxtTime} >{displayTxtTime}</Typography>
+                    <Typography style={{
+                        marginRight: isSmallerThanMiddleScreenSize ? '0px' : '60px',
+                        marginLeft: !isSmallerThanMiddleScreenSize ? '0px' : '60px',
+                    }} className={classes.gameSessionHeaderTxtTime} >{displayTxtTime}</Typography>
                 </Grid>
             </Grid>
         </Paper>

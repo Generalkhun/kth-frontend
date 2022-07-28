@@ -61,7 +61,7 @@ const ParticipantScore = ({ gameInfoEachRound, rowOption, rowName, isAvatarOntop
       scoreTxtFontColor = '#E2515A';
       break;
     default:
-      scoreTxtFontColor = 'green';
+      scoreTxtFontColor = '#6ADEBC';
   }
   return (
     <Paper className={classes.scoreRoundWrapper}>
