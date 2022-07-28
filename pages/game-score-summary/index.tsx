@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { Grid, Paper, makeStyles, Typography, Avatar, Button } from '@material-ui/core';
 import ParticipantScore from '../../src/components/ParticipantScore';
 import { isEmpty } from 'lodash';
@@ -27,7 +27,6 @@ const useStyles = makeStyles({
         borderRadius: '24px',
         maxHeight: '77vh',
         minWidth: '450px',
-        //overflow: 'scroll',
         paddingBottom: '20px',
         top: '10%',
         position: 'absolute',
@@ -105,6 +104,7 @@ const index = () => {
     const { roomDataState, myPlayerInfoState, getPlayerAvatarFromPlayerId, getPlayerNameFromId, setSortedPlayerIdByTotalScore } = useContext(GameStateContext);
     const [totalScore, setTotalScore] = useState<Record<string, number>>({})
     const { startRound } = useContext(WebSocketContext);
+    const ref = useRef(null) as any
 
     const scoresEachRound = roomDataState.scores
     const isShowNextRoundBtn = roomDataState.host === myPlayerInfoState.playerId
@@ -118,13 +118,23 @@ const index = () => {
         })
     }
 
+    useEffect(() => {
+        if (!ref.current) {
+            return;
+        }
+        ref.current.scrollTo({
+            top: (roomDataState.currentRound - 3) > 0 ? 81 * (roomDataState.currentRound - 3) : 0,
+            behavior: 'smooth',
+        })
+    }, [])
+
+
     //calculate total score if updated
     useEffect(() => {
         setTotalScore(
             calculateEachPlayerTotalScore(scoresEachRound)
         )
     }, [scoresEachRound])
-
 
     /**
      * game session starting based on the gameState
@@ -214,7 +224,7 @@ const index = () => {
                             })}
                         </div>
 
-                        <div className={classes.scoreBoardRoundContainer}>
+                        <div ref={ref} className={classes.scoreBoardRoundContainer}>
                             {scoresEachRound.map((gameInfoEachRound: Record<string, number>, idx: number) => (
                                 <ParticipantScore
                                     key={idx}
