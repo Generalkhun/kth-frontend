@@ -1,6 +1,6 @@
 import { Grid, makeStyles, Typography } from '@material-ui/core';
 import { useRouter } from 'next/router';
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { SPLASH_PAGE_SHOWING_MILLISECOND } from '../../src/config/constants';
 import { GameStateContext } from '../../src/contextProviders/GameStateProvider';
 
