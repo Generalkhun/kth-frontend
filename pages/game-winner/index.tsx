@@ -20,7 +20,7 @@ const useStyles = makeStyles({
         height: '20%',
         width: '40%',
         maxWidth: '300px',
-        backgroundColor: '#262626',
+        backgroundColor: '#8175C1',
         padding: '10px',
         borderRadius: '20px'
     },
@@ -36,7 +36,7 @@ const useStyles = makeStyles({
         height: '20%',
         width: '30%',
         maxWidth: '200px',
-        backgroundColor: '#262626',
+        backgroundColor: '#8175C1',
         padding: '10px',
         borderRadius: '20px'
     },
@@ -92,7 +92,7 @@ const index = () => {
                             </Icon>
                             <img width='100%' src={getPlayerAvatarFromPlayerId(sortedPlayerIdByTotalScore[0].playerId)} />
                         </Paper>
-                        <Typography style={{ fontSize: '20px', fontFamily: 'Kanit' }}>{`${getPlayerNameFromId(sortedPlayerIdByTotalScore[0].playerId)}`}<span>{` ${sortedPlayerIdByTotalScore[0].totalScore}`} คะแนน</span></Typography>
+                        <Typography style={{ color: 'white', fontSize: '20px', fontFamily: 'Kanit' }}>{`${getPlayerNameFromId(sortedPlayerIdByTotalScore[0].playerId)}`}<span>{` ${sortedPlayerIdByTotalScore[0].totalScore}`} คะแนน</span></Typography>
                         <div className={classes.rank23PlayerWrapper}>
                             {sortedPlayerIdByTotalScore[1]?.playerId && <Paper elevation={0} className={classes.rank23PlayerContainer}>
                                 <Icon>
@@ -115,7 +115,7 @@ const index = () => {
                                     <div className={classes.norankPlayerContainer}>
                                         <Avatar src={getPlayerAvatarFromPlayerId(player.playerId)} />
                                         <div key={player.playerId}>
-                                            <Typography style={{ fontFamily: 'Kanit', paddingTop: '10px' }}>{`${getPlayerNameFromId(player.playerId)}`}<span>{` ${player.totalScore}`} คะแนน</span></Typography>
+                                            <Typography style={{ color: 'white', fontFamily: 'Kanit', paddingTop: '10px' }}>{`${getPlayerNameFromId(player.playerId)}`}<span>{` ${player.totalScore}`} คะแนน</span></Typography>
                                         </div>
                                     </div>
                                 )
