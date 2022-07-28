@@ -57,13 +57,13 @@ const index = () => {
         () => ({
             x: 0,
             y: window.innerHeight,
-            angle: 180,
+            angle: 100,
         }),
         // right side confetti cannon
         () => ({
             x: window.innerWidth,
             y: window.innerHeight,
-            angle: -180,
+            angle: -100,
         }),
     ], [])
     const ConfettiCannon = useConfettiCannon({
