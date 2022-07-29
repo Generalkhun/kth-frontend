@@ -49,6 +49,7 @@ const useStyles = makeStyles({
         top: '70%',
         left: '82%',
         fontFamily: 'Kanit',
+        color: 'white',
     }
 })
 const index = () => {

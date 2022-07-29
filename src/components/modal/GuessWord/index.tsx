@@ -61,7 +61,7 @@ const useStyles = makeStyles({
         borderRadius: '40px',
         height: '50px',
         position: 'absolute',
-        top: '86%',
+        top: '82%',
         fontSize: '20px',
         paddingLeft: 30,
         zIndex: 10,
@@ -88,6 +88,11 @@ const useStyles = makeStyles({
     }
 })
 const customStyles = {
+    overlay: {
+        zIndex: 1000,
+        backgroundColor: 'rgba(0, 0, 0, 0.6)',
+
+    },
     content: {
         top: '50%',
         left: '50%',
@@ -99,7 +104,7 @@ const customStyles = {
         height: '52%',
         maxWidth: '400px',
         padding: '0px',
-        borderRadius: '20px'
+        borderRadius: '20px',
     },
 };
 export const GuessWord = ({

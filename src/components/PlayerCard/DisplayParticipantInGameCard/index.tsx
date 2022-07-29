@@ -1,6 +1,6 @@
 import { Typography, Paper, Button, makeStyles } from '@material-ui/core'
 import React from 'react'
-import { MOBILE_MAX_SCREEN_SIZE } from '../../../config/constants'
+import { MIDDLE_MAX_SCREEN_SIZE, MOBILE_MAX_SCREEN_SIZE } from '../../../config/constants'
 import useIsSmallerWidthThan from '../../../hooks/useIsSmallerWidthThan'
 import { usePrevious } from '../../../hooks/usePrevious'
 import { Participant } from '../../../models/ui-layer/model'
@@ -38,7 +38,6 @@ const useStyles = makeStyles({
     },
     avatarImgPlayCardContainer: {
         maxWidth: '23vh',
-        //height: '170px',
         margin: '3px',
         padding: '3px',
         position: 'relative'
@@ -61,11 +60,12 @@ const useStyles = makeStyles({
     },
     guessingWordContainer: {
         position: 'absolute',
-        width: '180px',
+        maxWidth: '180px',
+        width: '50%',
         height: '50px',
         backgroundColor: '#FFFFFF',
         bottom: '70%', /*your word position*/
-        right: '13%', /*your word position*/
+        //right: '13%', /*your word position*/
     },
     guessingWord: {
         fontWeight: 'bold',
@@ -98,6 +98,7 @@ export const DisplayParticipantInGameCard = ({
     const displayGuessingWord = isShowGuessingWord ? participant.guessingWord : ''
     const isShowingGreenFilter = (playerIdGuessing === participantId) && !isShowGuessedAnswerCard
     const isMobile = useIsSmallerWidthThan(MOBILE_MAX_SCREEN_SIZE);
+    const isSmallerThanMiddleScreenSize = useIsSmallerWidthThan(MIDDLE_MAX_SCREEN_SIZE);
     const [XmarkRenderer] = useShakingXMark({ isEliminated });
 
     return (
@@ -113,7 +114,11 @@ export const DisplayParticipantInGameCard = ({
                 {isEliminated && XmarkRenderer()}
 
             </div>
-            <Paper style={{ filter: isEliminated ? 'brightness(50%)' : undefined }} className={classes.guessingWordContainer}>
+            <Paper style={{ 
+                filter: isEliminated ? 'brightness(50%)' : undefined,
+                right: isSmallerThanMiddleScreenSize? '25%' : '39%',
+                
+                }} className={classes.guessingWordContainer}>
                 <Typography className={classes.guessingWord}>
                     {displayGuessingWord}
                 </Typography>

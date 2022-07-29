@@ -1,1 +1,1 @@
-export const WEB_SOCKET_ENDPOINT = 'ws://localhost:8080';
+export const WEB_SOCKET_ENDPOINT = 'ws://kth-service.southeastasia.azurecontainer.io:8080';
