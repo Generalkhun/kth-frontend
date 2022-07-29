@@ -1389,7 +1389,7 @@ jss@10.9.1, jss@^10.5.1:
     array-includes "^3.1.5"
     object.assign "^4.1.2"
 
-kth-type@^1.0.4:
+kth-type@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/kth-type/-/kth-type-1.0.5.tgz#d5b2b30afc357c8a1c540295e58767a3614e7f77"
   integrity sha512-4NeRqzjAppTpL85f5RbxfTCTqFDOQS92KFk2dzDQsMck1q33ZOlLsyRupHqU2SEUEaAcqfdxg0RvmXt4IvrIxQ==

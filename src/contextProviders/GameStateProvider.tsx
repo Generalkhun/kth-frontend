@@ -14,6 +14,7 @@ const initialRoomDataState: RoomDataState = {
     host: '',
     currentRound: 0,
     totalRound: 5,
+    maxPlayer: 6,
     remainingTime: 120,
     limitTime: 120,
     isPlaying: false,
