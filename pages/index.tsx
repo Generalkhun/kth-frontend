@@ -103,7 +103,6 @@ const Home: NextPage = () => {
   const [showShakingInputBox, setShowShakingInputBox] = useState<boolean>(false)
   const { myPlayerInfoState, roomDataState } = useContext(GameStateContext);
   const [showRefreshPageError, setShowRefreshPageError] = useState<boolean>(false);
-  const [showRejectRequestError, setShowRejectRequestError] = useState<boolean>(false)
   const onChangeNameInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputName(e.target.value)
     setShowInputNameError(false)
