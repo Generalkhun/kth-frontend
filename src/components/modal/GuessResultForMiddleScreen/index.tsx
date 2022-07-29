@@ -49,7 +49,7 @@ const useStyles = makeStyles({
         backgroundColor: '#8175C1',
         marginTop: '10px',
         textAlign: 'center',
-        maxWidth: '250px',
+        maxWidth: '200px',
     },
     nameTxt: {
         fontFamily: 'Kanit',
@@ -72,6 +72,10 @@ const useStyles = makeStyles({
 
 })
 const customStyles = {
+    overlay: {
+        zIndex: 1000,
+        backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    },
     content: {
         top: '50%',
         left: '50%',

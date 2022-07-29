@@ -142,6 +142,15 @@ const useStyles = makeStyles({
         paddingTop: '24px',
         marginLeft: '24px',
         fontFamily: 'Kanit',
+    },
+    backBtn: {
+        backgroundColor: '#D9D9D9',
+        color: '#262626',
+        borderRadius: '40px',
+        height: '26px',
+        position: 'absolute',
+        top: '2%',
+        left: '1%',
     }
 })
 
@@ -171,6 +180,10 @@ const index = () => {
         })
     }
 
+    const onBack = () => {
+        window.location.assign('/')
+    }
+
     // game session starting based on the gameState 
     const router = useRouter()
     useEffect(() => {
@@ -178,7 +191,6 @@ const index = () => {
             router.push('/game-splash-screen')
         }
     }, [roomDataState.currentRound])
-    console.log('screen.width', screen.width)
     return (
         <Grid container className={classes.topContainer}>
             <Grid item xs={11} sm={6} md={7}>
@@ -235,6 +247,7 @@ const index = () => {
                                 </Grid>
                             </Grid>
                         </Grid>
+                        <Button className={classes.backBtn} onClick={onBack}>Back</Button>
                         {
                             isMobile &&
                             <Button onClick={onStartGame} className={classes.startGameBtnMobileMode}>
@@ -256,18 +269,6 @@ const index = () => {
                     </Button>
                 </Grid>
             }
-            {/* <Grid item xs={1} sm={6} md={5}>
-
-                <Paper className={classes.participantsListContainer}>
-                    <Typography className={classes.playersTxt}>Players: {numberOfParticipants}</Typography>
-                    <ParticipantsDisplayListOnLobby participants={participants} />
-                </Paper>
-                <Button onClick={onStartGame} className={classes.startGameBtn}>
-                    <Typography className={classes.startGameTxt}>เล่นเลย!</Typography>
-                </Button>
-
-            </Grid> */}
-
         </Grid>
 
     )

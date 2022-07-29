@@ -2,7 +2,6 @@ import { Typography, Paper, Button, makeStyles } from '@material-ui/core'
 import React from 'react'
 import { MIDDLE_MAX_SCREEN_SIZE, MOBILE_MAX_SCREEN_SIZE } from '../../../config/constants'
 import useIsSmallerWidthThan from '../../../hooks/useIsSmallerWidthThan'
-import { usePrevious } from '../../../hooks/usePrevious'
 import { Participant } from '../../../models/ui-layer/model'
 import useShakingXMark from './useShakingXMark'
 

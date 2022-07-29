@@ -1,4 +1,4 @@
-import { Avatar, Grid, Icon, makeStyles, Paper, Typography } from '@material-ui/core';
+import { Avatar, Button, Grid, Icon, makeStyles, Paper, Typography } from '@material-ui/core';
 import React, { useContext, useMemo } from 'react'
 import { GameStateContext, PlayerScoreData } from '../../src/contextProviders/GameStateProvider';
 import { useConfettiCannon } from '../../src/hooks/useConfettiCannon';
@@ -48,6 +48,15 @@ const useStyles = makeStyles({
     },
     starIcon: {
         marginLeft: '40%',
+    },
+    rematchBtn: { 
+        backgroundColor: '#E2515A',
+        borderRadius: '32px',
+        color: 'white',
+        position: 'absolute',
+        top: '91%',
+        height: '40px',
+        left: '5%'
     }
 })
 const index = () => {
@@ -74,15 +83,21 @@ const index = () => {
             repeatAgainInMs: 1000,
         },
     })
+
     const { sortedPlayerIdByTotalScore, getPlayerNameFromId, getPlayerAvatarFromPlayerId } = useContext(GameStateContext);
+
+    const onClickRematch = () => {
+        window.location.assign('/')
+    }
 
     return (
         <>
 
             <Grid container className={classes.topContainer}>
-
                 <Grid item sm={1} md={2}>
-
+                    <Button className={classes.rematchBtn} onClick={onClickRematch}>
+                        RE MATCH!
+                    </Button>
                 </Grid>
                 {sortedPlayerIdByTotalScore.length && <Grid item sm={10} md={8} xs={12}>
                     <div className={classes.playerContainer}>

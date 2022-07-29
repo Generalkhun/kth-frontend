@@ -118,11 +118,6 @@ const index = () => {
             return;
         }
         if (displayTimeLeftMin <= 0 && displayTimeLeftSecond <= 0) {
-            console.log("🚀 ~ file: index.tsx ~ line 116 ~ useEffect ~ isGuessingTime", isGuessingTime)
-            console.log("🚀 ~ file: index.tsx ~ line 119 ~ useEffect ~ displayTimeLeftSecond", displayTimeLeftSecond)
-            console.log("🚀 ~ file: index.tsx ~ line 119 ~ useEffect ~ displayTimeLeftMin", displayTimeLeftMin)
-            console.log('readyForGuessingTimeChecker()',readyForGuessingTimeChecker());
-            
             pauseCountdown()
             onStartGuessingTime();
         }
@@ -131,7 +126,6 @@ const index = () => {
     /**If only a single player servived, end the time*/
     useEffect(() => {
       if(totalSurvivedPlayers === 1) {
-        console.log("🚀 ~ file: index.tsx ~ line 133 ~ useEffect ~ totalSurvivedPlayers", totalSurvivedPlayers)
         pauseCountdown();
         setDisplayTimeLeftMin(0);
         setDisplayTimeLeftSecond(0);
