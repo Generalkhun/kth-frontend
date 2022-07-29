@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash';
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { SHOWING_GUESSED_RESULT_MILLISECCOND } from '../../config/constants';
 import { GameStateContext } from '../../contextProviders/GameStateProvider';
@@ -46,7 +47,7 @@ const useGuessingTime = () => {
                 .filter(player => player.status === 'GUESSING')
             [0]
 
-            return !!playerGuessing && !roomDataState.isPlaying
+            return !isEmpty(playerGuessing) && !roomDataState.isPlaying
         },
         [roomDataState.currentPlayerStatus, roomDataState.isPlaying],
     )

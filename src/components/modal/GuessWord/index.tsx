@@ -64,6 +64,7 @@ const useStyles = makeStyles({
         top: '86%',
         fontSize: '20px',
         paddingLeft: 30,
+        zIndex: 10,
     },
     inputBox: {
         flexGrow: 2,

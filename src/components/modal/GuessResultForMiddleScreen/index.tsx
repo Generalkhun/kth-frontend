@@ -44,61 +44,6 @@ const useStyles = makeStyles({
         backgroundColor: '#8175C1',
         position: 'relative',
     },
-    imgAvatar: {
-        width: '80px',
-        height: '80px',
-        marginTop: '40px',
-        marginBottom: '30px',
-        // marginLeft: '34px'
-    },
-    txtAboveInput: {
-        marginBottom: '20px',
-        color: '#262626',
-        fontFamily: 'Kanit',
-    },
-    form: {
-        /* This bit sets up the horizontal layout */
-        display: 'flex',
-        flexDirection: 'row',
-
-        /* This bit draws the box around it */
-        border: '1px solid #262626',
-
-        /* I've used padding so you can see the edges of the elements. */
-        padding: '5px',
-        width: '95%',
-        borderRadius: '40px',
-        height: '50px',
-        top: '87%',
-        position: 'absolute',
-        fontSize: '20px',
-        paddingLeft: 30,
-    },
-    inputBox: {
-        flexGrow: 2,
-        border: 'none',
-        fontSize: '20px',
-        ['&:focus']: {
-            border: 'none',
-            outline: 'none',
-        }
-
-    },
-    submitGuessingWordBtn: {
-        backgroundColor: '#E2515A',
-        borderRadius: '100px',
-        width: '80px',
-        color: 'white',
-        fontSize: '20px',
-        fontWeight: 'bold',
-    },
-    GuessingResultTxtContainer: {
-        display: 'flex',
-        justifyContent: 'center',
-    },
-    GuessingResultTxt: {
-        color: 'white'
-    },
     nameContainer: {
         color: 'white',
         backgroundColor: '#8175C1',
@@ -194,7 +139,7 @@ export const GuessResultForMiddleScreen = ({
                     </div>
                 </div>
 
-                <div style={{ width: '100%', paddingLeft: '20%' }}>
+                <div style={{ width: '100%', paddingLeft: '20%', height: '15vh' }}>
                     <TimeoutBar
                         timeout={SHOWING_GUESSED_RESULT_MILLISECCOND}
                         progressBarColor={guessedResultColor}

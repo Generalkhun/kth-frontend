@@ -1,3 +1,4 @@
+import { debounce } from "lodash";
 import { useState, useEffect, createContext, useRef, useContext } from "react";
 import { WEB_SOCKET_ENDPOINT } from "../config/url";
 import { MethodRecieve, MethodSend, WebsocketEliminatePlayerData, WebsocketExitRoomData, WebsocketGuessWordData, WebsocketJoinRoomData, WebsocketStartRoundData, WebsocketUpdateRoomData } from "../models/api-layer/model";
@@ -50,7 +51,7 @@ export const WebSocketProviders = ({ children }: any) => {
         )
     }
 
-    const updateRoomSetting = (data: WebsocketUpdateRoomData) => {
+    const updateRoomSetting = debounce((data: WebsocketUpdateRoomData) => {
         if (!ws.current) return;
         ws.current.send(
             JSON.stringify({
@@ -58,7 +59,7 @@ export const WebSocketProviders = ({ children }: any) => {
                 data
             })
         )
-    }
+    },500)
 
     const startRound = (data: WebsocketStartRoundData) => {
         if (!ws.current) return;

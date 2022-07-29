@@ -19,7 +19,7 @@ const useStyles = makeStyles({
     topContainer: {
         backgroundColor: '#28264F',
         height: '100vh',
-        paddingTop: '3%'
+        paddingTop: '4%'
     },
     ParticipantsPlayableAreaContainer: {
         margin: '10px',
@@ -52,7 +52,7 @@ const useStyles = makeStyles({
     }
 })
 const index = () => {
-    const { roomDataState, myPlayerInfoState, getPlayerNameFromId, countEliminatedPlayers } = useContext(GameStateContext);
+    const { roomDataState, myPlayerInfoState, getPlayerNameFromId, countSurvivedPlayers } = useContext(GameStateContext);
     const [isGuessingModalOpened, setIsGuessingModalOpened] = useState<boolean>(false)
     const {
         guessingTimeState,
@@ -87,7 +87,7 @@ const index = () => {
     const currentRound = roomDataState.currentRound;
     const isImDead = !!roomDataState.currentPlayerStatus[myPlayerId] ? roomDataState.currentPlayerStatus[myPlayerId] === 'ELIMINATED' : false;
     const participantsData: any = mapPlayersToParticipants(roomDataState.players, roomDataState.currentPlayerStatus, roomDataState.currentWords);
-    const totalEliminatedPlayers = countEliminatedPlayers();
+    const totalSurvivedPlayers = countSurvivedPlayers();
 
     // Guessing time
     const showingResultPlayerStatus = roomDataState.currentPlayerStatus[guessingTimeState.playerIdShowingResult]
@@ -112,10 +112,16 @@ const index = () => {
      * if the game already enter the guessingTime, it should not excecuted.
      */
     useEffect(() => {
-        if (displayTimeLeftMin === null || displayTimeLeftSecond === null || roomDataState.isPlaying || !readyForGuessingTimeChecker() || isGuessingTime) {
+        if (displayTimeLeftMin === null || displayTimeLeftSecond === null || !readyForGuessingTimeChecker() || isGuessingTime) {
+       
             return;
         }
         if (displayTimeLeftMin <= 0 && displayTimeLeftSecond <= 0) {
+            console.log("🚀 ~ file: index.tsx ~ line 116 ~ useEffect ~ isGuessingTime", isGuessingTime)
+            console.log("🚀 ~ file: index.tsx ~ line 119 ~ useEffect ~ displayTimeLeftSecond", displayTimeLeftSecond)
+            console.log("🚀 ~ file: index.tsx ~ line 119 ~ useEffect ~ displayTimeLeftMin", displayTimeLeftMin)
+            console.log('readyForGuessingTimeChecker()',readyForGuessingTimeChecker());
+            
             pauseCountdown()
             onStartGuessingTime();
         }
@@ -123,12 +129,13 @@ const index = () => {
 
     /**If only a single player servived, end the time*/
     useEffect(() => {
-      if(totalEliminatedPlayers === 1) {
+      if(totalSurvivedPlayers === 1) {
+        console.log("🚀 ~ file: index.tsx ~ line 133 ~ useEffect ~ totalSurvivedPlayers", totalSurvivedPlayers)
         pauseCountdown();
         setDisplayTimeLeftMin(0);
         setDisplayTimeLeftSecond(0);
       }
-    }, [totalEliminatedPlayers])
+    }, [totalSurvivedPlayers])
     
 
     //effect to open the guessing modal (will not open if still showing the previous guessed result)
@@ -211,7 +218,7 @@ const index = () => {
                 </Grid>
                 <Grid item md={7} xs={12}>
                     {!isMobile && < Typography className={classes.gameMotto}>คำต้องห้าม ใครพูดตาย!</Typography>}
-                    <Paper style={{ height: isMobile ? '85vh' : '65vh' }} className={classes.OuterContainer}>
+                    <Paper style={{ height: isSmallerThanMiddleScreenSize ? '85vh' : '65vh' }} className={classes.OuterContainer}>
                         <Grid container className={classes.ParticipantsPlayableAreaContainer}>
                             {participantsData.map((participant: Participant, idx: number) => (
                                 <Grid key={idx} item md={4}>

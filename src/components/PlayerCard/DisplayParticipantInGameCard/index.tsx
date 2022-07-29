@@ -1,5 +1,7 @@
 import { Typography, Paper, Button, makeStyles } from '@material-ui/core'
 import React from 'react'
+import { MOBILE_MAX_SCREEN_SIZE } from '../../../config/constants'
+import useIsSmallerWidthThan from '../../../hooks/useIsSmallerWidthThan'
 import { usePrevious } from '../../../hooks/usePrevious'
 import { Participant } from '../../../models/ui-layer/model'
 import useShakingXMark from './useShakingXMark'
@@ -17,7 +19,7 @@ type Props = {
 const useStyles = makeStyles({
     ParticipantCardContainer: {
         position: 'relative',
-        height: '30vh',
+        //height: '30vh',
         maxWidth: '250px',
     },
     eliminateBtn: {
@@ -35,8 +37,8 @@ const useStyles = makeStyles({
         maxWidth: '250px',
     },
     avatarImgPlayCardContainer: {
-        maxWidth: '250px',
-        height: '250px',
+        maxWidth: '23vh',
+        //height: '170px',
         margin: '3px',
         padding: '3px',
         position: 'relative'
@@ -69,6 +71,7 @@ const useStyles = makeStyles({
         fontWeight: 'bold',
         fontSize: '30px',
         fontFamily: 'Kanit',
+        textAlign: 'center'
     },
     nameTxt: {
         fontFamily: 'Kanit',
@@ -94,11 +97,13 @@ export const DisplayParticipantInGameCard = ({
     const isHideEliminateButton = isEliminated || isGuessingTime || isMeThisParticipant || isForceDisableEliminatedBtn || isShowGuessedAnswerCard;
     const displayGuessingWord = isShowGuessingWord ? participant.guessingWord : ''
     const isShowingGreenFilter = (playerIdGuessing === participantId) && !isShowGuessedAnswerCard
-
+    const isMobile = useIsSmallerWidthThan(MOBILE_MAX_SCREEN_SIZE);
     const [XmarkRenderer] = useShakingXMark({ isEliminated });
 
     return (
-        <div className={classes.ParticipantCardContainer}>
+        <div 
+        style={{ height: isMobile ? '25vh' :  '30vh'}}
+        className={classes.ParticipantCardContainer}>
             <div className={classes.avatarImgPlayCardContainer}>
                 {isShowingGreenFilter && <div className={classes.guessingPlayerGreenFilter}></div>}
                 <img

@@ -1,7 +1,8 @@
 import { Grid, makeStyles, Typography } from '@material-ui/core';
+import { sample } from 'lodash';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect } from 'react'
-import { SPLASH_PAGE_SHOWING_MILLISECOND } from '../../src/config/constants';
+import { HINTS_SPLASH_SCREEN, SPLASH_PAGE_SHOWING_MILLISECOND } from '../../src/config/constants';
 import { GameStateContext } from '../../src/contextProviders/GameStateProvider';
 
 const useStyle = makeStyles({
@@ -44,6 +45,7 @@ const index = () => {
     const { roomDataState } = useContext(GameStateContext)
     const router = useRouter();
     const currentRound = roomDataState.currentRound
+    const hint = sample(HINTS_SPLASH_SCREEN);
 
     useEffect(() => {
         setTimeout(() => {
@@ -61,7 +63,7 @@ const index = () => {
                     <Typography className={classes.startTxt}>START</Typography>
                     <Typography className={classes.roundTxt}>{`ROUND ${currentRound}`}</Typography>
                     <img className={classes.img} src='monkey-splash-screen.png' />
-                    <Typography className={classes.hintTxt}>{currentRound % 2 === 1 ? 'Think before you speak' : 'Try your best to make they say their word'}</Typography>
+                    <Typography className={classes.hintTxt}>{`hint: ${hint}`}</Typography>
                 </div>
             </Grid>
             <Grid item md={3}></Grid>
