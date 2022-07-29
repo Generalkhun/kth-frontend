@@ -38,7 +38,7 @@ const useStyles = makeStyles({
         maxHeight: '49vh',
     },
     scoreBoardSummaryContainer: {
-        marginTop: '10px',
+        marginTop: '0px',
     },
     scoreBoardHeaderContainer: {
         top: '1%',

@@ -159,10 +159,11 @@ const index = () => {
     const { roomDataState, myPlayerInfoState } = useContext(GameStateContext);
     const { startRound } = useContext(WebSocketContext);
     /** handle data from game state */
+    const myPlayerId = myPlayerInfoState.playerId;
     const players = roomDataState.players;
     const participants = mapPlayersToParticipants(players, roomDataState.currentPlayerStatus)
     const numberOfParticipants = participants.length
-    const isIamHost = roomDataState.host === myPlayerInfoState.playerId
+    const isIamHost = roomDataState.host === myPlayerId
     const isMobile = useIsSmallerWidthThan(MOBILE_MAX_SCREEN_SIZE);
 
     const {

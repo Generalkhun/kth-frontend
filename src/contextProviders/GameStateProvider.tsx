@@ -84,6 +84,7 @@ export const GameStateProviders = ({ children }: any) => {
         playerId: '',
         playerAvatarUrl: 'https://res.amazingtalker.com/users/images/no-avatar.png',
     })
+    console.log("🚀 ~ file: GameStateProvider.tsx ~ line 87 ~ GameStateProviders ~ myPlayerInfoState", myPlayerInfoState)
 
     /** Set winner on game-score-summary on the last round */
     const [sortedPlayerIdByTotalScore, setSortedPlayerIdByTotalScore] = useState<Record<string, PlayerScoreData>[]>([])

@@ -6,6 +6,7 @@ import { WebSocketContext } from '../src/contextProviders/WebSocketProviders';
 import { GameStateContext } from '../src/contextProviders/GameStateProvider';
 import { useRouter } from 'next/router';
 import { ShakeHorizontal } from 'reshake'
+import { isEmpty } from 'lodash';
 
 const useStyles = makeStyles({
   topContainer: {
@@ -13,7 +14,7 @@ const useStyles = makeStyles({
     height: '100vh',
   },
   playBtn: {
-    backgroundColor: '#E2515A',
+    //backgroundColor: '#E2515A',
     borderRadius: '40px',
     maxWidth: '485px',
     width: '100%',
@@ -79,6 +80,18 @@ const useStyles = makeStyles({
     fontWeight: 'bold',
     color: 'white',
     fontFamily: 'Kanit',
+  },
+  retryBtn: {
+    position: 'absolute',
+    backgroundColor: 'red',
+    top: '1%',
+    width: '90%',
+  },
+  retryTxt: {
+    fontSize: '20px',
+    fontWeight: 'bold',
+    color: 'white',
+    fontFamily: 'kanit'
   }
 })
 
@@ -89,6 +102,7 @@ const Home: NextPage = () => {
   const [showInputNameError, setShowInputNameError] = useState<boolean>(false)
   const [showShakingInputBox, setShowShakingInputBox] = useState<boolean>(false)
   const { myPlayerInfoState, roomDataState } = useContext(GameStateContext);
+  const [showRefreshPageError, setShowRefreshPageError] = useState<boolean>(false);
   const onChangeNameInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputName(e.target.value)
     setShowInputNameError(false)
@@ -96,6 +110,10 @@ const Home: NextPage = () => {
   const { joinRoom } = useContext(WebSocketContext);
 
   const onJoinAGame = () => {
+    if (isEmpty(myPlayerInfoState?.playerId)) {
+      onJoinWhenNotReady();
+      return;
+    }
     if (!inputName) {
       setShowInputNameError(true);
       return;
@@ -127,17 +145,22 @@ const Home: NextPage = () => {
     return <input onChange={onChangeNameInput} className={showInputNameError ? classes.inputNameError : classes.inputName} type='text' autoFocus placeholder='ชื่อผู้เล่น' value={inputName} />
   }
 
+  const onClickRetry = () => {
+    window.location.assign('/')
+  }
+
+  const onJoinWhenNotReady = () => {
+    setShowRefreshPageError(true);
+  }
+
   return (
     <Grid container className={classes.topContainer}>
-
       <Grid item md={2} lg={4}>
-
       </Grid>
       <Grid item xs={12} md={8} lg={4} className={classes.loginContainerWrapper}>
         <Paper className={classes.loginContainer}>
           <Paper elevation={0} className={classes.inputContainer}>
             <Avatar className={classes.imgAvatar} alt="ME" src={myPlayerInfoState?.playerAvatarUrl} />
-
           </Paper>
           {showShakingInputBox ?
             <ShakeHorizontal fixed>
@@ -147,15 +170,19 @@ const Home: NextPage = () => {
             inputNameComponentRenderer()
           }
         </Paper>
-        <Button onClick={onJoinAGame} className={classes.playBtn}>
+        {showRefreshPageError && <Button className={classes.retryBtn} onClick={onClickRetry}>
+          <Typography className={classes.retryTxt}>
+            มีปัญหาบางอย่าง กดที่นี่เพื่อโหลดหน้าใหม่
+          </Typography>
+        </Button>}
+        <Button style={{
+          backgroundColor: showRefreshPageError ? '#D9D9D9' : '#E2515A',
+        }} disabled={showRefreshPageError} onClick={onJoinAGame} className={classes.playBtn}>
           <Typography className={classes.joinGame}>
             เข้าร่วมเกมส์
           </Typography>
-
         </Button>
-
       </Grid>
-
       <Grid item md={2} lg={4} style={{ marginTop: '10px' }}>
       </Grid>
     </Grid>
