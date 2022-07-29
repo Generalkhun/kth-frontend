@@ -23,10 +23,16 @@ const initialRoomDataState: RoomDataState = {
     currentWords: {},
     currentPlayerStatus: {},
     players: [],
+    rejectRequestObj: {}
 }
 
 const roomDataStateReducer = (state: RoomDataState, action: any) => {
     switch (action.type) {
+        case MethodRecieve.REJECT_REQUEST:
+            return {
+                ...state,
+                rejectRequestObj: action.payload,
+            }
         case MethodRecieve.SYNC_ROOM_DATA:
             return {
                 ...state,
@@ -80,6 +86,7 @@ export const GameStateContext = createContext({} as any);
 export const GameStateProviders = ({ children }: any) => {
     /** Data store of game state*/
     const [roomDataState, roomDataDispatch] = useReducer(roomDataStateReducer, initialRoomDataState)
+    console.log("🚀 ~ file: GameStateProvider.tsx ~ line 89 ~ GameStateProviders ~ roomDataState", roomDataState)
     const [myPlayerInfoState, setMyPlayerInfoState] = useState<WebsocketSyncPlayerData>({
         playerId: '',
         playerAvatarUrl: 'https://res.amazingtalker.com/users/images/no-avatar.png',

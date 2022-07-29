@@ -55,6 +55,7 @@ export interface WebsocketEliminatePlayerData {
  */
 export enum MethodRecieve {
     /** update game room on game-lobby */
+    REJECT_REQUEST = 'REJECT_REQUEST',
     SYNC_ROOM_DATA = 'SYNC_ROOM_DATA',
     ADD_PLAYER = 'ADD_PLAYER',
     REMOVE_PLAYER = 'REMOVE_PLAYER',
@@ -83,4 +84,5 @@ export type Player = PlayerFromBE;
 export interface RoomDataState extends RoomDataFromBE {
     players: BasePlayerData[]
     isViewingScoreBoard: boolean
+    rejectRequestObj: Object
 }

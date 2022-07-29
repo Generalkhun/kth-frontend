@@ -88,7 +88,7 @@ const useStyles = makeStyles({
     width: '90%',
   },
   retryTxt: {
-    fontSize: '20px',
+    fontSize: '15px',
     fontWeight: 'bold',
     color: 'white',
     fontFamily: 'kanit'
@@ -103,14 +103,16 @@ const Home: NextPage = () => {
   const [showShakingInputBox, setShowShakingInputBox] = useState<boolean>(false)
   const { myPlayerInfoState, roomDataState } = useContext(GameStateContext);
   const [showRefreshPageError, setShowRefreshPageError] = useState<boolean>(false);
+  const [showRejectRequestError, setShowRejectRequestError] = useState<boolean>(false)
   const onChangeNameInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputName(e.target.value)
     setShowInputNameError(false)
   }
   const { joinRoom } = useContext(WebSocketContext);
 
+  /**@todo refactor this to handle every error thrown from ws */
   const onJoinAGame = () => {
-    if (isEmpty(myPlayerInfoState?.playerId)) {
+    if (isEmpty(myPlayerInfoState?.playerId) || !isEmpty(roomDataState.rejectRequestObj)) {
       onJoinWhenNotReady();
       return;
     }
@@ -150,6 +152,10 @@ const Home: NextPage = () => {
   }
 
   const onJoinWhenNotReady = () => {
+    // if (!isEmpty(roomDataState.rejectRequestObj)) {
+    //   setShowRejectRequestError(true);
+    //   return;
+    // }
     setShowRefreshPageError(true);
   }
 
@@ -172,7 +178,7 @@ const Home: NextPage = () => {
         </Paper>
         {showRefreshPageError && <Button className={classes.retryBtn} onClick={onClickRetry}>
           <Typography className={classes.retryTxt}>
-            มีปัญหาบางอย่าง กดที่นี่เพื่อโหลดหน้าใหม่
+            {`${isEmpty(roomDataState?.rejectRequestObj.reason) ? 'มีปัญหาบางอย่าง' : roomDataState?.rejectRequestObj.reason} กดที่นี่เพื่อโหลดหน้าใหม่`}
           </Typography>
         </Button>}
         <Button style={{

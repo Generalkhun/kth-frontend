@@ -17,7 +17,7 @@ export const WebSocketProviders = ({ children }: any) => {
         ws.current.onmessage = (msg: { data: string }) => {
             const msgData = JSON.parse(msg.data);
             /**@note open this log for dev to easier to see the ws signal */
-            //console.log("🚀 ~ file: WebSocketProviders.tsx ~ line 20 ~ useEffect ~ msgData", msgData)
+            console.log("🚀 ~ file: WebSocketProviders.tsx ~ line 20 ~ useEffect ~ msgData", msgData)
             if (msgData.method === MethodRecieve.SYNC_PLAYER_DATA) {
                 onSyncPlayerData(msgData.data)
                 return
