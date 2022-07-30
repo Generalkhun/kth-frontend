@@ -147,23 +147,6 @@ const GameScoreSummary = () => {
                 return carry
             }, {})
         }, [scoresEachRound])
-    // const calculateEachPlayerTotalScore = (scoresEachRound: any) => {
-    //     if (isEmpty(scoresEachRound)) {
-    //         return {};
-    //     }
-    //     return scoresEachRound.reduce((carry: any, current: any, index: number) => {
-    //         const playerIds = Object.keys(current)
-
-    //         // increment
-    //         playerIds.forEach((playerId) => {
-    //             if (!carry[playerId]) {
-    //                 carry[playerId] = 0;
-    //             }
-    //             carry[playerId] += current[playerId]
-    //         })
-    //         return carry
-    //     }, {})
-    // }
 
     //calculate total score if updated
     useEffect(() => {
