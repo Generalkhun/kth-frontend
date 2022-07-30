@@ -1,7 +1,6 @@
 import { Grid, makeStyles, Typography } from '@material-ui/core';
 import { sample } from 'lodash';
 import { useRouter } from 'next/router';
-import Image from 'next/image'
 import React, { useContext, useEffect } from 'react'
 import { HINTS_SPLASH_SCREEN, SPLASH_PAGE_SHOWING_MILLISECOND } from '../../src/config/constants';
 import { GameStateContext } from '../../src/contextProviders/GameStateProvider';
@@ -43,10 +42,17 @@ const useStyle = makeStyles({
 })
 const GameSplashScreen = () => {
     const classes = useStyle();
-    const { roomDataState } = useContext(GameStateContext)
+    const { roomDataState, myPlayerInfoState } = useContext(GameStateContext)
     const router = useRouter();
     const currentRound = roomDataState.currentRound
     const hint = sample(HINTS_SPLASH_SCREEN);
+
+    //If user not having a playerId yet, send back to home
+    useEffect(() => {
+        if (!myPlayerInfoState?.playerId) {
+            window.location.assign('/')
+        }
+    }, [myPlayerInfoState?.playerId])
 
     useEffect(() => {
         setTimeout(() => {
@@ -63,7 +69,7 @@ const GameSplashScreen = () => {
                 <div className={classes.contentContainer}>
                     <Typography className={classes.startTxt}>START</Typography>
                     <Typography className={classes.roundTxt}>{`ROUND ${currentRound}`}</Typography>
-                    <Image alt='Dont say it' className={classes.img} src='monkey-splash-screen.png' />
+                    <img alt='Dont say it' className={classes.img} src='monkey-splash-screen.png' />
                     <Typography className={classes.hintTxt}>{`hint: ${hint}`}</Typography>
                 </div>
             </Grid>

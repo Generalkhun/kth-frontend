@@ -185,6 +185,13 @@ const GameLobby = () => {
         window.location.assign('/')
     }
 
+    //If user not having a playerId yet, send back to home
+    useEffect(() => {
+        if (!myPlayerId) {
+            onBack()
+        }
+    }, [onBack])
+
     // game session starting based on the gameState 
     const router = useRouter()
     useEffect(() => {

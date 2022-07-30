@@ -1,5 +1,4 @@
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
-import Image from 'next/image'
 import { Grid, Paper, makeStyles, Typography, Avatar, Button } from '@material-ui/core';
 import ParticipantScore from '../../src/components/ParticipantScore';
 import { isEmpty } from 'lodash';
@@ -118,6 +117,13 @@ const GameScoreSummary = () => {
             roomId: '123'
         })
     }
+
+    //If user not having a playerId yet, send back to home
+    useEffect(() => {
+        if (!myPlayerInfoState?.playerId) {
+            window.location.assign('/')
+        }
+    }, [myPlayerInfoState?.playerId])
 
     useEffect(() => {
         if (!ref.current) {
@@ -250,7 +256,7 @@ const GameScoreSummary = () => {
                         {isLastRound ? 'จบเกมส์' : 'เล่นรอบต่อไป'}
                     </Button> :
                     <Button disabled className={classes.waitingForHostToProceedInfoContainer}>
-                        <Image alt='https://www.clipartmax.com/png/middle/205-2051464_hourglass-free-icon-hourglass.png' height='40px' src='./sandClockIcon.svg' />
+                        <img alt='https://www.clipartmax.com/png/middle/205-2051464_hourglass-free-icon-hourglass.png' height='40px' src='./sandClockIcon.svg' />
                         {` รอ ${getPlayerNameFromId(roomDataState.host)} เพื่อ ${isLastRound ? 'จบเกมส์' : 'เริ่มเกมส์ต่อไป'}`}
                     </Button>
                 }

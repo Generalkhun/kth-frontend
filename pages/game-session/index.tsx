@@ -105,6 +105,13 @@ const GameSession = () => {
         })
     }
 
+    //If user not having a playerId yet, send back to home
+    useEffect(() => {
+        if (!myPlayerId) {
+            window.location.assign('/')
+        }
+    }, [])
+
     /**
      * effect to start first guessing, when time is up or isPlaying is already changed to false (from ws)
      * Since this is used only for the first player to start guessing (game is not enter guessingTime state yet), 

@@ -1,6 +1,5 @@
 import { Avatar, Button, Grid, Icon, makeStyles, Paper, Typography } from '@material-ui/core';
-import React, { useContext, useMemo } from 'react'
-import Image from 'next/image'
+import React, { useContext, useEffect, useMemo } from 'react'
 import { GameStateContext, PlayerScoreData } from '../../src/contextProviders/GameStateProvider';
 import { useConfettiCannon } from '../../src/hooks/useConfettiCannon';
 import StarIcon from '@material-ui/icons/Star';
@@ -85,7 +84,14 @@ const GameWinner = () => {
         },
     })
 
-    const { sortedPlayerIdByTotalScore, getPlayerNameFromId, getPlayerAvatarFromPlayerId } = useContext(GameStateContext);
+    const { sortedPlayerIdByTotalScore, getPlayerNameFromId, getPlayerAvatarFromPlayerId, myPlayerInfoState } = useContext(GameStateContext);
+
+    //If user not having a playerId yet, send back to home
+    useEffect(() => {
+        if (!myPlayerInfoState?.playerId) {
+            window.location.assign('/')
+        }
+    }, [myPlayerInfoState?.playerId])
 
     const onClickRematch = () => {
         window.location.assign('/')
@@ -106,7 +112,7 @@ const GameWinner = () => {
                             <Icon>
                                 <StarIcon fontSize='large' htmlColor='#FFE349' />
                             </Icon>
-                            <Image alt={sortedPlayerIdByTotalScore[0].playerId} width='100%' src={getPlayerAvatarFromPlayerId(sortedPlayerIdByTotalScore[0].playerId)} />
+                            <img alt={sortedPlayerIdByTotalScore[0].playerId} width='100%' src={getPlayerAvatarFromPlayerId(sortedPlayerIdByTotalScore[0].playerId)} />
                         </Paper>
                         <Typography style={{ color: 'white', fontSize: '20px', fontFamily: 'Kanit' }}>{`${getPlayerNameFromId(sortedPlayerIdByTotalScore[0].playerId)}`}<span>{` ${sortedPlayerIdByTotalScore[0].totalScore}`} คะแนน</span></Typography>
                         <div className={classes.rank23PlayerWrapper}>
@@ -114,14 +120,14 @@ const GameWinner = () => {
                                 <Icon>
                                     <StarIcon fontSize='small' htmlColor='#E0E0E0' />
                                 </Icon>
-                                <Image alt={sortedPlayerIdByTotalScore[1].playerId} width='100%' src={getPlayerAvatarFromPlayerId(sortedPlayerIdByTotalScore[1].playerId)} />
+                                <img alt={sortedPlayerIdByTotalScore[1].playerId} width='100%' src={getPlayerAvatarFromPlayerId(sortedPlayerIdByTotalScore[1].playerId)} />
                                 <Typography style={{ color: 'white', fontFamily: 'Kanit' }}>{`${getPlayerNameFromId(sortedPlayerIdByTotalScore[1].playerId)}`}<span>{` ${sortedPlayerIdByTotalScore[1].totalScore}`} คะแนน</span></Typography>
                             </Paper>}
                             {sortedPlayerIdByTotalScore[2]?.playerId && <Paper elevation={0} className={classes.rank23PlayerContainer}>
                                 <Icon>
                                     <StarIcon fontSize='small' htmlColor='#8B3935' />
                                 </Icon>
-                                <Image alt={sortedPlayerIdByTotalScore[2].playerId} width='100%' src={getPlayerAvatarFromPlayerId(sortedPlayerIdByTotalScore[2].playerId)} />
+                                <img alt={sortedPlayerIdByTotalScore[2].playerId} width='100%' src={getPlayerAvatarFromPlayerId(sortedPlayerIdByTotalScore[2].playerId)} />
                                 <Typography style={{ color: 'white', fontFamily: 'Kanit' }}>{`${getPlayerNameFromId(sortedPlayerIdByTotalScore[2].playerId)}`}<span>{` ${sortedPlayerIdByTotalScore[2].totalScore}`} คะแนน</span></Typography>
                             </Paper>}
                         </div>
