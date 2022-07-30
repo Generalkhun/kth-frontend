@@ -87,12 +87,10 @@ export const GameStateContext = createContext({} as any);
 export const GameStateProviders = ({ children }: any) => {
     /** Data store of game state*/
     const [roomDataState, roomDataDispatch] = useReducer(roomDataStateReducer, initialRoomDataState)
-    console.log("🚀 ~ file: GameStateProvider.tsx ~ line 89 ~ GameStateProviders ~ roomDataState", roomDataState)
     const [myPlayerInfoState, setMyPlayerInfoState] = useState<WebsocketSyncPlayerData>({
         playerId: '',
         playerAvatarUrl: 'https://res.amazingtalker.com/users/images/no-avatar.png',
     })
-    console.log("🚀 ~ file: GameStateProvider.tsx ~ line 87 ~ GameStateProviders ~ myPlayerInfoState", myPlayerInfoState)
 
     /** Set winner on game-score-summary on the last round */
     const [sortedPlayerIdByTotalScore, setSortedPlayerIdByTotalScore] = useState<Record<string, PlayerScoreData>[]>([])
