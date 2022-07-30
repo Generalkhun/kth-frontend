@@ -1,5 +1,6 @@
 import { Typography, Paper, Button, makeStyles } from '@material-ui/core'
 import React from 'react'
+import Image from 'next/image'
 import { MIDDLE_MAX_SCREEN_SIZE, MOBILE_MAX_SCREEN_SIZE } from '../../../config/constants'
 import useIsSmallerWidthThan from '../../../hooks/useIsSmallerWidthThan'
 import { Participant } from '../../../models/ui-layer/model'
@@ -101,30 +102,31 @@ export const DisplayParticipantInGameCard = ({
     const [XmarkRenderer] = useShakingXMark({ isEliminated });
 
     return (
-        <div 
-        style={{ height: isMobile ? '25vh' :  '30vh'}}
-        className={classes.ParticipantCardContainer}>
+        <div
+            style={{ height: isMobile ? '25vh' : '30vh' }}
+            className={classes.ParticipantCardContainer}>
             <div className={classes.avatarImgPlayCardContainer}>
                 {isShowingGreenFilter && <div className={classes.guessingPlayerGreenFilter}></div>}
-                <img
+                <Image
+                    alt={name}
                     className={isEliminated ? classes.avatarImgPlayCardEliminated : classes.avatarImgPlayCardAlive}
                     src={avatarUrl}
                 />
                 {isEliminated && XmarkRenderer()}
 
             </div>
-            <Paper style={{ 
+            <Paper style={{
                 filter: isEliminated ? 'brightness(50%)' : undefined,
-                right: isSmallerThanMiddleScreenSize? '25%' : '39%',
-                
-                }} className={classes.guessingWordContainer}>
+                right: isSmallerThanMiddleScreenSize ? '25%' : '39%',
+
+            }} className={classes.guessingWordContainer}>
                 <Typography className={classes.guessingWord}>
                     {displayGuessingWord}
                 </Typography>
             </Paper>
 
             {!isHideEliminateButton && <Button onClick={() => { onEliminatePeople(participantId) }} className={classes.eliminateBtn}>
-                <img height='20px' src='./error-failure-10382.svg' />
+                <Image alt={'https://png.pngtree.com/png-vector/20211015/ourmid/pngtree-crossmark-symbol-vector-illustration-png-image_3985814.png'} height='20px' src='./error-failure-10382.svg' />
             </Button>}
             {!isShowGuessedAnswerCard &&
                 <div className={classes.nameContainer}>

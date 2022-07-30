@@ -1,5 +1,6 @@
 import { Avatar, Button, Grid, Icon, makeStyles, Paper, Typography } from '@material-ui/core';
 import React, { useContext, useMemo } from 'react'
+import Image from 'next/image'
 import { GameStateContext, PlayerScoreData } from '../../src/contextProviders/GameStateProvider';
 import { useConfettiCannon } from '../../src/hooks/useConfettiCannon';
 import StarIcon from '@material-ui/icons/Star';
@@ -49,7 +50,7 @@ const useStyles = makeStyles({
     starIcon: {
         marginLeft: '40%',
     },
-    rematchBtn: { 
+    rematchBtn: {
         backgroundColor: '#E2515A',
         borderRadius: '32px',
         color: 'white',
@@ -59,7 +60,7 @@ const useStyles = makeStyles({
         left: '5%'
     }
 })
-const index = () => {
+const GameWinner = () => {
     const classes = useStyles()
     const confettiLaunchPoints = useMemo(() => [
         // left side confetti cannon
@@ -105,7 +106,7 @@ const index = () => {
                             <Icon>
                                 <StarIcon fontSize='large' htmlColor='#FFE349' />
                             </Icon>
-                            <img width='100%' src={getPlayerAvatarFromPlayerId(sortedPlayerIdByTotalScore[0].playerId)} />
+                            <Image alt={sortedPlayerIdByTotalScore[0].playerId} width='100%' src={getPlayerAvatarFromPlayerId(sortedPlayerIdByTotalScore[0].playerId)} />
                         </Paper>
                         <Typography style={{ color: 'white', fontSize: '20px', fontFamily: 'Kanit' }}>{`${getPlayerNameFromId(sortedPlayerIdByTotalScore[0].playerId)}`}<span>{` ${sortedPlayerIdByTotalScore[0].totalScore}`} คะแนน</span></Typography>
                         <div className={classes.rank23PlayerWrapper}>
@@ -113,21 +114,21 @@ const index = () => {
                                 <Icon>
                                     <StarIcon fontSize='small' htmlColor='#E0E0E0' />
                                 </Icon>
-                                <img width='100%' src={getPlayerAvatarFromPlayerId(sortedPlayerIdByTotalScore[1].playerId)} />
+                                <Image alt={sortedPlayerIdByTotalScore[1].playerId} width='100%' src={getPlayerAvatarFromPlayerId(sortedPlayerIdByTotalScore[1].playerId)} />
                                 <Typography style={{ color: 'white', fontFamily: 'Kanit' }}>{`${getPlayerNameFromId(sortedPlayerIdByTotalScore[1].playerId)}`}<span>{` ${sortedPlayerIdByTotalScore[1].totalScore}`} คะแนน</span></Typography>
                             </Paper>}
                             {sortedPlayerIdByTotalScore[2]?.playerId && <Paper elevation={0} className={classes.rank23PlayerContainer}>
                                 <Icon>
                                     <StarIcon fontSize='small' htmlColor='#8B3935' />
                                 </Icon>
-                                <img width='100%' src={getPlayerAvatarFromPlayerId(sortedPlayerIdByTotalScore[2].playerId)} />
+                                <Image alt={sortedPlayerIdByTotalScore[2].playerId} width='100%' src={getPlayerAvatarFromPlayerId(sortedPlayerIdByTotalScore[2].playerId)} />
                                 <Typography style={{ color: 'white', fontFamily: 'Kanit' }}>{`${getPlayerNameFromId(sortedPlayerIdByTotalScore[2].playerId)}`}<span>{` ${sortedPlayerIdByTotalScore[2].totalScore}`} คะแนน</span></Typography>
                             </Paper>}
                         </div>
                         {
                             !!sortedPlayerIdByTotalScore.slice(3).length && sortedPlayerIdByTotalScore.slice(3).map((player: PlayerScoreData) => {
                                 return (
-                                    <div className={classes.norankPlayerContainer}>
+                                    <div key={player.playerId} className={classes.norankPlayerContainer}>
                                         <Avatar src={getPlayerAvatarFromPlayerId(player.playerId)} />
                                         <div key={player.playerId}>
                                             <Typography style={{ color: 'white', fontFamily: 'Kanit', paddingTop: '10px' }}>{`${getPlayerNameFromId(player.playerId)}`}<span>{` ${player.totalScore}`} คะแนน</span></Typography>
@@ -149,4 +150,4 @@ const index = () => {
     )
 }
 
-export default index
+export default GameWinner

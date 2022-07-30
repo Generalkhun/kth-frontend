@@ -52,7 +52,7 @@ const useStyles = makeStyles({
         color: 'white',
     }
 })
-const index = () => {
+const GameSession = () => {
     const { roomDataState, myPlayerInfoState, getPlayerNameFromId, countSurvivedPlayers } = useContext(GameStateContext);
     const [isGuessingModalOpened, setIsGuessingModalOpened] = useState<boolean>(false)
     const {
@@ -71,10 +71,8 @@ const index = () => {
         displayTimeLeftSecond,
         setDisplayTimeLeftSecond,
         displayRatioTimeLeft,
-        startCountdown,
-        resetCountdown,
         pauseCountdown,
-        isCountingdown,
+        //isCountingdown,
     } = useCountdownTimer({
         startTimeSecond: roomDataState.limitTime,
     })
@@ -114,24 +112,24 @@ const index = () => {
      */
     useEffect(() => {
         if (displayTimeLeftMin === null || displayTimeLeftSecond === null || !readyForGuessingTimeChecker() || isGuessingTime) {
-       
+
             return;
         }
         if (displayTimeLeftMin <= 0 && displayTimeLeftSecond <= 0) {
             pauseCountdown()
             onStartGuessingTime();
         }
-    }, [displayTimeLeftMin, displayTimeLeftSecond, roomDataState.isPlaying, readyForGuessingTimeChecker, isGuessingTime])
+    }, [pauseCountdown, displayTimeLeftMin, onStartGuessingTime, displayTimeLeftSecond, roomDataState.isPlaying, readyForGuessingTimeChecker, isGuessingTime])
 
     /**If only a single player servived, end the time*/
     useEffect(() => {
-      if(totalSurvivedPlayers === 1) {
-        pauseCountdown();
-        setDisplayTimeLeftMin(0);
-        setDisplayTimeLeftSecond(0);
-      }
-    }, [totalSurvivedPlayers])
-    
+        if (totalSurvivedPlayers === 1) {
+            pauseCountdown();
+            setDisplayTimeLeftMin(0);
+            setDisplayTimeLeftSecond(0);
+        }
+    }, [setDisplayTimeLeftMin, setDisplayTimeLeftSecond, totalSurvivedPlayers, pauseCountdown])
+
 
     //effect to open the guessing modal (will not open if still showing the previous guessed result)
     useEffect(() => {
@@ -153,7 +151,7 @@ const index = () => {
         if (roomDataState.isViewingScoreBoard) {
             router.push('/game-score-summary')
         }
-    }, [roomDataState.isViewingScoreBoard, guessingTimeState.isShowingGuessedResult])
+    }, [router, roomDataState.isViewingScoreBoard, guessingTimeState.isShowingGuessedResult])
 
 
     const guessingResultRenderer = () => {
@@ -215,15 +213,14 @@ const index = () => {
                     {!isMobile && < Typography className={classes.gameMotto}>คำต้องห้าม ใครพูดตาย!</Typography>}
                     <Paper style={{ height: isSmallerThanMiddleScreenSize ? '85vh' : '65vh' }} className={classes.OuterContainer}>
                         <Grid container className={classes.ParticipantsPlayableAreaContainer}>
-                            {participantsData.map((participant: Participant, idx: number) => (
-                                <Grid key={idx} item md={4}>
+                            {participantsData.map((participant: Participant) => (
+                                <Grid key={participant.participantId} item md={4}>
                                     <DisplayParticipantInGameCard
                                         isGuessingTime={isGuessingTime}
                                         playerIdGuessing={playerIdGuessing === '' ? guessingTimeState?.playerIdShowingResult : playerIdGuessing}
                                         myPlayerId={myPlayerId}
                                         isForceDisableEliminatedBtn={isImDead}
                                         participant={participant}
-                                        key={idx}
                                         onEliminatePeople={onEliminatePeople} />
                                 </Grid>
                             ))}
@@ -265,4 +262,4 @@ const index = () => {
     )
 }
 
-export default index
+export default GameSession

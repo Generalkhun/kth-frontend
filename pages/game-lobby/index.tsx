@@ -154,7 +154,7 @@ const useStyles = makeStyles({
     }
 })
 
-const index = () => {
+const GameLobby = () => {
     const classes = useStyles();
     const { roomDataState, myPlayerInfoState } = useContext(GameStateContext);
     const { startRound } = useContext(WebSocketContext);
@@ -191,7 +191,7 @@ const index = () => {
         if (roomDataState.currentRound === 1) {
             router.push('/game-splash-screen')
         }
-    }, [roomDataState.currentRound])
+    }, [roomDataState.currentRound, router])
     return (
         <Grid container className={classes.topContainer}>
             <Grid item xs={11} sm={6} md={7}>
@@ -203,7 +203,7 @@ const index = () => {
                         isMobile &&
                         <div className={classes.participantsListMobileModeContainer}>
                             {participants.map(participant => (
-                                <Paper className={classes.participantMobileModeWrapper}>
+                                <Paper className={classes.participantMobileModeWrapper} key={participant.participantId}>
                                     <Avatar src={participant.avatarUrl} />
                                     <Typography className={classes.participantNameMobileMode}>{participant.name}</Typography>
                                 </Paper>
@@ -275,4 +275,4 @@ const index = () => {
     )
 }
 
-export default index
+export default GameLobby

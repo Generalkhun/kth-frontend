@@ -1,9 +1,8 @@
-import { Avatar, makeStyles, Paper, Typography } from '@material-ui/core'
+import { makeStyles, Paper, Typography } from '@material-ui/core'
 import { values } from 'lodash'
 import React from 'react'
 import { MIDDLE_MAX_SCREEN_SIZE, MOBILE_MAX_SCREEN_SIZE } from '../../config/constants'
 import useIsSmallerWidthThan from '../../hooks/useIsSmallerWidthThan'
-import { ParticipantGameSummaryInfo } from '../../models/ui-layer/model'
 
 type Props = {
   gameInfoEachRound: any
@@ -84,13 +83,13 @@ const ParticipantScore = ({ gameInfoEachRound, rowOption, rowName, isAvatarOntop
       {gameInfoEachRoundArr.map((score, idx) => {
         return (
           <div
+            key={idx}
             style={{
               width: isSmallerThanMiddleScreenSize ? '50px' : '70px',
               height: isSmallerThanMiddleScreenSize ? '50px' : '70px',
               paddingTop: '2%'
             }}
-            //className={classes.scoreTxtWrapper}
-            >
+          >
             <Typography style={{ color: scoreTxtFontColor }} className={classes.scoreTxt} key={idx}>{(score !== null) ? score : ''}</Typography>
           </div>
         )

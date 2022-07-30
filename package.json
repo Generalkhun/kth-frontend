@@ -11,9 +11,11 @@
   "dependencies": {
     "@material-ui/core": "^4.12.4",
     "@material-ui/icons": "^4.11.3",
+    "@types/ramda": "^0.28.15",
     "kth-type": "^1.0.5",
     "next": "12.1.6",
     "nprogress": "^0.2.0",
+    "ramda": "^0.28.0",
     "react": "18.1.0",
     "react-confetti-cannon": "^0.10.1",
     "react-dom": "18.1.0",

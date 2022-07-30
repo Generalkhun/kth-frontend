@@ -130,7 +130,7 @@ const Home: NextPage = () => {
       return;
     }
     router.push('/game-lobby')
-  }, [roomDataState.id, showShakingInputBox])
+  }, [router, roomDataState.id, showShakingInputBox])
 
   useEffect(() => {
     if (showInputNameError) {

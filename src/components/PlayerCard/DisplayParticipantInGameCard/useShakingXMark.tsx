@@ -40,7 +40,7 @@ const useShakingXMark = ({
         if (previous?.isEliminated === false && isEliminated === true && !isXmarkShaking) {
             onShakeXMark();
         }
-    }, [isEliminated, isXmarkShaking])
+    }, [isEliminated, isXmarkShaking, previous])
     const XmarkRenderer = () => {
         return (isXmarkShaking ?
             <ShakeHard className={classes.shakingXContainer} fixed>

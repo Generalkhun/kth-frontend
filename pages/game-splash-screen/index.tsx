@@ -1,6 +1,7 @@
 import { Grid, makeStyles, Typography } from '@material-ui/core';
 import { sample } from 'lodash';
 import { useRouter } from 'next/router';
+import Image from 'next/image'
 import React, { useContext, useEffect } from 'react'
 import { HINTS_SPLASH_SCREEN, SPLASH_PAGE_SHOWING_MILLISECOND } from '../../src/config/constants';
 import { GameStateContext } from '../../src/contextProviders/GameStateProvider';
@@ -40,7 +41,7 @@ const useStyle = makeStyles({
     }
 
 })
-const index = () => {
+const GameSplashScreen = () => {
     const classes = useStyle();
     const { roomDataState } = useContext(GameStateContext)
     const router = useRouter();
@@ -51,7 +52,7 @@ const index = () => {
         setTimeout(() => {
             router.push('/game-session')
         }, SPLASH_PAGE_SHOWING_MILLISECOND);
-    }, [])
+    }, [router])
 
     return (
         <Grid container className={classes.topContainer}>
@@ -62,7 +63,7 @@ const index = () => {
                 <div className={classes.contentContainer}>
                     <Typography className={classes.startTxt}>START</Typography>
                     <Typography className={classes.roundTxt}>{`ROUND ${currentRound}`}</Typography>
-                    <img className={classes.img} src='monkey-splash-screen.png' />
+                    <Image alt='Dont say it' className={classes.img} src='monkey-splash-screen.png' />
                     <Typography className={classes.hintTxt}>{`hint: ${hint}`}</Typography>
                 </div>
             </Grid>
@@ -73,4 +74,4 @@ const index = () => {
     )
 }
 
-export default index
+export default GameSplashScreen

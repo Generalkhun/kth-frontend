@@ -1,4 +1,5 @@
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
 import { Grid, Paper, makeStyles, Typography, Avatar, Button } from '@material-ui/core';
 import ParticipantScore from '../../src/components/ParticipantScore';
 import { isEmpty } from 'lodash';
@@ -98,7 +99,7 @@ const useStyles = makeStyles({
     }
 });
 
-const index = () => {
+const GameScoreSummary = () => {
     const classes = useStyles();
     const router = useRouter();
     const { roomDataState, myPlayerInfoState, getPlayerAvatarFromPlayerId, getPlayerNameFromId, setSortedPlayerIdByTotalScore } = useContext(GameStateContext);
@@ -126,15 +127,50 @@ const index = () => {
             top: (roomDataState.currentRound - 3) > 0 ? 81 * (roomDataState.currentRound - 3) : 0,
             behavior: 'smooth',
         })
-    }, [])
+    }, [roomDataState])
 
+    const calculateEachPlayerTotalScore = useCallback(
+        () => {
+            if (isEmpty(scoresEachRound)) {
+                return {};
+            }
+            return scoresEachRound.reduce((carry: any, current: any, index: number) => {
+                const playerIds = Object.keys(current)
+
+                // increment
+                playerIds.forEach((playerId) => {
+                    if (!carry[playerId]) {
+                        carry[playerId] = 0;
+                    }
+                    carry[playerId] += current[playerId]
+                })
+                return carry
+            }, {})
+        }, [scoresEachRound])
+    // const calculateEachPlayerTotalScore = (scoresEachRound: any) => {
+    //     if (isEmpty(scoresEachRound)) {
+    //         return {};
+    //     }
+    //     return scoresEachRound.reduce((carry: any, current: any, index: number) => {
+    //         const playerIds = Object.keys(current)
+
+    //         // increment
+    //         playerIds.forEach((playerId) => {
+    //             if (!carry[playerId]) {
+    //                 carry[playerId] = 0;
+    //             }
+    //             carry[playerId] += current[playerId]
+    //         })
+    //         return carry
+    //     }, {})
+    // }
 
     //calculate total score if updated
     useEffect(() => {
         setTotalScore(
-            calculateEachPlayerTotalScore(scoresEachRound)
+            calculateEachPlayerTotalScore()
         )
-    }, [scoresEachRound])
+    }, [scoresEachRound, calculateEachPlayerTotalScore])
 
     /**
      * game session starting based on the gameState
@@ -145,7 +181,7 @@ const index = () => {
         if (roomDataState.currentRound === previous?.currentRound + 1) {
             router.push('/game-splash-screen')
         }
-    }, [roomDataState.currentRound])
+    }, [roomDataState.currentRound, previous, router])
 
     /**End game effect: navigate to winner page */
     useEffect(() => {
@@ -171,29 +207,8 @@ const index = () => {
         )
         //navigate tp winner page
         router.push('/game-winner')
-    }, [roomDataState.isFinish])
+    }, [roomDataState.isFinish, router, setSortedPlayerIdByTotalScore, totalScore])
 
-
-    const calculateEachPlayerTotalScore = useCallback(
-        (scoresEachRound: any) => {
-            if (isEmpty(scoresEachRound)) {
-                return {};
-            }
-            return scoresEachRound.reduce((carry: any, current: any, index: number) => {
-                const playerIds = Object.keys(current)
-
-                // increment
-                playerIds.forEach((playerId) => {
-                    if (!carry[playerId]) {
-                        carry[playerId] = 0;
-                    }
-                    carry[playerId] += current[playerId]
-                })
-                return carry
-            }, {})
-        },
-        [scoresEachRound],
-    )
     const playerIds = Object.keys(scoresEachRound[0])
 
     return (
@@ -252,7 +267,7 @@ const index = () => {
                         {isLastRound ? 'จบเกมส์' : 'เล่นรอบต่อไป'}
                     </Button> :
                     <Button disabled className={classes.waitingForHostToProceedInfoContainer}>
-                        <img height='40px' src='./sandClockIcon.svg' />
+                        <Image alt='https://www.clipartmax.com/png/middle/205-2051464_hourglass-free-icon-hourglass.png' height='40px' src='./sandClockIcon.svg' />
                         {` รอ ${getPlayerNameFromId(roomDataState.host)} เพื่อ ${isLastRound ? 'จบเกมส์' : 'เริ่มเกมส์ต่อไป'}`}
                     </Button>
                 }
@@ -261,4 +276,4 @@ const index = () => {
     )
 }
 
-export default index
+export default GameScoreSummary
