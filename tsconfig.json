@@ -2,7 +2,7 @@
   "compilerOptions": {
     "noImplicitAny": true,
     "noImplicitThis": true,
-    "strictNullChecks": true,
+    "strictNullChecks": false,
     "lib": [
       "es6",
       "dom",
@@ -21,7 +21,7 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "target": "es5"
+    "target": "es5",
   },
   "include": [
     "next-env.d.ts",
