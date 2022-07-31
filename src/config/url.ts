@@ -1,3 +1,3 @@
 //export const WEB_SOCKET_ENDPOINT = process.env.WEB_SOCKET_ENDPOINT
 /** @todo figure out how to use vercel env variables (currently not working) */
-export const WEB_SOCKET_ENDPOINT ='wss://kth-service.webpubsub.azure.com/client/hubs/Hub?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJ3c3M6Ly9rdGgtc2VydmljZS53ZWJwdWJzdWIuYXp1cmUuY29tL2NsaWVudC9odWJzL0h1YiIsImlhdCI6MTY1OTIwMTM0NCwiZXhwIjoxNjU5MjA0OTQ0fQ.C9zliNsTa2Zcfkp9zj4nTLvkod2Gwo2jbkjWRup8Ylk'
+export const WEB_SOCKET_ENDPOINT ='wss://kth-service.webpubsub.azure.com/client/hubs/Hub?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJ3c3M6Ly9rdGgtc2VydmljZS53ZWJwdWJzdWIuYXp1cmUuY29tL2NsaWVudC9odWJzL0h1YiIsImlhdCI6MTY1OTI0NTA3MywiZXhwIjoxNjU5MzMxNDczLCJyb2xlIjpbIndlYnB1YnN1Yi5zZW5kVG9Hcm91cCIsIndlYnB1YnN1Yi5qb2luTGVhdmVHcm91cCJdLCJzdWIiOiJnZW5lcmFsLWtodW4ifQ.vOF67IXuU8T80Nm9ftdt-MDP3MNe3v12yKp92VTFU28'
