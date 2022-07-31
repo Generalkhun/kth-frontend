@@ -1,1 +1,1 @@
-export const WEB_SOCKET_ENDPOINT = 'wss://kth-service.southeastasia.azurecontainer.io:8080';
+export const WEB_SOCKET_ENDPOINT = process.env.WEB_SOCKET_ENDPOINT
