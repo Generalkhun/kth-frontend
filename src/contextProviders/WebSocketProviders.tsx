@@ -1,6 +1,5 @@
 import { debounce } from "lodash";
-import { useEffect, createContext, useRef, useContext, useCallback } from "react";
-import { WEB_SOCKET_ENDPOINT_WITHOUT_KEY } from "../config/url";
+import { useEffect, createContext, useRef, useContext } from "react";
 import { MethodRecieve, MethodSend, WebsocketEliminatePlayerData, WebsocketGuessWordData, WebsocketJoinRoomData, WebsocketStartRoundData, WebsocketUpdateRoomData } from "../models/api-layer/model";
 import { GameStateContext } from "./GameStateProvider";
 import { getWsConnectionToken } from "../../service/apiUtils";
