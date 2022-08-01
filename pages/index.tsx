@@ -14,7 +14,6 @@ const useStyles = makeStyles({
     height: '100vh',
   },
   playBtn: {
-    //backgroundColor: '#E2515A',
     borderRadius: '40px',
     maxWidth: '485px',
     width: '100%',
@@ -32,7 +31,7 @@ const useStyles = makeStyles({
     marginTop: '10%',
     maxWidth: '489px',
     width: '100%',
-    height: '500px', /**@todo fix design by using breakpoint */
+    height: '500px',
     borderRadius: '24px',
     display: 'flex',
     alignItems: 'center',
@@ -121,7 +120,8 @@ const Home: NextPage = () => {
     }
     joinRoom({
       playerName: inputName,
-      roomId: '123' /** @todo use real roomId */
+      roomId: process.env.NEXT_PUBLIC_DEFAULT_ROOM_ID,
+      //roomId: '123', /** @todo use real roomId */
     });
   }
 
