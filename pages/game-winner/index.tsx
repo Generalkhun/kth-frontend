@@ -113,8 +113,8 @@ const GameWinner = () => {
                                 <StarIcon fontSize='large' htmlColor='#FFE349' />
                             </Icon>
                             <img alt={sortedPlayerIdByTotalScore[0].playerId} width='100%' src={getPlayerAvatarFromPlayerId(sortedPlayerIdByTotalScore[0].playerId)} />
+                            <Typography style={{ color: 'white', fontSize: '20px', fontFamily: 'Kanit' }}>{`${getPlayerNameFromId(sortedPlayerIdByTotalScore[0].playerId)}`}<span>{` ${sortedPlayerIdByTotalScore[0].totalScore}`} คะแนน</span></Typography>
                         </Paper>
-                        <Typography style={{ color: 'white', fontSize: '20px', fontFamily: 'Kanit' }}>{`${getPlayerNameFromId(sortedPlayerIdByTotalScore[0].playerId)}`}<span>{` ${sortedPlayerIdByTotalScore[0].totalScore}`} คะแนน</span></Typography>
                         <div className={classes.rank23PlayerWrapper}>
                             {sortedPlayerIdByTotalScore[1]?.playerId && <Paper elevation={0} className={classes.rank23PlayerContainer}>
                                 <Icon>
