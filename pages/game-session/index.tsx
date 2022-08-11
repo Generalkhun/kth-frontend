@@ -117,13 +117,15 @@ const GameSession = () => {
      * Since this is used only for the first player to start guessing (game is not enter guessingTime state yet), 
      * if the game already enter the guessingTime, it should not excecuted.
      */
-    useEffect(() => {
-        if (displayTimeLeftMin === null || displayTimeLeftSecond === null || displayTimeLeftMin > 0 || displayTimeLeftMin > 0 || !readyForGuessingTimeChecker() || isGuessingTime) {
+     useEffect(() => {
+        if (displayTimeLeftMin === null || displayTimeLeftSecond === null || !readyForGuessingTimeChecker() || isGuessingTime) {
             return;
         }
-        pauseCountdown()
-        onStartGuessingTime();
-    }, [pauseCountdown, displayTimeLeftMin, onStartGuessingTime, displayTimeLeftSecond, readyForGuessingTimeChecker, isGuessingTime])
+        if (displayTimeLeftMin === 0 && displayTimeLeftSecond === 0) {
+            pauseCountdown()
+            onStartGuessingTime();
+        }
+    }, [pauseCountdown, displayTimeLeftMin, onStartGuessingTime, displayTimeLeftSecond, roomDataState.isPlaying, readyForGuessingTimeChecker, isGuessingTime])
 
     /**If only a single player servived, end the time*/
     useEffect(() => {
