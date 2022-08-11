@@ -114,7 +114,8 @@ const GameScoreSummary = () => {
     const isSmallerThanMiddleScreenSize = useIsSmallerWidthThan(MIDDLE_MAX_SCREEN_SIZE);
     const onNextRoundStart = () => {
         startRound({
-            roomId: '123'
+            //roomId: '123'
+            roomId: process.env.NEXT_PUBLIC_DEFAULT_ROOM_ID,
         })
     }
 

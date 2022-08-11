@@ -177,7 +177,8 @@ const GameLobby = () => {
 
     const onStartGame = () => {
         startRound({
-            roomId: '123'
+            //roomId: '123'
+            roomId: process.env.NEXT_PUBLIC_DEFAULT_ROOM_ID,
         })
     }
 

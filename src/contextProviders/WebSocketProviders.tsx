@@ -13,13 +13,14 @@ export const WebSocketProviders = ({ children }: any) => {
     /** Effects */
     useEffect(() => {
         getWsConnectionToken().then((connectionToken) => {
+            console.log('got the connection token')
             ws.current = new WebSocket(connectionToken.token.url);
             ws.current.onopen = () => console.log("ws opened");
             ws.current.onclose = () => console.log("ws closed");
             ws.current.onmessage = (msg: { data: string }) => {
                 const msgData = JSON.parse(msg.data);
                 /**@note open this log for dev to easier to see the ws signal */
-                //console.log("🚀 ~ file: WebSocketProviders.tsx ~ line 20 ~ useEffect ~ msgData", msgData)
+                console.log("🚀 ~ WebSocketProviders msgData", msgData)
                 if (msgData.method === MethodRecieve.SYNC_PLAYER_DATA) {
                     onSyncPlayerData(msgData.data)
                     return
@@ -30,7 +31,6 @@ export const WebSocketProviders = ({ children }: any) => {
                 })
             }
         })
-       
 
         // return () => {
         //     wsCurrent.close();

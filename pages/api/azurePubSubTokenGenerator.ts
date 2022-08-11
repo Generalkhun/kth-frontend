@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { ClientTokenResponse, WebPubSubServiceClient } from '@azure/web-pubsub'
-import { uuid } from 'uuidv4'
+import { v4 as uuidv4 } from 'uuid';
 
 type Data = {
     token: ClientTokenResponse
@@ -24,7 +24,7 @@ export default async function handler(
     let token = await serviceClient.getClientAccessToken();
 
     // Or get the access token and assign the client a userId
-    token = await serviceClient.getClientAccessToken({ userId: uuid() });
+    token = await serviceClient.getClientAccessToken({ userId: uuidv4() });
 
     // return the token to the WebSocket client
     res.status(200).json({ token });

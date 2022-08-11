@@ -120,8 +120,8 @@ const Home: NextPage = () => {
     }
     joinRoom({
       playerName: inputName,
-      //roomId: process.env.NEXT_PUBLIC_DEFAULT_ROOM_ID,
-      roomId: '123', /** @todo use real roomId */
+      roomId: process.env.NEXT_PUBLIC_DEFAULT_ROOM_ID,
+      //roomId: '123', /** @todo use real roomId */
     });
   }
 
