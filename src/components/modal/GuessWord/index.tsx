@@ -142,7 +142,7 @@ export const GuessWord = ({
                 <Typography className={classes.txtAboveInput}>คิดว่าตัวเองได้คำว่าอะไร</Typography>
 
 
-                <form className={classes.form}>
+                <form className={classes.form} onSubmit={(e) => e.preventDefault()}>
                     <input className={classes.inputBox} onChange={onChangeInput} value={guessInputWord} type={'text'} />
                     <Button className={classes.submitGuessingWordBtn} onClick={onAnswer}>ตอบ</Button>
                 </form>
