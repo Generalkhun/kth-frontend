@@ -142,7 +142,7 @@ const useGuessingTime = () => {
      * after the settimeout of viewing guessed result
      */
     useEffect(() => {
-        if (roomDataState.isViewingScoreBoard && !isShowingGuessedResult && previous.isShowingGuessedResult) {
+        if (roomDataState.isViewingScoreBoard && !isShowingGuessedResult && previous.isShowingGuessedResult && !isGuessingTime) {
             // reset guessing time state
             setGuessingTimeState({
                 isGuessingTime: false,
@@ -152,7 +152,7 @@ const useGuessingTime = () => {
             })
         }
         return;
-    }, [roomDataState.isViewingScoreBoard, isShowingGuessedResult])
+    }, [roomDataState.isViewingScoreBoard, isShowingGuessedResult, isGuessingTime])
 
 
 
