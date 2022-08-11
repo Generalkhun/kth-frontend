@@ -143,6 +143,10 @@ const useGuessingTime = () => {
      */
     useEffect(() => {
         if (roomDataState.isViewingScoreBoard && !isShowingGuessedResult && previous.isShowingGuessedResult && !isGuessingTime) {
+            console.log("🚀 ~ file: index.tsx ~ line 146 ~ useEffect ~ isGuessingTime", isGuessingTime)
+            console.log("🚀 ~ file: index.tsx ~ line 146 ~ useEffect ~ previous.isShowingGuessedResult", previous.isShowingGuessedResult)
+            console.log("🚀 ~ file: index.tsx ~ line 146 ~ useEffect ~ isShowingGuessedResult", isShowingGuessedResult)
+            console.log("🚀 ~ file: index.tsx ~ line 146 ~ useEffect ~ roomDataState.isViewingScoreBoard", roomDataState.isViewingScoreBoard)
             // reset guessing time state
             setGuessingTimeState({
                 isGuessingTime: false,

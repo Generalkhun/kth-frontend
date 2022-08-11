@@ -161,9 +161,7 @@ const GameLobby = () => {
     /** handle data from game state */
     const myPlayerId = myPlayerInfoState.playerId;
     const players = roomDataState.players;
-    console.log("🚀 ~ file: index.tsx ~ line 164 ~ GameLobby ~ players", players)
     const participants = mapPlayersToParticipants(players, roomDataState.currentPlayerStatus)
-    console.log("🚀 ~ file: index.tsx ~ line 166 ~ GameLobby ~ participants", participants)
     const numberOfParticipants = participants.length
     const isIamHost = roomDataState.host === myPlayerId
     const isMobile = useIsSmallerWidthThan(MOBILE_MAX_SCREEN_SIZE);
